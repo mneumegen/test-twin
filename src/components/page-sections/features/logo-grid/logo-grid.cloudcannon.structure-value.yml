@@ -1,0 +1,149 @@
+label: Logo Grid
+icon: grid_view
+description: Centred heading above brand-partner logos shown as a grid, carded grid or scrolling carousel, with an optional CTA.
+value:
+  _component: page-sections/features/logo-grid
+  sectionLabel: ""
+  decorationImage: ""
+  decorationImageAlt: ""
+  decorationPlacement: wave
+  heading: Our Brand Partners
+  headingLevel: h2
+  logoLayout:
+    type: grid
+    logos: []
+  buttonSections: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 3xl
+  colorScheme: light
+preview:
+  text:
+    - Logo Grid
+  subtext:
+    - key: heading
+  icon: grid_view
+picker_preview:
+  text: Logo Grid
+  subtext: Centred heading above brand-partner logos shown as a grid, carded grid or scrolling carousel, with an optional CTA.
+_inputs_from_glob:
+  - /src/components/page-sections/features/logo-grid/logo-grid.cloudcannon.inputs.yml
+_structures:
+  logoLayout:
+    id_key: type
+    style: modal
+    values:
+      - label: Logo grid
+        icon: grid_view
+        value:
+          type: grid
+          logos: []
+        preview:
+          text:
+            - Logo grid
+          icon:
+            - grid_view
+        picker_preview:
+          text:
+            - Logo grid
+          icon:
+            - grid_view
+        _inputs:
+          type:
+            type: text
+            hidden: true
+          logos:
+            type: array
+            label: Logos
+            comment: Brand logos in display order.
+            options:
+              structures: _structures.logoGridLogos
+      - label: Carded logo grid
+        icon: dashboard
+        value:
+          type: card-grid
+          logos: []
+        preview:
+          text:
+            - Carded logo grid
+          icon:
+            - dashboard
+        picker_preview:
+          text:
+            - Carded logo grid
+          icon:
+            - dashboard
+        _inputs:
+          type:
+            type: text
+            hidden: true
+          logos:
+            type: array
+            label: Logos
+            comment: Brand logos in display order.
+            options:
+              structures: _structures.logoGridLogos
+      - label: Scrolling logo carousel
+        icon: view_carousel
+        value:
+          type: carousel
+          logos: []
+        preview:
+          text:
+            - Scrolling logo carousel
+          icon:
+            - view_carousel
+        picker_preview:
+          text:
+            - Scrolling logo carousel
+          icon:
+            - view_carousel
+        _inputs:
+          type:
+            type: text
+            hidden: true
+          logos:
+            type: array
+            label: Logos
+            comment: Brand logos in display order.
+            options:
+              structures: _structures.logoGridLogos
+  logoGridLogos:
+    values:
+      - label: Logo
+        icon: image
+        value:
+          _component: page-sections/features/logo-grid/logo-grid-item
+          imageSource: ""
+          imageAlt: ""
+          visibility: all
+        preview:
+          text:
+            - key: imageAlt
+            - Logo
+          image:
+            - key: imageSource
+        _inputs:
+          imageSource:
+            type: image
+            label: Logo image
+            comment: Brand logo image.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Logo alt text
+            comment: Describes the logo for screen readers.
+          visibility:
+            type: select
+            label: Visibility
+            comment: Where the logo shows — every width, desktop only (hidden at 768px and below), or kept but hidden.
+            options:
+              values:
+                - id: all
+                  name: All widths
+                - id: desktop
+                  name: Desktop only
+                - id: hidden
+                  name: Hidden

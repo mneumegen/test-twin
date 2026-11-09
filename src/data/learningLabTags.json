@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "product-development",
+    "label": "product development",
+    "icon": "/src/assets/images/hubfs/pd.png"
+  },
+  {
+    "slug": "trends-innovation",
+    "label": "Trends & Innovation",
+    "icon": "/src/assets/images/hubfs/trends.png"
+  },
+  {
+    "slug": "formulation",
+    "label": "formulation",
+    "icon": "/src/assets/images/hubfs/formulation-2.png"
+  },
+  {
+    "slug": "news-updates",
+    "label": "news & updates",
+    "icon": "/src/assets/images/hubfs/news.png"
+  },
+  {
+    "slug": "regulatory",
+    "label": "regulatory",
+    "icon": "/src/assets/images/hubfs/regulatory.png"
+  }
+]

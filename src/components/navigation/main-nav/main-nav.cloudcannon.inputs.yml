@@ -1,0 +1,126 @@
+logoSource:
+  type: image
+  comment: "Logo image source URL or path. Leave empty to hide the logo."
+  options:
+    resize_style: contain
+    width: 1920
+    height: 1280
+logoAlt:
+  type: text
+  comment: "Alt text for the logo image for accessibility."
+logoText:
+  type: text
+  comment: "Visually hidden label for the logo link, read by screen readers."
+skipLinkText:
+  type: text
+  comment: "Text of the skip-to-content link shown when it receives keyboard focus. Leave empty to hide it."
+navData:
+  type: array
+  comment: "Top-level navigation items. Each opens a mega menu on desktop and an accordion on mobile."
+  options:
+    structures: _structures.megaItems
+buttonSections:
+  type: array
+  comment: "Call-to-action buttons shown at the end of the navigation bar and at the bottom of the mobile menu. See the Button component documentation for more information."
+  options:
+    structures: _structures.buttonSections
+_structures:
+  megaItems:
+    values:
+      - label: Mega Menu Item
+        icon: menu
+        value:
+          name: ""
+          featuredImage:
+            source: ""
+            alt: ""
+          caption: ""
+          columns: []
+          cta:
+            text: ""
+            link: ""
+        preview:
+          text:
+            - key: name
+        _inputs:
+          name:
+            type: text
+            comment: "Label of the top-level menu trigger."
+          featuredImage:
+            type: object
+            comment: "Featured image shown in the first column of the mega menu."
+          source:
+            type: image
+            comment: "Featured image source."
+          alt:
+            type: text
+            comment: "Alt text for the featured image."
+          caption:
+            type: textarea
+            comment: "Caption shown under the featured image."
+          columns:
+            type: array
+            comment: "Link columns shown in the mega menu. On mobile each column title becomes an accordion link."
+            options:
+              structures: _structures.megaColumns
+          cta:
+            type: object
+            comment: "Optional call-to-action shown in the last column. Leave the text empty to hide it."
+          text:
+            type: text
+            comment: "Call-to-action text. Leave empty to hide the button."
+          link:
+            type: url
+            comment: "Call-to-action URL."
+  megaColumns:
+    values:
+      - label: Mega Menu Column
+        icon: view_column
+        value:
+          name: ""
+          path: ""
+          links: []
+          subtext: ""
+        preview:
+          text:
+            - key: name
+        _inputs:
+          name:
+            type: text
+            comment: "Column title link text."
+          path:
+            type: url
+            comment: "Column title link URL."
+            options:
+              hide_link_to_file: true
+              hide_link_to_email_address: true
+              hide_link_to_telephone: true
+          links:
+            type: array
+            comment: "Links listed under the column title (desktop only)."
+            options:
+              structures: _structures.megaLinks
+          subtext:
+            type: textarea
+            comment: "Optional description shown under the column title (desktop only)."
+  megaLinks:
+    values:
+      - label: Mega Menu Link
+        icon: link
+        value:
+          name: ""
+          path: ""
+        preview:
+          text:
+            - key: name
+        _inputs:
+          name:
+            type: text
+            comment: "Link text."
+          path:
+            type: url
+            comment: "Link URL."
+            options:
+              hide_link_to_file: true
+              hide_link_to_email_address: true
+              hide_link_to_telephone: true

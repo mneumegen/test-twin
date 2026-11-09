@@ -1,0 +1,547 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import { itemHasSplitNavLink } from "@component-utils/navSplitLink";
+
+const {
+  navData = [],
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+// Generate a unique ID for this navigation instance to scope radio buttons
+const navInstanceId = crypto.randomUUID();
+
+// Helper function to check if item is current page
+function isCurrentPage(item) {
+  return item.path && Astro.url.pathname === item.path;
+}
+
+// Helper function to check if any child is current page (recursive)
+function hasCurrentChild(item) {
+  if (isCurrentPage(item)) return true;
+  if (item.children && item.children.length > 0) {
+    return item.children.some((child) => hasCurrentChild(child));
+  }
+  return false;
+}
+---
+
+<nav
+  class:list={["side", className]}
+  {...htmlAttributes}
+>
+  <ul class="side-list">
+    {navData.map((item) => {
+      const hasChildren = item.children && item.children.length > 0;
+      const dropdownId = `dropdown-toggle-${crypto.randomUUID()}`;
+      const contentId = `dropdown-content-${crypto.randomUUID()}`;
+      const parentGroupId = `parent-${crypto.randomUUID()}`;
+      const isCurrent = isCurrentPage(item);
+      const hasCurrent = hasCurrentChild(item);
+      const splitLink = itemHasSplitNavLink(item);
+
+      if (hasChildren) {
+        return (
+          <li class="nav-item has-children">
+            <input
+              type="radio"
+              name={`side-nav-top-${navInstanceId}`}
+              id={dropdownId}
+              class="nav-item-toggle"
+              aria-expanded={hasCurrent.toString()}
+              aria-controls={contentId}
+              autocomplete="off"
+              checked={hasCurrent}
+            />
+            {splitLink ? (
+              <div class="nav-item-split">
+                <a
+                  href={item.path}
+                  class="nav-item-link"
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  <span class="nav-item-label">{item.name}</span>
+                </a>
+                <label
+                  for={dropdownId}
+                  class="nav-item-trigger nav-item-toggle-btn"
+                  aria-controls={contentId}
+                  tabindex="0"
+                  aria-label={`Toggle ${item.name} submenu`}
+                >
+                  <span class="nav-item-icon">
+                    <Icon
+                      name="chevron-right"
+                      size="none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </label>
+              </div>
+            ) : (
+              <label
+                for={dropdownId}
+                class="nav-item-trigger"
+                aria-controls={contentId}
+                tabindex="0"
+                aria-current={isCurrent ? "page" : undefined}
+              >
+                <span class="nav-item-label">{item.name}</span>
+                <span class="nav-item-icon">
+                  <Icon
+                    name="chevron-right"
+                    size="none"
+                    aria-hidden="true"
+                  />
+                </span>
+              </label>
+            )}
+            <div
+              id={contentId}
+              class:list={["nav-item-content", hasCurrent && "nav-item-content-initial"]}
+              role="region"
+              aria-label={`${item.name} submenu`}
+              aria-hidden={(!hasCurrent).toString()}
+            >
+              <ul class="nav-list">
+                {item.children.map((child) => {
+                  const childHasChildren = child.children && child.children.length > 0;
+                  const childDropdownId = `dropdown-toggle-${crypto.randomUUID()}`;
+                  const childContentId = `dropdown-content-${crypto.randomUUID()}`;
+                  const childIsCurrent = isCurrentPage(child);
+                  const childHasCurrent = hasCurrentChild(child);
+                  const childSplitLink = itemHasSplitNavLink(child);
+
+                  if (childHasChildren) {
+                    return (
+                      <li class="nav-item has-children">
+                        <input
+                          type="radio"
+                          name={`side-nav-${parentGroupId}`}
+                          id={childDropdownId}
+                          class="nav-item-toggle"
+                          aria-expanded={childHasCurrent.toString()}
+                          aria-controls={childContentId}
+                          autocomplete="off"
+                          checked={childHasCurrent}
+                        />
+                        {childSplitLink ? (
+                          <div class="nav-item-split">
+                            <a
+                              href={child.path}
+                              class="nav-item-link"
+                              aria-current={childIsCurrent ? "page" : undefined}
+                            >
+                              <span class="nav-item-label">{child.name}</span>
+                            </a>
+                            <label
+                              for={childDropdownId}
+                              class="nav-item-trigger nav-item-toggle-btn"
+                              aria-controls={childContentId}
+                              tabindex="0"
+                              aria-label={`Toggle ${child.name} submenu`}
+                            >
+                              <span class="nav-item-icon">
+                                <Icon
+                                  name="chevron-right"
+                                  size="none"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </label>
+                          </div>
+                        ) : (
+                          <label
+                            for={childDropdownId}
+                            class="nav-item-trigger"
+                            aria-controls={childContentId}
+                            tabindex="0"
+                            aria-current={childIsCurrent ? "page" : undefined}
+                          >
+                            <span class="nav-item-label">{child.name}</span>
+                            <span class="nav-item-icon">
+                              <Icon
+                                name="chevron-right"
+                                size="none"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </label>
+                        )}
+                        <div
+                          id={childContentId}
+                          class:list={[
+                            "nav-item-content",
+                            childHasCurrent && "nav-item-content-initial",
+                          ]}
+                          role="region"
+                          aria-label={`${child.name} submenu`}
+                          aria-hidden={(!childHasCurrent).toString()}
+                        >
+                          <ul class="nav-list">
+                            {child.children && child.children.length > 0
+                              ? child.children.map((grandChild) => (
+                                  <li class="nav-item">
+                                    <a
+                                      href={grandChild.path}
+                                      aria-current={isCurrentPage(grandChild) ? "page" : undefined}
+                                    >
+                                      <span class="nav-item-label">{grandChild.name}</span>
+                                    </a>
+                                  </li>
+                                ))
+                              : null}
+                          </ul>
+                        </div>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li class="nav-item">
+                        <a
+                          href={child.path || "#"}
+                          aria-current={childIsCurrent ? "page" : undefined}
+                        >
+                          <span class="nav-item-label">{child.name}</span>
+                        </a>
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
+            </div>
+          </li>
+        );
+      } else {
+        return (
+          <li class="nav-item">
+            <a
+              href={item.path || "#"}
+              aria-current={isCurrent ? "page" : undefined}
+            >
+              <span class="nav-item-label">{item.name}</span>
+            </a>
+          </li>
+        );
+      }
+    })}
+  </ul>
+</nav>
+
+<script>
+  import { onPageLoad } from "@component-utils/onPageLoad";
+
+  function setupSideNavigation() {
+    const sideNavs = document.querySelectorAll(".side");
+    if (!sideNavs.length) return;
+
+    sideNavs.forEach((sideNav) => {
+      const navElement = sideNav as HTMLElement;
+      if (navElement.dataset.sideInitialized === "true") return;
+      navElement.dataset.sideInitialized = "true";
+
+      // Handle radio button changes
+      sideNav.querySelectorAll(".nav-item-toggle").forEach((toggle) => {
+        toggle.addEventListener("change", (e) => {
+          const target = e.target;
+          const content = document.getElementById(target.getAttribute("aria-controls") || "");
+          const toggleBtn = sideNav.querySelector(`label.nav-item-toggle-btn[for="${target.id}"]`);
+          const rowLabel = sideNav.querySelector(
+            `label.nav-item-trigger:not(.nav-item-toggle-btn)[for="${target.id}"]`
+          );
+
+          if (content) {
+            const isOpen = target.checked;
+
+            target.setAttribute("aria-expanded", isOpen.toString());
+            content.setAttribute("aria-hidden", (!isOpen).toString());
+
+            if (toggleBtn) {
+              toggleBtn.setAttribute("aria-expanded", isOpen.toString());
+            }
+            if (rowLabel) {
+              rowLabel.setAttribute("aria-expanded", isOpen.toString());
+            }
+          }
+        });
+      });
+
+      function bindTriggerHandlers(trigger) {
+        trigger.addEventListener("click", (e) => {
+          const label = e.currentTarget;
+          const toggleId = label.getAttribute("for");
+          const toggleEl = document.getElementById(toggleId || "");
+
+          if (toggleEl && toggleEl.checked) {
+            e.preventDefault();
+            toggleEl.checked = false;
+            toggleEl.dispatchEvent(new Event("change"));
+          }
+        });
+
+        trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.stopPropagation();
+            const label = e.currentTarget;
+            const toggleId = label.getAttribute("for");
+            const toggleEl = document.getElementById(toggleId || "");
+
+            if (toggleEl) {
+              if (toggleEl.checked) {
+                toggleEl.checked = false;
+              } else {
+                toggleEl.checked = true;
+              }
+              toggleEl.dispatchEvent(new Event("change"));
+            }
+          }
+        });
+      }
+
+      sideNav.querySelectorAll(".nav-item-toggle-btn").forEach(bindTriggerHandlers);
+
+      sideNav
+        .querySelectorAll(".nav-item.has-children > .nav-item-trigger:not(.nav-item-toggle-btn)")
+        .forEach(bindTriggerHandlers);
+    });
+  }
+  onPageLoad(setupSideNavigation);
+
+  setTimeout(() => {
+    const initialNavItems = document.querySelectorAll(".nav-item-content-initial");
+    initialNavItems.forEach((item) => {
+      item.classList.remove("nav-item-content-initial");
+    });
+  }, 1000);
+</script>
+
+<style is:global>
+  @layer components {
+    .side {
+      margin-top: var(--spacing-lg);
+
+      .side-list,
+      .nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-item {
+        list-style: none;
+        position: relative;
+      }
+
+      /*
+       * Row shell shared by direct links and full-row label triggers.
+       * Split rows (link + chevron toggle) use `.nav-item-split` below.
+       * `min-height` + `padding-block` establish a consistent row height
+       * across plain links, triggers, and split rows.
+       */
+      .nav-item > a,
+      .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+        align-items: center;
+        border-radius: var(--radius-xs);
+        color: inherit;
+        display: flex;
+        min-height: 1.75rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+        text-decoration: none;
+        transition: background-color var(--animation-normal) ease;
+
+        &:hover,
+        &:focus-visible {
+          background-color: var(--color-state-hover);
+          color: var(--color-text-strong);
+
+          .nav-item-icon {
+            color: var(--color-text-strong);
+          }
+        }
+      }
+
+      .nav-item > a {
+        font-weight: var(--font-weight-semibold);
+      }
+
+      .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+        cursor: pointer;
+        justify-content: space-between;
+        padding-inline-end: 0;
+        user-select: none;
+        width: 100%;
+
+        .nav-item-icon {
+          align-items: center;
+          box-sizing: border-box;
+          display: inline-flex;
+          flex-shrink: 0;
+          justify-content: center;
+          line-height: 0;
+          margin-inline: 2px var(--spacing-xs);
+          min-height: 1.75rem;
+          min-width: 2.25rem;
+          padding: var(--spacing-xs);
+        }
+      }
+
+      /* Primary full-row trigger reads as a top-level heading */
+      .side-list > .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+        font-weight: var(--font-weight-semibold);
+      }
+
+      /* Split row: link column + chevron toggle column */
+      .nav-item-split {
+        align-items: stretch;
+        border-radius: var(--radius-xs);
+        display: flex;
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
+        min-width: 0;
+        transition: background-color var(--animation-normal) ease;
+        width: 100%;
+
+        &:hover {
+          background-color: var(--color-state-hover);
+          color: var(--color-text-strong);
+
+          .nav-item-icon {
+            color: var(--color-text-strong);
+          }
+
+          .nav-item-toggle-btn {
+            background-color: color-mix(in srgb, var(--color-state-hover), var(--color-text) 3%);
+          }
+        }
+
+        .nav-item-link {
+          align-items: center;
+          border-radius: var(--radius-xs);
+          color: inherit;
+          display: flex;
+          flex: 1 1 auto;
+          font-weight: var(--font-weight-semibold);
+          min-height: 1.75rem;
+          min-width: 0;
+          padding: var(--spacing-sm) var(--spacing-xs) var(--spacing-sm) var(--spacing-md);
+          text-decoration: none;
+          transition: color var(--animation-normal) ease;
+
+          &:hover,
+          &:focus-visible {
+            color: var(--color-text-strong);
+          }
+        }
+
+        .nav-item-toggle-btn {
+          align-items: center;
+          align-self: stretch;
+          background: transparent;
+          border: none;
+          border-left: 1px solid transparent;
+          border-radius: var(--radius-xs);
+          cursor: pointer;
+          display: inline-flex;
+          flex: 0 0 auto;
+          justify-content: center;
+          margin-inline: 2px var(--spacing-xs);
+          min-width: 2.25rem;
+          padding: 0 var(--spacing-xs);
+          transition:
+            background-color var(--animation-normal) ease,
+            border-color var(--animation-normal) ease;
+
+          &:hover {
+            background-color: color-mix(in srgb, var(--color-state-hover), var(--color-text) 8%);
+            border-left-color: var(--color-border);
+          }
+
+          &:focus-visible {
+            outline: 2px solid var(--color-focus-ring);
+            outline-offset: 2px;
+          }
+
+          .nav-item-icon {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            line-height: 0;
+          }
+        }
+      }
+
+      /* Current page indicator */
+      .nav-item a[aria-current="page"] .nav-item-label,
+      .nav-item .nav-item-trigger[aria-current="page"] .nav-item-label,
+      .nav-item-split .nav-item-link[aria-current="page"] .nav-item-label {
+        text-decoration: underline dotted;
+        text-decoration-color: var(--color-text-muted);
+        text-underline-offset: 3px;
+      }
+
+      /* Hidden checkbox drives expand/collapse via `:checked ~` selectors */
+      .nav-item-toggle,
+      .nav-item-content {
+        display: none;
+      }
+
+      .nav-item-toggle:checked ~ .nav-item-content {
+        animation: grow-out var(--animation-normal) ease-out;
+        display: block;
+      }
+
+      .nav-item-toggle:checked ~ .nav-item-content-initial {
+        animation-duration: 1ms;
+        display: block;
+      }
+
+      .nav-item-icon {
+        color: var(--color-text-muted);
+        display: inline-block;
+        transition: transform var(--animation-normal) ease;
+      }
+
+      .nav-item-toggle:checked ~ .nav-item-trigger .nav-item-icon,
+      .nav-item-toggle:checked ~ .nav-item-split .nav-item-icon {
+        transform: rotate(90deg);
+      }
+
+      .nav-list {
+        & > .nav-item > a,
+        & > .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+          font-weight: var(--font-weight-normal);
+          padding-inline-start: var(--spacing-xl);
+        }
+
+        & > .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+          padding-inline-end: var(--spacing-sm);
+        }
+
+        & > .nav-item > .nav-item-split {
+          box-sizing: border-box;
+          padding-inline-start: var(--spacing-xl);
+          padding-inline-end: var(--spacing-sm);
+        }
+
+        & > .nav-item > .nav-item-split .nav-item-link,
+        & .nav-list > .nav-item > .nav-item-split .nav-item-link {
+          font-weight: var(--font-weight-normal);
+          padding: var(--spacing-sm) var(--spacing-xs) var(--spacing-sm) 0;
+        }
+
+        & .nav-list > .nav-item > a,
+        & .nav-list > .nav-item > .nav-item-trigger:not(.nav-item-toggle-btn) {
+          padding-inline-start: var(--spacing-2xl);
+        }
+
+        & .nav-list > .nav-item > .nav-item-split {
+          padding-inline-end: var(--spacing-xl);
+          padding-inline-start: var(--spacing-2xl);
+        }
+      }
+    }
+  }
+</style>

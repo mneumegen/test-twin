@@ -1,0 +1,58 @@
+---
+import Image from "@core-elements/image/Image.astro";
+
+/**
+ * Inline article image. Wraps the optimized Image component and adds the display width
+ * and text-wrap alignment that articles migrated from HubSpot rely on.
+ */
+const { source, alt = "", width, align = "none", link, _component } = Astro.props;
+
+if (!source && !_component) return;
+const displayWidth = Number(width) || undefined;
+---
+
+<figure
+  class:list={["post-image", `post-image--${align}`]}
+  style={displayWidth ? `--post-image-width: ${displayWidth}px` : undefined}
+>
+  <Image
+    source={source}
+    alt={alt}
+    link={link}
+    sizes={displayWidth ? `(max-width: ${displayWidth}px) 100vw, ${displayWidth}px` : undefined}
+    widths={displayWidth ? [displayWidth, displayWidth * 2] : undefined}
+    autoSizes={false}
+  />
+</figure>
+
+<style is:global>
+  @layer components {
+    .post-image {
+      margin: 0 0 var(--spacing-md);
+      max-width: min(var(--post-image-width, 100%), 100%);
+    }
+
+    .post-image img {
+      height: auto;
+      width: 100%;
+    }
+
+    .post-image--center {
+      margin-inline: auto;
+    }
+
+    @media (min-width: 640px) {
+      .post-image--left {
+        float: left;
+        margin-right: var(--spacing-lg);
+        max-width: min(var(--post-image-width, 50%), 50%);
+      }
+
+      .post-image--right {
+        float: right;
+        margin-left: var(--spacing-lg);
+        max-width: min(var(--post-image-width, 50%), 50%);
+      }
+    }
+  }
+</style>

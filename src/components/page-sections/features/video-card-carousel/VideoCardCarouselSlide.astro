@@ -1,0 +1,54 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Video from "@core-elements/video/Video.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+
+const {
+  label = "",
+  title = "",
+  description = "",
+  videoType = "youtube",
+  videoId = "",
+  videoTitle = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CarouselSlide {...htmlAttributes}>
+  <article class:list={["video-card", className]}>
+    {videoId && (
+      <Video
+        class="video-card__video"
+        type={videoType}
+        videoId={videoId}
+        title={videoTitle || title}
+      />
+    )}
+    <SimpleText
+      class="video-card__label"
+      text={label}
+      variant="label"
+      size="body"
+      alignmentHorizontal="start"
+      data-prop="label"
+    />
+    <Heading
+      text={title}
+      level="h3"
+      size="fluid-h3"
+      alignmentHorizontal="start"
+      data-prop="title"
+    />
+    <SimpleText
+      class="video-card__description"
+      text={description}
+      size="body"
+      alignmentHorizontal="start"
+      data-prop="description"
+    />
+  </article>
+</CarouselSlide>

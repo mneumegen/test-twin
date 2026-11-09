@@ -1,0 +1,128 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import MarkdownIt from "markdown-it";
+
+const {
+  text = "",
+  iconName,
+  iconColor = "default",
+  iconPosition = "before",
+  showIcon = true,
+  link,
+  class: className,
+  useDefaultEditableBinding = false,
+  "data-prop": customDataProp,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const md = new MarkdownIt({ html: true });
+
+const effectiveDataProp = customDataProp ?? (useDefaultEditableBinding ? "text" : null);
+const textDataAttributes = effectiveDataProp
+  ? { "data-editable": "text", "data-prop": effectiveDataProp }
+  : {};
+
+const hasIcon = showIcon && iconName;
+const iconAfter = hasIcon && iconPosition === "after";
+---
+
+<li
+  class:list={[
+    "item",
+    className,
+    hasIcon && "list-item-has-icon",
+    iconAfter && "list-item-icon-after",
+  ]}
+  {...htmlAttributes}
+>
+  {hasIcon && !iconAfter && (
+    <Icon
+      name={iconName}
+      color={iconColor}
+      size="none"
+      class="list-icon"
+      aria-hidden="true"
+    />
+  )}
+  {link ? (
+    <a
+      href={link}
+      class="item-inner"
+    >
+      <p {...textDataAttributes}>
+        {text ? <Fragment set:html={md.renderInline(text)} /> : <slot />}
+      </p>
+    </a>
+  ) : (
+    <span class="item-inner">
+      <p {...textDataAttributes}>
+        {text ? <Fragment set:html={md.renderInline(text)} /> : <slot />}
+      </p>
+    </span>
+  )}
+  {iconAfter && (
+    <Icon
+      name={iconName}
+      color={iconColor}
+      size="none"
+      class="list-icon"
+      aria-hidden="true"
+    />
+  )}
+</li>
+
+<style is:global>
+  @layer components {
+    .item {
+      &.list-item-has-icon {
+        display: flex;
+        align-items: baseline;
+      }
+
+      > .list-icon {
+        display: inline-block;
+        flex-shrink: 0;
+        height: 1em;
+        margin-inline-end: var(--spacing-em-xs);
+        translate: 0 0.15em;
+        width: 1em;
+
+        svg {
+          display: block;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      > .item-inner {
+        min-width: 0;
+
+        > p {
+          display: inline;
+          font-size: inherit;
+          margin: 0;
+        }
+      }
+
+      > a.item-inner:any-link > p {
+        color: inherit;
+      }
+
+      &.list-item-icon-after {
+        align-items: center;
+
+        > .list-icon {
+          margin-inline-end: 0;
+          margin-inline-start: var(--spacing-em-xs);
+        }
+      }
+
+      > a.item-inner:any-link:focus-visible {
+        border-radius: var(--radius-sm);
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+    }
+  }
+</style>

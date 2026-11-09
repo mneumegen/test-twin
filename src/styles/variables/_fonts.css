@@ -1,0 +1,60 @@
+/* Font families: `--font-body` and `--font-headings` are defined by Astro’s <Font /> (see `site-fonts.mjs`). */
+
+:where(:root) {
+  --font-family-heading: var(--font-headings), "Montserrat", Georgia, serif;
+  --font-family-body: var(--font-body), "Source Sans 3", Helvetica, Arial, sans-serif;
+  --font-mono: menlo, consolas, monaco, adwaita mono, liberation mono, lucida console, monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.625rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 2.625rem;
+
+  --font-size-heading-xs: 1.125rem;
+  --font-size-heading-sm: 1.375rem;
+  --font-size-heading-md: 1.75rem;
+  --font-size-heading-lg: 2.25rem;
+  --font-size-heading-xl: 2.875rem;
+  --font-size-heading-2xl: 3.75rem;
+  --font-size-heading-3xl: 4.625rem;
+  --font-size-heading-4xl: 5.5rem;
+  --font-size-heading-5xl: 6.375rem;
+
+  /* Adapted (Phase 2.5): source fluid heading scale (clamp) — exact source declarations */
+  --font-size-heading-fluid-h1: clamp(3rem, 2.64rem + 0.89vw, 3.5rem);
+  --line-height-heading-fluid-h1: clamp(3.5rem, 3.232rem + 0.67vw, 3.875rem);
+  --font-size-heading-fluid-h2: clamp(1.875rem, 1.071rem + 2.009vw, 3rem);
+  --line-height-heading-fluid-h2: clamp(2.1875rem, 1.25rem + 2.3438vw, 3.5rem);
+  --font-size-heading-fluid-h3: clamp(1.5rem, 1.232rem + 0.67vw, 1.875rem);
+  --line-height-heading-fluid-h3: clamp(1.75rem, 1.4375rem + 0.7813vw, 2.1875rem);
+  --font-size-heading-fluid-h4: clamp(1rem, 0.64rem + 0.89vw, 1.5rem);
+  --line-height-heading-fluid-h4: 1.4;
+
+  /* Adapted (Phase 2.5): fixed (non-shrinking) body step + relaxed leading, and the label/eyebrow face */
+  --font-size-body-fixed: 1rem;
+  --line-height-body-relaxed: 1.75;
+  --font-label: "Space Grotesk", helvetica, arial, sans-serif;
+  --font-weight-label: 500;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  @media (width < 640px) {
+    --font-size-3xl: 1.625rem;
+    --font-size-4xl: 1.875rem;
+
+    --font-size-heading-md: 1.5rem;
+    --font-size-heading-lg: 1.875rem;
+    --font-size-heading-xl: 2.375rem;
+    --font-size-heading-2xl: 3rem;
+    --font-size-heading-3xl: 3.75rem;
+    --font-size-heading-4xl: 4.25rem;
+  }
+}

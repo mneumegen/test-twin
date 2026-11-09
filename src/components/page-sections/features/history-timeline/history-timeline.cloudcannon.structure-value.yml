@@ -1,0 +1,76 @@
+label: History Timeline
+icon: timeline
+description: Intro row with eyebrow, heading and copy above a horizontal carousel timeline of milestone cards.
+value:
+  _component: page-sections/features/history-timeline
+  sectionLabel: ""
+  eyebrow: Eyebrow text
+  heading: Section heading
+  intro: ""
+  milestones: []
+  colorScheme: light
+preview:
+  text:
+    - History Timeline
+  subtext:
+    - key: heading
+  icon: timeline
+picker_preview:
+  text: History Timeline
+  subtext: Intro row with eyebrow, heading and copy above a horizontal carousel timeline of milestone cards.
+_inputs_from_glob:
+  - /src/components/page-sections/features/history-timeline/history-timeline.cloudcannon.inputs.yml
+_structures:
+  milestone:
+    values:
+      - label: Milestone
+        icon: event
+        value:
+          _component: page-sections/features/history-timeline/history-timeline-item
+          imageSource: ""
+          imageAlt: ""
+          year: Year
+          description: Milestone description.
+        preview:
+          text:
+            - key: year
+            - Milestone
+          subtext:
+            - key: description
+          icon: event
+        picker_preview:
+          text: Milestone
+          icon: event
+        _inputs:
+          imageSource:
+            type: image
+            label: Image
+            comment: Square photo for this milestone. Leave empty to omit it.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Image alt text
+            comment: Alt text describing the milestone photo.
+            hidden: "!imageSource"
+          year:
+            type: markdown
+            label: Year
+            comment: Year or period label for the milestone.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          description:
+            type: markdown
+            label: Description
+            comment: Short description of the milestone.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

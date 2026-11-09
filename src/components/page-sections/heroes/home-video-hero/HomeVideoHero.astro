@@ -1,0 +1,326 @@
+---
+import CustomSection from "@page-sections/builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Video from "@core-elements/video/Video.astro";
+
+const {
+  sectionLabel,
+  videoSource,
+  headingLead,
+  rotatingWords = [],
+  tagline,
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showVideo = Boolean(videoSource);
+const showTagline = Boolean(tagline);
+const words = Array.isArray(rotatingWords) ? rotatingWords : [];
+---
+
+<CustomSection
+  class:list={["home-video-hero", className]}
+  label={sectionLabel}
+  paddingVertical="none"
+  paddingHorizontal="none"
+  colorScheme="dark"
+  {...htmlAttributes}
+>
+  <div class="home-video-hero__frame">
+    {showVideo && (
+      <Video
+        type="local-source"
+        background={true}
+        source={videoSource}
+      />
+    )}
+    <div class="home-video-hero__overlay"></div>
+    <div class="home-video-hero__container">
+      <div class="home-video-hero__copy">
+        <Heading
+          level="h1"
+          size="fluid-h1"
+          alignmentHorizontal="start"
+        >
+          <span
+            class="home-video-hero__lead"
+            data-editable="text"
+            data-prop="headingLead"
+          >
+            {headingLead}
+          </span>{" "}
+          {/* Not inline-editable: words are edited in the sidebar, and rotate in the editor as they do live. */}
+          <span
+            class="home-video-hero__flipper"
+            data-current-text={words[0]?.word ?? ""}
+          >
+            {words.map((item, i) => (
+              <span class:list={["home-video-hero__flipper-word", { "is-active": i === 0 }]}>
+                {item.word}
+              </span>
+            ))}
+          </span>
+          {showTagline && (
+            <span
+              class="home-video-hero__tagline"
+              data-editable="text"
+              data-prop="tagline"
+            >
+              {tagline}
+            </span>
+          )}
+        </Heading>
+      </div>
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .home-video-hero > .outer-content > .content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .home-video-hero .video.background {
+      z-index: 0;
+    }
+
+    .home-video-hero .video.background > video {
+      display: block;
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .home-video-hero .heading {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      line-height: var(--line-height-heading-fluid-h1);
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    @media (max-width: 767.98px) {
+      .home-video-hero .video.background {
+        position: relative;
+        inset: auto;
+      }
+
+      .home-video-hero .video.background > video {
+        height: auto;
+      }
+    }
+  }
+
+  @layer page-sections {
+    .home-video-hero {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .home-video-hero__frame {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0 0 20px;
+      color: rgb(0, 0, 0);
+      background-color: var(--brand-navy);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      opacity: 1;
+    }
+
+    .home-video-hero__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: auto;
+      display: none;
+      pointer-events: none;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background-color: rgba(0, 0, 0, 0);
+      background-image: linear-gradient(
+        to right top,
+        rgba(24, 62, 102, 0.8),
+        rgba(228, 243, 250, 0),
+        rgba(0, 0, 0, 0)
+      );
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      opacity: 1;
+    }
+
+    .home-video-hero__container {
+      position: relative;
+      z-index: 10;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 100%;
+      max-width: 1280px;
+      margin-inline: auto;
+      padding-inline: 24px;
+    }
+
+    .home-video-hero__copy {
+      max-width: 512px;
+      padding-top: 64px;
+    }
+
+    .home-video-hero__lead {
+      display: inline;
+    }
+
+    .home-video-hero__flipper {
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      /* Exactly one line tall and top-aligned, so the rotating word shares the baseline
+         and spacing of the surrounding heading text. */
+      height: 1lh;
+      margin: 0;
+      padding: 0;
+      color: var(--brand-navy);
+      background-color: rgba(0, 0, 0, 0);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      opacity: 1;
+      vertical-align: top;
+    }
+
+    .home-video-hero__flipper::after {
+      content: attr(data-current-text);
+      visibility: hidden;
+      white-space: nowrap;
+    }
+
+    .home-video-hero__flipper-word {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      white-space: nowrap;
+      color: var(--gray-0);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease-in-out;
+    }
+
+    .home-video-hero__flipper-word.is-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .home-video-hero__flipper-word.is-fading {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .home-video-hero__tagline {
+      display: block;
+      margin-top: 24px;
+      padding-bottom: 32px;
+      font-size: 1.875rem;
+      line-height: 2.1875rem;
+      font-style: italic;
+      color: var(--gray-0);
+    }
+
+    @media (min-width: 768px) {
+      .home-video-hero__frame {
+        aspect-ratio: 16 / 9;
+        max-height: 700px;
+        padding-top: 80px;
+      }
+
+      .home-video-hero__overlay {
+        display: block;
+      }
+
+      .home-video-hero__copy {
+        padding-top: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .home-video-hero__frame {
+        padding-top: 160px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .home-video-hero__flipper-word {
+        transition: none;
+      }
+    }
+  }
+</style>
+
+<script>
+  const INTERVAL = 5000;
+  const SWAP_DELAY = 250;
+
+  // Tracked in JS rather than a data attribute: the Visual Editor's re-render strips unknown
+  // attributes from the existing element, which would start a second timer on the same hero.
+  const initialised = new WeakSet<HTMLElement>();
+
+  function initFlipper(flipper: HTMLElement) {
+    if (initialised.has(flipper)) return;
+    initialised.add(flipper);
+    let timer: number | undefined;
+
+    const words = () =>
+      Array.from(flipper.querySelectorAll<HTMLElement>(":scope > .home-video-hero__flipper-word"));
+
+    const sync = () => {
+      const active = words().find((w) => w.classList.contains("is-active"));
+      // Sizes the box (via ::after) to the current word so long words wrap instead of overflowing.
+      if (active) flipper.dataset.currentText = active.textContent?.trim() ?? "";
+    };
+
+    const step = () => {
+      // The Visual Editor replaces the hero when it re-renders; stop timers on the old copy.
+      if (!flipper.isConnected) return window.clearInterval(timer);
+      const list = words();
+      if (list.length < 2) return;
+      let idx = list.findIndex((w) => w.classList.contains("is-active"));
+      if (idx < 0) idx = 0;
+      list[idx].classList.remove("is-active");
+      list[idx].classList.add("is-fading");
+      window.setTimeout(() => {
+        list.forEach((w) => w.classList.remove("is-fading"));
+        list[(idx + 1) % list.length].classList.add("is-active");
+        sync();
+      }, SWAP_DELAY);
+    };
+
+    const start = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(step, INTERVAL);
+    };
+
+    const list = words();
+    if (list.length && !list.some((w) => w.classList.contains("is-active"))) {
+      list[0].classList.add("is-active");
+    }
+    sync();
+    flipper.addEventListener("mouseenter", () => window.clearInterval(timer));
+    flipper.addEventListener("mouseleave", start);
+    start();
+  }
+
+  function initAll() {
+    document.querySelectorAll<HTMLElement>(".home-video-hero__flipper").forEach(initFlipper);
+  }
+
+  initAll();
+  document.addEventListener("astro:page-load", initAll);
+  // Picks up heroes re-rendered by the CloudCannon Visual Editor.
+  new MutationObserver(initAll).observe(document.body, { childList: true, subtree: true });
+</script>

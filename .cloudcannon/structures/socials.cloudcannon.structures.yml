@@ -1,0 +1,41 @@
+socials:
+  style: modal
+  values:
+    - label: Social Link
+      icon: share
+      description: A social media link shown as an image.
+      value:
+        label: ""
+        link: ""
+        imageSource: ""
+        imageAlt: ""
+      preview:
+        text:
+          - key: label
+          - Social Link
+        subtext:
+          - key: link
+          - Add URL
+        image:
+          - key: imageSource
+      picker_preview:
+        text: Social Link
+        subtext: A social media link shown as an image.
+        icon: share
+      _inputs:
+        label:
+          type: text
+          comment: Accessible name for the social media link, read by screen readers.
+        link:
+          type: url
+          comment: URL of the social media profile.
+        imageSource:
+          type: image
+          comment: Image shown for the social media link.
+          options:
+            resize_style: contain
+            width: 1920
+            height: 1280
+        imageAlt:
+          type: text
+          comment: Alt text for the social media image.

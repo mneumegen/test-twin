@@ -1,0 +1,157 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import MarkdownIt from "markdown-it";
+
+const {
+  text,
+  level = "h2",
+  size,
+  alignmentHorizontal = "start",
+  iconName,
+  iconColor = "default",
+  iconPosition = "before",
+  class: className,
+  useDefaultEditableBinding = false,
+  "data-prop": customDataProp,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const effectiveDataProp = customDataProp ?? (useDefaultEditableBinding ? "text" : null);
+const textDataAttributes = effectiveDataProp
+  ? { "data-editable": "text", "data-prop": effectiveDataProp }
+  : {};
+
+const md = MarkdownIt({ html: true });
+let MarkdownText = text ? md.renderInline(text) : "";
+
+MarkdownText = MarkdownText.replace(/\n/g, "<br />");
+const Tag = level;
+
+const hasText = text?.trim().length > 0;
+const hasSlotContent = Astro.slots.has("default");
+
+if (!_component && !hasText && !hasSlotContent) return;
+---
+
+<Tag
+  class:list={["heading", className]}
+  {...htmlAttributes}
+>
+  <span class:list={["heading-inner", size && `size-${size}`, `align-${alignmentHorizontal}`]}>
+    {iconPosition == "before" && (
+      <Icon
+        name={iconName}
+        color={iconColor}
+        size="none"
+        class="heading-icon"
+        aria-hidden="true"
+        role="presentation"
+      />
+    )}
+    <span
+      class="heading-text"
+      {...textDataAttributes}
+    >
+      <slot>{text && <Fragment set:html={MarkdownText} />}</slot>
+    </span>
+    {iconPosition === "after" && (
+      <Icon
+        name={iconName}
+        color={iconColor}
+        size="none"
+        class="heading-icon heading-icon-after"
+        aria-hidden="true"
+        role="presentation"
+      />
+    )}
+  </span>
+</Tag>
+
+<style is:global>
+  @layer components {
+    .heading {
+      margin-top: var(--spacing-lg);
+
+      > .heading-inner {
+        display: block;
+
+        .heading-icon {
+          bottom: 0.1em;
+          display: inline-block;
+          font-size: 0.9em;
+          position: relative;
+          vertical-align: middle;
+        }
+
+        &.size-xs {
+          font-size: var(--font-size-heading-xs);
+        }
+
+        &.size-sm {
+          font-size: var(--font-size-heading-sm);
+        }
+
+        &.size-md {
+          font-size: var(--font-size-heading-md);
+        }
+
+        &.size-lg {
+          font-size: var(--font-size-heading-lg);
+        }
+
+        &.size-xl {
+          font-size: var(--font-size-heading-xl);
+        }
+
+        &.size-2xl {
+          font-size: var(--font-size-heading-2xl);
+        }
+
+        &.size-3xl {
+          font-size: var(--font-size-heading-3xl);
+        }
+
+        &.size-4xl {
+          font-size: var(--font-size-heading-4xl);
+        }
+
+        /* Adapted (Phase 2.5): source fluid heading step — clamp font-size + paired line-height */
+        &.size-fluid-h1 {
+          font-size: var(--font-size-heading-fluid-h1);
+          line-height: var(--line-height-heading-fluid-h1);
+        }
+
+        /* Adapted (Phase 2.5): source fluid heading step — clamp font-size + paired line-height */
+        &.size-fluid-h2 {
+          font-size: var(--font-size-heading-fluid-h2);
+          line-height: var(--line-height-heading-fluid-h2);
+        }
+
+        /* Adapted (Phase 2.5): source fluid heading step — clamp font-size + paired line-height */
+        &.size-fluid-h3 {
+          font-size: var(--font-size-heading-fluid-h3);
+          line-height: var(--line-height-heading-fluid-h3);
+        }
+
+        /* Adapted (Phase 2.5): source fluid heading step — clamp font-size + paired line-height */
+        &.size-fluid-h4 {
+          font-size: var(--font-size-heading-fluid-h4);
+          line-height: var(--line-height-heading-fluid-h4);
+        }
+
+        &.align-start {
+          text-align: start;
+        }
+
+        &.align-center {
+          text-align: center;
+        }
+
+        &.align-end {
+          text-align: end;
+        }
+      }
+    }
+  }
+</style>

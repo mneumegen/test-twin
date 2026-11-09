@@ -1,0 +1,47 @@
+---
+import Image from "@core-elements/image/Image.astro";
+import { prepareImageData } from "../../../utils/image";
+
+const {
+  imageSource = "",
+  imageAlt = "",
+  visibility = "all",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const naturalWidth = imageSource ? prepareImageData({ source: imageSource }).imageWidth : undefined;
+const cardStyle = naturalWidth ? `--logo-natural-w: ${naturalWidth}px` : undefined;
+---
+
+<div
+  class:list={["logo-grid__item", className]}
+  {...htmlAttributes}
+>
+  <div
+    class="logo-grid__card"
+    data-logo-visibility={visibility}
+    style={cardStyle}
+  >
+    <Image
+      source={imageSource}
+      alt={imageAlt}
+      priority={false}
+      autoSizes={false}
+      sizes="(max-width: 768px) 50vw, 331px"
+      widths={[160, 320, 400, 662]}
+      data-prop-src="imageSource"
+      data-prop-alt="imageAlt"
+    />
+  </div>
+</div>
+
+<style is:global>
+  @layer overrides {
+    .logo-grid .logo-grid__grid .logo-grid__card .image-inner img {
+      max-width: min(100%, var(--logo-natural-w, 100%));
+    }
+  }
+</style>

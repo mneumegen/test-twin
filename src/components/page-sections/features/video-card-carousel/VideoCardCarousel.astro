@@ -1,0 +1,138 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import VideoCardCarouselSlide from "@features/video-card-carousel/VideoCardCarouselSlide.astro";
+
+/** Centred heading above a carousel of cards, each with an embedded video, label, title and text. */
+const {
+  sectionLabel,
+  heading = "",
+  slides = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "none",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["video-card-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Heading
+    text={heading}
+    level="h2"
+    size="fluid-h2"
+    alignmentHorizontal="center"
+    data-prop="heading"
+  />
+  <Carousel
+    class="video-card-carousel__carousel"
+    label={heading || "Videos"}
+    slideWidthPercent={33.333}
+    minSlideWidth={280}
+    alignmentHorizontal="start"
+    gap="lg"
+    loop={false}
+    autoPlay={false}
+    autoScroll={false}
+    showIndicators={false}
+    showArrows={true}
+    prevIconName="chevron-left"
+    nextIconName="chevron-right"
+    data-children-prop="slides"
+  >
+    {slides.map((slide) => (
+      <VideoCardCarouselSlide
+        aria-roledescription="slide"
+        data-editable="array-item"
+        data-id="page-sections/features/video-card-carousel/video-card-carousel-slide"
+        {...slide}
+      />
+    ))}
+  </Carousel>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .video-card {
+      background-color: var(--color-bg-mint);
+      background-image:
+        linear-gradient(90deg, var(--color-bg-mint-line) 1px, transparent 0),
+        linear-gradient(180deg, var(--color-bg-mint-line) 1px, transparent 0);
+      background-size: 40px 40px;
+      border-radius: 16px;
+      color: var(--brand-navy);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 32px;
+    }
+
+    .video-card .video-card__video {
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      margin: 0 0 24px;
+      overflow: hidden;
+      width: 100%;
+    }
+  }
+
+  @layer overrides {
+    .video-card-carousel .content > .heading {
+      margin-bottom: 40px;
+      margin-top: 0;
+    }
+
+    .video-card-carousel .slide__content {
+      height: 100%;
+    }
+
+    /* Whole cards only: slides per view steps up with width so none is cut off. */
+    .video-card-carousel__carousel .viewport > .track {
+      --min-slide-width: 0px;
+      --slide-width: 100%;
+
+      @media (min-width: 700px) {
+        --slide-width: 50%;
+      }
+
+      @media (min-width: 1024px) {
+        --slide-width: 33.3333%;
+      }
+    }
+
+    .video-card > * + * {
+      margin-top: 0;
+    }
+
+    .video-card .video-card__label {
+      margin-bottom: 16px;
+    }
+
+    .video-card > .heading {
+      margin-bottom: 22.4px;
+    }
+
+    .video-card .video-card__description > .simple-text-content {
+      color: var(--brand-navy);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      line-height: 28px;
+      text-transform: none;
+    }
+  }
+</style>

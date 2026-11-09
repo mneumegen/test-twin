@@ -1,0 +1,38 @@
+label: Card
+icon: crop_square
+description: Groups related content within a section.
+value:
+  _component: building-blocks/wrappers/card
+  label: null
+  contentSections: []
+  maxContentWidth: null
+  paddingHorizontal: sm
+  paddingVertical: sm
+  colorScheme: inherit
+  backgroundColor: base
+  background:
+    type: image
+    positionVertical: top
+    positionHorizontal: center
+    priority: false
+    imageSource: ""
+    imageAlt: ""
+    videoSource: null
+    overlay: 0
+  link: null
+  rounded: false
+  border: false
+  showBeforeAfter: false
+  beforeContentSections: []
+  afterContentSections: []
+preview:
+  text:
+    - Card
+  subtext:
+    - key: label
+  icon: crop_square
+picker_preview:
+  text: Card
+  subtext: Groups related content within a section.
+_inputs_from_glob:
+  - /src/components/building-blocks/wrappers/card/card.cloudcannon.inputs.yml

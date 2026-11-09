@@ -1,0 +1,152 @@
+{
+  "logoSource": "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/stacked-logo.png",
+  "logoAlt": "Twincraft Skincare",
+  "buttonSections": [
+    {
+      "_component": "building-blocks/core-elements/button",
+      "text": "Let's Connect",
+      "hideText": false,
+      "link": "/contact-us",
+      "iconName": "",
+      "iconPosition": "before",
+      "variant": "pill-outline",
+      "size": "md"
+    },
+    {
+      "_component": "building-blocks/core-elements/button",
+      "text": "Explore Careers",
+      "hideText": false,
+      "link": "/careers",
+      "iconName": "",
+      "iconPosition": "before",
+      "variant": "pill-outline",
+      "size": "md"
+    }
+  ],
+  "columns": [
+    {
+      "heading": "Who we are",
+      "links": [
+        {
+          "text": "The Twincraft Experience",
+          "link": "/twincraft-experience",
+          "iconName": ""
+        },
+        {
+          "text": "About",
+          "link": "/about-us",
+          "iconName": ""
+        }
+      ]
+    },
+    {
+      "heading": "What we do",
+      "links": [
+        {
+          "text": "Liquid Formulations",
+          "link": "/liquid-skincare-manufacturing",
+          "iconName": ""
+        },
+        {
+          "text": "Hot Pour & Deodorant",
+          "link": "/deodorant-stick-manufacturing",
+          "iconName": ""
+        },
+        {
+          "text": "Bar Soap",
+          "link": "/bar-soap-manufacturing",
+          "iconName": ""
+        }
+      ]
+    },
+    {
+      "heading": "How we do it",
+      "links": [
+        {
+          "text": "Our Process",
+          "link": "/our-process",
+          "iconName": ""
+        },
+        {
+          "text": "Sustainability",
+          "link": "/sustainability",
+          "iconName": ""
+        }
+      ]
+    },
+    {
+      "heading": "Resources",
+      "links": [
+        {
+          "text": "Learning Lab",
+          "link": "/learning-lab",
+          "iconName": ""
+        },
+        {
+          "text": "FAQ",
+          "link": "/faqs",
+          "iconName": ""
+        },
+        {
+          "text": "Product Library",
+          "link": "/products",
+          "iconName": ""
+        }
+      ]
+    }
+  ],
+  "followLabel": "Follow Us",
+  "socials": [
+    {
+      "label": "instagram",
+      "link": "https://www.instagram.com/twincraft_skincare/",
+      "imageSource": "/src/assets/images/hubfs/2026/icons/instagram.png",
+      "imageAlt": "instagram"
+    },
+    {
+      "label": "linkedin",
+      "link": "https://www.linkedin.com/company/twincraft-skincare/",
+      "imageSource": "/src/assets/images/hubfs/2026/icons/linkedin.png",
+      "imageAlt": "linkedin"
+    },
+    {
+      "label": "facebook",
+      "link": "https://www.facebook.com/TwincraftSkincare/",
+      "imageSource": "/src/assets/images/hubfs/2026/icons/facebook.png",
+      "imageAlt": "facebook"
+    }
+  ],
+  "contactItems": [
+    {
+      "label": "",
+      "text": "See Our Locations",
+      "link": "/contact-us#our-locations",
+      "iconName": "map-pin"
+    },
+    {
+      "label": "Phone",
+      "text": "(802) 655-2200",
+      "link": "tel:(802)%20655-2200",
+      "iconName": ""
+    },
+    {
+      "label": "Email",
+      "text": "TWCsales@twincraft.com",
+      "link": "mailto:TWCsales@twincraft.com",
+      "iconName": ""
+    }
+  ],
+  "copyrightText": "© 2026 Twincraft Skincare | All Rights Reserved",
+  "legalLinks": [
+    {
+      "text": "Die Catalog",
+      "link": "/die-catalog",
+      "iconName": ""
+    },
+    {
+      "text": "Privacy",
+      "link": "/privacy-policy",
+      "iconName": ""
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Video from "@core-elements/video/Video.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  subtext = "",
+  buttonSections = [],
+  videoId = "",
+  videoTitle = "",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showCta = buttonSections?.length > 0;
+---
+
+<CustomSection
+  class:list={["video-feature", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="video-feature__header">
+    <SimpleText
+      text={eyebrow}
+      variant="label"
+      size="body"
+      alignmentHorizontal="center"
+      class="video-feature__eyebrow"
+      data-prop="eyebrow"
+    />
+    <Heading
+      text={heading}
+      level="h2"
+      size="fluid-h2"
+      alignmentHorizontal="center"
+      data-prop="heading"
+    />
+    <SimpleText
+      text={subtext}
+      size="body"
+      alignmentHorizontal="center"
+      class="video-feature__subtext"
+      data-prop="subtext"
+    />
+    {showCta && (
+      <ButtonGroup
+        buttonSections={buttonSections}
+        direction="row"
+        alignmentHorizontal="center"
+        class="video-feature__cta"
+        data-children-prop="buttonSections"
+      />
+    )}
+  </div>
+  <div class="video-feature__media">
+    <Video
+      type="youtube"
+      videoId={videoId}
+      title={videoTitle}
+      class="video-feature__video"
+    />
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .video-feature .simple-text.video-feature__eyebrow,
+    .video-feature .simple-text.video-feature__subtext,
+    .video-feature .video-feature__header > .heading,
+    .video-feature .video-feature__media > .video {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .video-feature .simple-text.video-feature__eyebrow {
+      margin-top: 0;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .video-feature .simple-text.video-feature__eyebrow > .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+    }
+
+    .video-feature .video-feature__header > .heading {
+      margin-top: 0;
+    }
+
+    .video-feature .video-feature__header > .heading > .heading-inner.size-fluid-h2 {
+      line-height: var(--line-height-heading-fluid-h2);
+    }
+
+    .video-feature .simple-text.video-feature__subtext {
+      margin-bottom: 22.4px;
+    }
+
+    .video-feature .simple-text.video-feature__subtext > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      text-transform: none;
+    }
+
+    .video-feature .video-feature__cta .button-inner {
+      gap: normal;
+      justify-content: normal;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+    }
+
+    .video-feature .video-feature__media > .video {
+      aspect-ratio: 16 / 9;
+      display: block;
+      height: 100%;
+      inset: 0;
+      margin-top: 0;
+      position: absolute;
+      width: 100%;
+    }
+
+    @media (max-width: 390px) {
+      .video-feature .video-feature__header > .heading {
+        margin-bottom: 22.4px;
+      }
+    }
+
+    @media (width < 640px) {
+      .video-feature > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+  }
+
+  @layer page-sections {
+    .video-feature {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .video-feature__header {
+      display: block;
+      margin-inline: auto;
+      max-width: var(--content-width-896px);
+      text-align: center;
+    }
+
+    .video-feature__media {
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      background-color: rgba(0, 0, 0, 0);
+      background-position: 0% 0%;
+      background-repeat: repeat;
+      background-size: auto;
+      border-color: rgb(229, 231, 235);
+      border-radius: var(--radius-lg);
+      border-style: solid;
+      border-width: 0;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: block;
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-heading-xs);
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      margin: var(--spacing-3xl) 0 0;
+      opacity: 1;
+      outline: 3px none rgb(0, 0, 0);
+      overflow: hidden;
+      padding: 0 0 56.25%;
+      position: relative;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+      text-transform: none;
+      transition-property: all;
+      transition-timing-function: ease;
+      width: 100%;
+      word-spacing: 0px;
+    }
+  }
+</style>

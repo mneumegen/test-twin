@@ -1,0 +1,276 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Text from "@core-elements/text/Text.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Image from "@core-elements/image/Image.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  body = "",
+  buttonSections = [],
+  backdrop = null,
+  maxContentWidth = "576px",
+  backgroundColor = "none",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showEyebrow = Boolean(eyebrow);
+const showButtons = buttonSections?.length > 0;
+const backdropType = backdrop?.type ?? null;
+const showIllustration = backdropType === "illustration";
+const showCornerTextures = backdropType === "corner-textures";
+---
+
+<CustomSection
+  class:list={["illustrated-statement", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  backgroundColor={backgroundColor}
+  paddingVertical="6xl"
+  paddingHorizontal="lg"
+  colorScheme="inherit"
+  {...htmlAttributes}
+>
+  <div
+    class="illustrated-statement__backdrop"
+    aria-hidden="true"
+  >
+    {showIllustration && (
+      <>
+        <Image
+          source={backdrop.desktopImage}
+          alt=""
+          background={true}
+          priority={false}
+          class="illustrated-statement__illustration illustrated-statement__illustration--desktop"
+          sizes="100vw"
+          widths={[768, 1440, 1920, 2880]}
+          data-prop-src="backdrop.desktopImage"
+        />
+        <Image
+          source={backdrop.mobileImage}
+          alt=""
+          background={true}
+          priority={false}
+          class="illustrated-statement__illustration illustrated-statement__illustration--mobile"
+          sizes="100vw"
+          widths={[390, 768, 1170]}
+          data-prop-src="backdrop.mobileImage"
+        />
+      </>
+    )}
+    {showCornerTextures && (
+      <>
+        <Image
+          source={backdrop.topLeftImage}
+          alt=""
+          priority={false}
+          class="illustrated-statement__texture illustrated-statement__texture--top-left"
+          sizes="416px"
+          widths={[416, 832]}
+          data-prop-src="backdrop.topLeftImage"
+        />
+        <Image
+          source={backdrop.bottomRightImage}
+          alt=""
+          priority={false}
+          class="illustrated-statement__texture illustrated-statement__texture--bottom-right"
+          sizes="446px"
+          widths={[446, 892]}
+          data-prop-src="backdrop.bottomRightImage"
+        />
+      </>
+    )}
+  </div>
+  <div
+    class:list={[
+      "illustrated-statement__body",
+      showIllustration && "illustrated-statement__body--illustration",
+    ]}
+  >
+    {showEyebrow && (
+      <SimpleText
+        text={eyebrow}
+        variant="label"
+        size="body"
+        alignmentHorizontal="center"
+        data-prop="eyebrow"
+      />
+    )}
+    <Heading
+      text={heading}
+      level="h2"
+      size="fluid-h2"
+      alignmentHorizontal="center"
+      data-prop="heading"
+    />
+    <Text
+      text={body}
+      size="body"
+      alignmentHorizontal="center"
+      data-prop="body"
+    />
+    {showButtons && (
+      <ButtonGroup
+        direction="row"
+        alignmentHorizontal="center"
+        buttonSections={buttonSections}
+        data-children-prop="buttonSections"
+      />
+    )}
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .illustrated-statement {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .illustrated-statement__body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .illustrated-statement__body--illustration {
+      padding-bottom: 12rem;
+    }
+
+    .illustrated-statement__backdrop {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+  }
+
+  @layer overrides {
+    .illustrated-statement .outer-content > .content {
+      position: static;
+    }
+
+    .illustrated-statement .outer-content > .content.pad-y-6xl {
+      padding-block: var(--spacing-6xl);
+    }
+
+    .illustrated-statement .simple-text {
+      margin-top: 0;
+      margin-bottom: var(--spacing-md);
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .illustrated-statement .simple-text > .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .illustrated-statement .heading {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .illustrated-statement .text {
+      max-width: 36rem;
+      margin-top: 0;
+      margin-inline: auto;
+      margin-bottom: 22.4px;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .illustrated-statement .text > .text-inner {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      font-family: var(--font-family-body);
+      text-transform: none;
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .illustrated-statement .text > .text-inner > p {
+      color: var(--color-text-strong);
+    }
+
+    .illustrated-statement .illustrated-statement__illustration {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .illustrated-statement .illustrated-statement__illustration > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .illustrated-statement .illustrated-statement__illustration--desktop {
+      display: none;
+    }
+
+    .illustrated-statement .illustrated-statement__illustration--mobile {
+      display: block;
+    }
+
+    .illustrated-statement .illustrated-statement__texture {
+      position: absolute;
+      margin-top: 0;
+      overflow: visible;
+    }
+
+    .illustrated-statement .illustrated-statement__texture--top-left {
+      top: -200px;
+      left: -350px;
+      width: 416px;
+    }
+
+    .illustrated-statement .illustrated-statement__texture--bottom-right {
+      bottom: -250px;
+      right: -250px;
+      width: 446px;
+    }
+
+    @media (min-width: 768px) {
+      .illustrated-statement .illustrated-statement__illustration--desktop {
+        display: block;
+      }
+
+      .illustrated-statement .illustrated-statement__illustration--mobile {
+        display: none;
+      }
+
+      .illustrated-statement .illustrated-statement__texture--top-left {
+        left: -250px;
+      }
+
+      .illustrated-statement .illustrated-statement__texture--bottom-right {
+        right: -200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .illustrated-statement .heading > .heading-inner {
+        line-height: 38.0004px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .illustrated-statement .heading > .heading-inner {
+        line-height: 35px;
+      }
+    }
+  }
+</style>

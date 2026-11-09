@@ -1,0 +1,136 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label identifying the section in the editor; also derives the section id.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Short uppercase label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Section heading in the left column.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+intro:
+  type: markdown
+  label: Intro
+  comment: Introductory paragraph below the heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+items:
+  type: array
+  label: Options
+  comment: Checklist rows, each a check mark, a title and a paragraph.
+  options:
+    structures: _structures.packagingOptionItems
+maxContentWidth:
+  type: select
+  label: Max content width
+  comment: Maximum width of the section content.
+  options:
+    values:
+      - id: "none"
+        name: None
+      - id: "xs"
+        name: Extra Small
+      - id: "sm"
+        name: Small
+      - id: "md"
+        name: Medium
+      - id: "lg"
+        name: Large
+      - id: "xl"
+        name: Extra Large
+      - id: "2xl"
+        name: 2xl
+      - id: "3xl"
+        name: 3xl
+      - id: "512px"
+        name: 512px (source max-w-lg)
+      - id: "576px"
+        name: 576px (source max-w-xl)
+      - id: "672px"
+        name: 672px (source max-w-2xl)
+      - id: "896px"
+        name: 896px (source max-w-4xl)
+paddingHorizontal:
+  type: select
+  label: Horizontal padding
+  comment: Horizontal padding around the section content.
+  options:
+    values:
+      - id: "none"
+        name: None
+      - id: "xs"
+        name: Extra Small
+      - id: "sm"
+        name: Small
+      - id: "md"
+        name: Medium
+      - id: "lg"
+        name: Large
+      - id: "xl"
+        name: Extra Large
+      - id: "2xl"
+        name: 2xl
+      - id: "3xl"
+        name: 3xl
+paddingVertical:
+  type: select
+  label: Vertical padding
+  comment: Vertical padding around the section content.
+  options:
+    values:
+      - id: "none"
+        name: None
+      - id: "xs"
+        name: Extra Small
+      - id: "sm"
+        name: Small
+      - id: "md"
+        name: Medium
+      - id: "lg"
+        name: Large
+      - id: "xl"
+        name: Extra Large
+      - id: "2xl"
+        name: 2xl
+      - id: "3xl"
+        name: 3xl
+      - id: "6xl"
+        name: 6xl
+colorScheme:
+  type: select
+  label: Color scheme
+  comment: Color scheme theme for the section.
+  options:
+    values:
+      - id: "inherit"
+        name: Inherit
+      - id: "light"
+        name: Light
+      - id: "dark"
+        name: Dark
+background:
+  type: object
+  label: Background
+  comment: Background image painted behind the section, anchored to the bottom.
+  options:
+    preview:
+      subtext:
+        - key: imageSource

@@ -1,0 +1,68 @@
+---
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Image from "@core-elements/image/Image.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+
+const {
+  name = "",
+  position = "",
+  imageSource = "",
+  imageAlt = "",
+  linkedinUrl = "",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showLinkedin = Boolean(linkedinUrl);
+---
+
+<div
+  class:list={["team-grid__card", className]}
+  {...htmlAttributes}
+>
+  <Image
+    source={imageSource}
+    alt={imageAlt}
+    aspectRatio="square"
+    priority={false}
+    rounded={false}
+    class="team-grid__photo"
+    data-prop-src="imageSource"
+    data-prop-alt="imageAlt"
+    sizes="(max-width: 767px) calc((100vw - 56px) / 2), (max-width: 1279px) calc((100vw - 72px) / 4), 284px"
+    widths={[200, 284, 400, 568]}
+  />
+  <div class="team-grid__card-body">
+    <div class="team-grid__card-text">
+      <SimpleText
+        text={name}
+        alignmentHorizontal="start"
+        class="team-grid__name"
+        data-prop="name"
+      />
+      <SimpleText
+        text={position}
+        size="md"
+        alignmentHorizontal="start"
+        class="team-grid__position"
+        data-prop="position"
+      />
+    </div>
+    {showLinkedin && (
+      <a
+        class="team-grid__linkedin-link"
+        href={linkedinUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${name} on LinkedIn`}
+      >
+        <Icon
+          name="social/linkedin"
+          size="sm"
+          class="team-grid__linkedin-icon"
+        />
+      </a>
+    )}
+  </div>
+</div>

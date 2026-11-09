@@ -1,0 +1,32 @@
+---
+import CenteredTextHero from "@page-sections/heroes/centered-text-hero/CenteredTextHero.astro";
+import PostList from "@page-sections/collections/post-list/PostList.astro";
+import Page from "@layouts/Page.astro";
+import { allTags, getPosts, type Post } from "@component-utils/collections";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  return allTags.map((tag) => ({
+    params: { tag: tag.slug },
+    props: { tag, posts: posts.filter((p) => p.data.tags.includes(tag.slug)) },
+  }));
+}
+
+const { tag, posts } = Astro.props as { tag: { slug: string; label: string }; posts: Post[] };
+---
+
+<Page
+  title={`Learning Lab | ${tag.label}`}
+  description={`${tag.label} | Twincraft blog`}
+>
+  <CenteredTextHero
+    heading={`Posts about ${tag.label}`}
+    subtext={`${posts.length} article${posts.length === 1 ? "" : "s"} from the Learning Lab.`}
+    backgroundColor="sky"
+  />
+  <PostList
+    posts={posts}
+    paddingVertical="4xl"
+  />
+</Page>

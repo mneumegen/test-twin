@@ -1,0 +1,99 @@
+text:
+  comment: The text content of the heading.
+  type: textarea
+level:
+  comment: The heading level or type.
+  type: select
+  options:
+    values:
+      - h1
+      - h2
+      - h3
+      - h4
+      - h5
+      - h6
+size:
+  comment: The font size of the text.
+  type: select
+  options:
+    values:
+      - id: default
+        name: Default
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+      - id: 4xl
+        name: 4xl
+      - id: fluid-h1
+        name: Fluid H1
+      - id: fluid-h2
+        name: Fluid H2
+      - id: fluid-h3
+        name: Fluid H3
+      - id: fluid-h4
+        name: Fluid H4
+alignmentHorizontal:
+  comment: The horizontal alignment of the text.
+  type: select
+  options:
+    values:
+      - id: start
+        name: Start
+      - id: center
+        name: Center
+      - id: end
+        name: End
+iconName:
+  comment: The name of the icon to display. Sourced from [Heroicons](https://heroicons.com/).
+  type: select
+  options:
+    values: _select_data.icons
+    preview:
+      text:
+        - key: name
+      image:
+        - template: src/icons/{id}.svg
+iconColor:
+  type: select
+  comment: The color of the icon.
+  hidden: "!iconName"
+  options:
+    values:
+      - id: default
+        name: Default
+      - id: blue
+        name: Blue
+      - id: green
+        name: Green
+      - id: yellow
+        name: Yellow
+      - id: orange
+        name: Orange
+      - id: red
+        name: Red
+      - id: purple
+        name: Purple
+      - id: pink
+        name: Pink
+      - id: cyan
+        name: Cyan
+iconPosition:
+  comment: The position of the icon relative to the text.
+  type: select
+  options:
+    values:
+      - id: before
+        name: Before
+      - id: after
+        name: After

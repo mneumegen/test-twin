@@ -1,0 +1,104 @@
+label: Illustrated Statement
+icon: format_quote
+description: Centred eyebrow, heading and body over a full-width illustration or textured colour backdrop.
+value:
+  _component: page-sections/info-blocks/illustrated-statement
+  sectionLabel: ""
+  eyebrow: ""
+  heading: A head for business, and a heart for people
+  body: "From employees to customers to our greater Vermont Community, we strive to do right by everyone in our orbit. When it comes to treating people like people, there are a few things that are non-negotiable: honest and transparent communication, integrity, and compassion."
+  buttonSections: []
+  backdrop:
+    type: illustration
+    desktopImage: /src/assets/images/hubfs/2026/spot-illustrations/illustrative-bg-full.png
+    mobileImage: /src/assets/images/hubfs/2026/spot-illustrations/illustrative-bg-full.png
+  maxContentWidth: 576px
+  backgroundColor: none
+preview:
+  text:
+    - Illustrated Statement
+  subtext:
+    - key: heading
+  icon: format_quote
+picker_preview:
+  text: Illustrated Statement
+  subtext: Centred eyebrow, heading and body over a full-width illustration or textured colour backdrop.
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/illustrated-statement/illustrated-statement.cloudcannon.inputs.yml
+_structures:
+  illustratedStatementBackdrop:
+    id_key: type
+    style: select
+    values:
+      - label: Illustration
+        icon: landscape
+        value:
+          type: illustration
+          desktopImage: ""
+          mobileImage: ""
+        preview:
+          text:
+            - Illustration
+          icon:
+            - landscape
+        picker_preview:
+          text:
+            - Illustration
+          icon:
+            - landscape
+        _inputs:
+          type:
+            type: text
+            hidden: true
+          desktopImage:
+            label: Desktop illustration
+            comment: Full-width illustration shown from 768px up.
+            type: image
+            options:
+              paths:
+                uploads: src/assets/images
+                static: ""
+          mobileImage:
+            label: Mobile illustration
+            comment: Full-width illustration shown below 768px.
+            type: image
+            options:
+              paths:
+                uploads: src/assets/images
+                static: ""
+      - label: Corner textures
+        icon: texture
+        value:
+          type: corner-textures
+          topLeftImage: ""
+          bottomRightImage: ""
+        preview:
+          text:
+            - Corner textures
+          icon:
+            - texture
+        picker_preview:
+          text:
+            - Corner textures
+          icon:
+            - texture
+        _inputs:
+          type:
+            type: text
+            hidden: true
+          topLeftImage:
+            label: Top-left texture
+            comment: Texture image bleeding off the top-left corner.
+            type: image
+            options:
+              paths:
+                uploads: src/assets/images
+                static: ""
+          bottomRightImage:
+            label: Bottom-right texture
+            comment: Texture image bleeding off the bottom-right corner.
+            type: image
+            options:
+              paths:
+                uploads: src/assets/images
+                static: ""

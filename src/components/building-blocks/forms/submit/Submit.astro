@@ -1,0 +1,42 @@
+---
+import Button from "@core-elements/button/Button.astro";
+
+const {
+  text = "Submit",
+  variant = "primary",
+  size = "md",
+  iconName,
+  iconColor = "default",
+  iconPosition = "before",
+  hideText = false,
+  disabled = false,
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<Button
+  element="button"
+  type="submit"
+  text={text}
+  variant={variant}
+  size={size}
+  iconName={iconName}
+  iconColor={iconColor}
+  iconPosition={iconPosition}
+  hideText={hideText}
+  disabled={disabled}
+  data-prop="text"
+  class:list={["submit", className]}
+  {...htmlAttributes}
+/>
+
+<style is:global>
+  @layer components {
+    form .submit {
+      margin-top: var(--spacing-md);
+    }
+  }
+</style>

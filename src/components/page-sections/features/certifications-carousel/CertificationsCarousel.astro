@@ -1,0 +1,398 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import CertificationsCarouselItem from "@features/certifications-carousel/CertificationsCarouselItem.astro";
+
+type CertificationProps = Record<string, unknown>;
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  intro = "",
+  subheading = "",
+  subtext = "",
+  certifications = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["certifications-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="certifications-carousel__intro">
+    <div class="certifications-carousel__intro-lead">
+      <SimpleText
+        text={eyebrow}
+        variant="label"
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="eyebrow"
+      />
+      <Heading
+        text={heading}
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+    </div>
+    <div class="certifications-carousel__intro-body">
+      <SimpleText
+        text={intro}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="intro"
+      />
+    </div>
+  </div>
+  <div class="certifications-carousel__showcase">
+    <div class="certifications-carousel__showcase-content">
+      <Heading
+        text={subheading}
+        level="h3"
+        size="fluid-h3"
+        alignmentHorizontal="start"
+        data-prop="subheading"
+      />
+      <SimpleText
+        text={subtext}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="subtext"
+      />
+    </div>
+    <div class="certifications-carousel__showcase-carousel">
+      <Carousel
+        label="Certifications"
+        autoPlay={false}
+        autoScroll={false}
+        loop={false}
+        showIndicators={false}
+        showArrows={true}
+        alignmentHorizontal="start"
+        slidesToScroll={1}
+        slideWidthPercent={43.478}
+        minSlideWidth={0}
+        gap="lg"
+        prevIconName="carousel-chevron"
+        nextIconName="carousel-chevron"
+        data-children-prop="certifications"
+      >
+        {certifications.map((certification: CertificationProps) => (
+          <CertificationsCarouselItem
+            aria-roledescription="slide"
+            data-editable="array-item"
+            data-id="page-sections/features/certifications-carousel/certifications-carousel-item"
+            {...certification}
+          />
+        ))}
+      </Carousel>
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .certifications-carousel {
+      border: 0 solid rgb(229, 231, 235);
+      overflow: hidden;
+    }
+
+    .certifications-carousel__intro {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .certifications-carousel__intro-lead {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .certifications-carousel__intro-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .certifications-carousel__showcase {
+      display: block;
+      margin-top: 64px;
+    }
+
+    .certifications-carousel__showcase-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 16px;
+    }
+
+    .certifications-carousel__showcase-carousel {
+      margin-top: 80px;
+      position: relative;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .certifications-carousel__intro {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+
+      .certifications-carousel__intro-lead {
+        grid-column: span 5 / span 5;
+      }
+
+      .certifications-carousel__intro-body {
+        grid-column: span 7 / span 7;
+      }
+
+      .certifications-carousel__showcase {
+        align-items: flex-start;
+        display: flex;
+      }
+
+      .certifications-carousel__showcase-content {
+        flex-shrink: 0;
+        width: 33.333333%;
+      }
+
+      .certifications-carousel__showcase-carousel {
+        margin-top: 0;
+        transform: translateX(calc(50vw - 75%));
+        width: 66.666667%;
+      }
+    }
+  }
+
+  @layer overrides {
+    .certifications-carousel > .outer-content > .content {
+      padding-bottom: 40px;
+      padding-top: var(--spacing-6xl);
+    }
+    .certifications-carousel .simple-text,
+    .certifications-carousel .heading,
+    .certifications-carousel .carousel,
+    .certifications-carousel__card .image {
+      margin-top: 0;
+    }
+
+    .certifications-carousel .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+    }
+
+    .certifications-carousel__intro-body > .simple-text {
+      margin-bottom: 22.4px;
+    }
+
+    .certifications-carousel .simple-text > .simple-text-content {
+      border: 0 solid rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .certifications-carousel .simple-text > .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+    }
+
+    .certifications-carousel .simple-text > .simple-text-content:not(.variant-label) {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      text-transform: none;
+    }
+
+    .certifications-carousel__card .heading > .heading-inner {
+      font-weight: var(--font-weight-normal);
+      line-height: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .certifications-carousel__intro-lead > .heading > .heading-inner {
+        font-size: 32.5651px;
+        line-height: 38.0004px;
+      }
+
+      .certifications-carousel__showcase-content > .heading > .heading-inner {
+        font-size: 24.8576px;
+        line-height: 29.0004px;
+      }
+
+      .certifications-carousel__card .heading > .heading-inner {
+        font-size: 17.0752px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .certifications-carousel__intro-lead > .heading > .heading-inner {
+        font-size: 30px;
+        line-height: 35px;
+      }
+
+      .certifications-carousel__showcase-content > .heading > .heading-inner {
+        font-size: 24px;
+        line-height: 28px;
+      }
+
+      .certifications-carousel__card .heading > .heading-inner {
+        font-size: 16px;
+      }
+    }
+    .certifications-carousel .carousel > .carousel-inner > .viewport {
+      padding-inline-end: 32px;
+    }
+
+    .certifications-carousel .carousel > .carousel-inner > .viewport > .track {
+      margin-inline-start: 0;
+    }
+
+    .certifications-carousel .carousel .track > .slide {
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 16px;
+      flex-basis: calc((100% - 1.3 * 24px) / 2.3);
+      margin-right: 24px;
+      overflow: hidden;
+      padding-inline-start: 0;
+      transform: translate(0, 0);
+      transition-property: transform;
+    }
+
+    @media (max-width: 1023.98px) {
+      .certifications-carousel .carousel > .carousel-inner > .viewport {
+        height: 318px;
+      }
+
+      .certifications-carousel .carousel > .carousel-inner > .viewport > .track {
+        height: 100%;
+      }
+
+      .certifications-carousel .carousel .track > .slide {
+        flex-basis: calc((100% - 0.8 * 24px) / 1.8);
+      }
+    }
+
+    @media (max-width: 599.98px) {
+      .certifications-carousel .carousel .track > .slide {
+        flex-basis: calc((100% - 0.3 * 20px) / 1.3);
+        margin-right: 20px;
+      }
+    }
+
+    .certifications-carousel .carousel .controls-wrapper {
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-bottom: 0;
+      margin-top: 64px;
+    }
+
+    .certifications-carousel .carousel .controls-wrapper > .button > .button-inner {
+      border-color: rgb(24, 62, 102);
+      border-radius: 9999px;
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      height: 40px;
+      margin-top: -50px;
+      padding: 0;
+      text-transform: none;
+      transition: all 0.15s linear;
+      width: 40px;
+    }
+
+    .certifications-carousel .carousel .controls-wrapper > .button > .button-inner:disabled {
+      opacity: 0.5;
+    }
+
+    .certifications-carousel .carousel .controls-wrapper > .prev > .button-inner {
+      box-shadow:
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+      transform: rotate(180deg);
+    }
+
+    .certifications-carousel .carousel .controls-wrapper > .next > .button-inner {
+      box-shadow:
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    }
+
+    .certifications-carousel .carousel .controls-wrapper svg {
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      display: block;
+      font-weight: var(--font-weight-normal);
+      height: 24px;
+      line-height: 22.4px;
+      text-transform: none;
+      width: 24px;
+    }
+    .certifications-carousel
+      .carousel
+      .track
+      > .slide
+      > .slide__content
+      > .certifications-carousel__card {
+      height: 100%;
+    }
+
+    .certifications-carousel__card > .card-inner {
+      border-radius: 16px;
+      height: 100%;
+    }
+
+    .certifications-carousel__card .card-content {
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .certifications-carousel__card .image,
+    .certifications-carousel__card .heading,
+    .certifications-carousel__card .simple-text {
+      flex-shrink: 0;
+    }
+
+    .certifications-carousel__card .image {
+      width: 64px;
+    }
+
+    .certifications-carousel__card .image > .image-inner img {
+      background-color: var(--color-bg);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 9999px;
+      font-size: 9.328px;
+      height: 64px;
+      line-height: 13.0592px;
+      margin-bottom: var(--spacing-md);
+      object-fit: contain;
+      padding: 8px;
+      text-align: center;
+      width: 64px;
+    }
+  }
+</style>

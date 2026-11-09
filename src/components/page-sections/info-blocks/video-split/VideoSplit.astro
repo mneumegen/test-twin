@@ -1,0 +1,196 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Embed from "@core-elements/embed/Embed.astro";
+import Split from "@wrappers/split/Split.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  body = "",
+  videoUrl = "",
+  videoTitle = "",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "base",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showEyebrow = Boolean(eyebrow);
+const showBody = Boolean(body);
+const showVideo = Boolean(videoUrl);
+---
+
+<CustomSection
+  class:list={["video-split", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  {...htmlAttributes}
+>
+  <Split
+    distributionMode="half"
+    alignmentVertical="center"
+    gap="3xl"
+    reverse={false}
+    minSplitWidth={719}
+    class="video-split__split"
+  >
+    <Fragment slot="first">
+      {showEyebrow && (
+        <SimpleText
+          text={eyebrow}
+          size="body"
+          variant="label"
+          alignmentHorizontal="start"
+          class="video-split__eyebrow"
+          data-prop="eyebrow"
+        />
+      )}
+      <Heading
+        text={heading}
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+      {showBody && (
+        <SimpleText
+          text={body}
+          size="body"
+          alignmentHorizontal="start"
+          class="video-split__body"
+          data-prop="body"
+        />
+      )}
+    </Fragment>
+    <Fragment slot="second">
+      {showVideo && (
+        <div class="video-split__media">
+          <Embed
+            aspectRatio="widescreen"
+            class="video-split__embed"
+          >
+            <iframe
+              title={videoTitle}
+              src={videoUrl}
+              width="640"
+              height="360"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              allowfullscreen
+            />
+          </Embed>
+        </div>
+      )}
+    </Fragment>
+  </Split>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .video-split .video-split__split > .split-inner {
+      gap: var(--spacing-3xl) 9rem;
+    }
+
+    .video-split .video-split__split > .split-inner > .pane.first {
+      padding-bottom: var(--spacing-lg);
+    }
+
+    .video-split .video-split__split > .split-inner > .pane.second {
+      align-self: start;
+    }
+
+    .video-split .simple-text,
+    .video-split .heading,
+    .video-split__media .embed-wrapper {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .video-split .video-split__eyebrow {
+      margin-bottom: var(--spacing-md);
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .video-split .video-split__eyebrow > .simple-text-content {
+      color: var(--color-text-strong);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .video-split .heading {
+      margin-top: 0;
+    }
+
+    .video-split .video-split__body {
+      outline-color: rgb(0, 0, 0);
+    }
+
+    .video-split .video-split__body > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.4;
+      text-transform: none;
+      text-decoration-color: rgb(0, 0, 0);
+    }
+
+    .video-split__media .embed-wrapper {
+      position: absolute;
+      inset: 0;
+      margin-top: 0;
+    }
+
+    .video-split__media .embed-wrapper > .embed-content {
+      height: 100%;
+    }
+
+    .video-split__media .embed-content > iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 390px) {
+      .video-split .heading {
+        margin-bottom: 22.4px;
+      }
+    }
+
+    @media (width < 640px) {
+      .video-split > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+  }
+
+  @layer page-sections {
+    .video-split {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .video-split__media {
+      position: relative;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 56.25%;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      border-radius: var(--radius-lg);
+    }
+  }
+</style>

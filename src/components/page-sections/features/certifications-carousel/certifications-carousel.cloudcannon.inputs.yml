@@ -1,0 +1,144 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Main section heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+intro:
+  type: markdown
+  label: Intro
+  comment: Intro copy shown beside the heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+subheading:
+  type: markdown
+  label: Sub-heading
+  comment: Heading beside the certifications carousel.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+subtext:
+  type: markdown
+  label: Supporting copy
+  comment: Copy beneath the sub-heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+certifications:
+  type: array
+  label: Certifications
+  comment: Certification cards shown in the carousel.
+  options:
+    structures: _structures.certification
+maxContentWidth:
+  type: select
+  comment: Maximum width constraint for the content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "512px"
+        name: "512px (source max-w-lg)"
+      - id: "576px"
+        name: "576px (source max-w-xl)"
+      - id: "672px"
+        name: "672px (source max-w-2xl)"
+      - id: "896px"
+        name: "896px (source max-w-4xl)"
+paddingHorizontal:
+  type: select
+  comment: Horizontal padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+paddingVertical:
+  type: select
+  comment: Vertical padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "6xl"
+        name: "6xl"
+colorScheme:
+  type: select
+  comment: Color scheme theme for the section wrapper.
+  options:
+    values:
+      - id: "inherit"
+        name: "Inherit"
+      - id: "light"
+        name: "Light"
+      - id: "dark"
+        name: "Dark"

@@ -1,0 +1,25 @@
+label: Product Library
+icon: inventory_2
+description: Grid of products from the Products collection, with optional search and filters.
+value:
+  _component: page-sections/collections/product-library
+  sectionLabel: ""
+  heading: Products that Inspire
+  mode: all
+  showFilters: true
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: sky
+preview:
+  text:
+    - Product Library
+  subtext:
+    - key: heading
+  icon: inventory_2
+picker_preview:
+  text: Product Library
+  subtext: Grid of products from the Products collection, with optional search and filters.
+_inputs_from_glob:
+  - /src/components/page-sections/collections/product-library/product-library.cloudcannon.inputs.yml

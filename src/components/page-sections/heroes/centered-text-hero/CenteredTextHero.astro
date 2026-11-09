@@ -1,0 +1,175 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Image from "@core-elements/image/Image.astro";
+
+const {
+  sectionLabel,
+  heading = "",
+  subtext = "",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "sky",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["centered-text-hero", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="centered-text-hero__copy">
+    <Heading
+      text={heading}
+      level="h1"
+      size="fluid-h1"
+      alignmentHorizontal="center"
+      data-prop="heading"
+    />
+    <SimpleText
+      text={subtext}
+      size="body"
+      alignmentHorizontal="center"
+      class="centered-text-hero__subtitle"
+      data-prop="subtext"
+    />
+  </div>
+  <Image
+    source="/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-a.png"
+    alt=""
+    class="centered-text-hero__artwork centered-text-hero__artwork--top"
+    priority={false}
+    sizes="(max-width: 1186px) 100vw, 1186px"
+    widths={[390, 768, 1186]}
+    aria-hidden="true"
+    imageElementAttributes={{ role: "presentation" }}
+  />
+  <Image
+    source="/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-4.png"
+    alt=""
+    class="centered-text-hero__artwork centered-text-hero__artwork--bottom"
+    priority={false}
+    sizes="(max-width: 420px) 100vw, 420px"
+    widths={[390, 420]}
+    aria-hidden="true"
+    imageElementAttributes={{ role: "presentation" }}
+  />
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .centered-text-hero > .outer-content {
+      overflow: hidden;
+    }
+
+    .centered-text-hero > .outer-content > .content {
+      position: static;
+      container-type: normal;
+    }
+
+    .centered-text-hero .centered-text-hero__copy > .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-top: 0;
+      margin-bottom: 22.4px;
+    }
+
+    .centered-text-hero .simple-text.centered-text-hero__subtitle {
+      border: 0 solid rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+      margin-top: 0;
+      margin-bottom: 22.4px;
+    }
+
+    .centered-text-hero .centered-text-hero__subtitle > .simple-text-content {
+      color: var(--color-text-strong);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork {
+      position: absolute;
+      margin-top: 0;
+      pointer-events: none;
+      overflow: visible;
+      max-width: 100%;
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork > .image-inner {
+      overflow: visible;
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork > .image-inner img {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork--top {
+      width: 1186px;
+      top: -100px;
+      right: -400px;
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork--top > .image-inner img {
+      transform: rotate(-90deg);
+    }
+
+    .centered-text-hero .image.centered-text-hero__artwork--bottom {
+      width: 420px;
+      bottom: -275px;
+      left: -200px;
+    }
+
+    @media (min-width: 768px) {
+      .centered-text-hero .image.centered-text-hero__artwork--top {
+        top: -300px;
+      }
+
+      .centered-text-hero .image.centered-text-hero__artwork--bottom {
+        bottom: -300px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .centered-text-hero .image.centered-text-hero__artwork--top {
+        top: -400px;
+        right: -600px;
+      }
+    }
+
+    @media (width < 640px) {
+      .centered-text-hero > .outer-content > .content {
+        padding-block: 112px;
+      }
+    }
+  }
+
+  @layer page-sections {
+    .centered-text-hero {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .centered-text-hero__copy {
+      position: relative;
+      z-index: 10;
+      padding-top: 16px;
+    }
+
+    .centered-text-hero__subtitle {
+      max-width: 896px;
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,156 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Main heading in the text column.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+body:
+  type: markdown
+  label: Body
+  comment: Paragraph below the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+videoUrl:
+  type: text
+  label: Video URL
+  comment: Full Vimeo player URL, including the ?h= hash for unlisted videos. Leave empty to omit the video.
+videoTitle:
+  type: text
+  label: Video title
+  comment: Accessible title for the video player iframe.
+maxContentWidth:
+  type: select
+  label: Max content width
+  comment: Maximum width of the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "512px"
+        name: "512px (source max-w-lg)"
+      - id: "576px"
+        name: "576px (source max-w-xl)"
+      - id: "672px"
+        name: "672px (source max-w-2xl)"
+      - id: "896px"
+        name: "896px (source max-w-4xl)"
+paddingHorizontal:
+  type: select
+  label: Horizontal padding
+  comment: Space on the left and right of the content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+paddingVertical:
+  type: select
+  label: Vertical padding
+  comment: Space above and below the content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "6xl"
+        name: "6xl"
+colorScheme:
+  type: select
+  label: Color scheme
+  comment: Light or dark text treatment for the section.
+  options:
+    values:
+      - id: "inherit"
+        name: "Inherit"
+      - id: "light"
+        name: "Light"
+      - id: "dark"
+        name: "Dark"
+backgroundColor:
+  type: select
+  label: Background color
+  comment: Solid background color behind the section.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "base"
+        name: "Base"
+      - id: "surface"
+        name: "Surface"
+      - id: "accent"
+        name: "Accent"
+      - id: "highlight"
+        name: "Highlight"
+      - id: "sky"
+        name: "Sky"
+      - id: "mint"
+        name: "Mint"
+      - id: "mint-strong"
+        name: "Mint Strong"
+      - id: "mint-grid"
+        name: "Mint Grid"
+      - id: "peach"
+        name: "Peach"

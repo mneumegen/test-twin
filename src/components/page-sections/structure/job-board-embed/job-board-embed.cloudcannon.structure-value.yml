@@ -1,0 +1,21 @@
+label: Job Board Embed
+icon: work
+description: Centred heading above an embedded third-party job board (careers search iframe).
+value:
+  _component: page-sections/structure/job-board-embed
+  heading: Open Positions
+  embedUrl: https://www2.appone.com/Search/Search.aspx?ServerVar=TwincraftInc.appone.com&results=yes
+  maxContentWidth: 896px
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+preview:
+  text:
+    - Job Board Embed
+  subtext:
+    - key: heading
+  icon: work
+picker_preview:
+  text: Job Board Embed
+  subtext: Centred heading above an embedded third-party job board (careers search iframe).
+_inputs_from_glob:
+  - /src/components/page-sections/structure/job-board-embed/job-board-embed.cloudcannon.inputs.yml

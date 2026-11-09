@@ -1,0 +1,120 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Embed from "@core-elements/embed/Embed.astro";
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+
+const {
+  heading,
+  embedUrl,
+  maxContentWidth = "896px",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showHeading = Boolean(heading);
+const showBoard = Boolean(embedUrl);
+---
+
+<CustomSection
+  class:list={["job-board-embed", className]}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  {...htmlAttributes}
+>
+  {showHeading && (
+    <Heading
+      text={heading}
+      level="h2"
+      size="fluid-h2"
+      alignmentHorizontal="center"
+      data-prop="heading"
+    />
+  )}
+  {showBoard && (
+    <Embed class="job-board-embed__board">
+      <iframe
+        src={embedUrl}
+        name="jobsearch"
+        width="800"
+        height="900"
+        frameborder="0"
+        title="Job search"
+      />
+    </Embed>
+  )}
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .job-board-embed .heading {
+      border-style: solid;
+      border-width: 0;
+      border-color: rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+    }
+
+    .job-board-embed .job-board-embed__board {
+      margin-top: 0;
+    }
+
+    .job-board-embed .job-board-embed__board > .embed-content {
+      aspect-ratio: auto;
+      height: 900px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .job-board-embed .job-board-embed__board > .embed-content > iframe {
+      display: block;
+      height: 900px;
+      transform-origin: top left;
+      width: 800px;
+    }
+
+    @media (width < 640px) {
+      .job-board-embed .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+  }
+
+  @layer page-sections {
+    .job-board-embed {
+      border-style: solid;
+      border-width: 0;
+      border-color: rgb(229, 231, 235);
+    }
+  }
+</style>
+
+<script>
+  const BOARD_WIDTH = 800;
+  const BOARD_HEIGHT = 900;
+
+  function fitJobBoards() {
+    document
+      .querySelectorAll<HTMLElement>(".job-board-embed .job-board-embed__board > .embed-content")
+      .forEach((frame) => {
+        const iframe = frame.querySelector<HTMLIFrameElement>(":scope > iframe");
+        if (!iframe) return;
+        const width = frame.offsetWidth;
+        if (width > 0 && width < BOARD_WIDTH) {
+          const scale = width / BOARD_WIDTH;
+          iframe.style.transform = `scale(${scale})`;
+          frame.style.height = `${Math.ceil(BOARD_HEIGHT * scale)}px`;
+        } else {
+          iframe.style.transform = "";
+          frame.style.height = `${BOARD_HEIGHT}px`;
+        }
+      });
+  }
+
+  fitJobBoards();
+  window.addEventListener("resize", fitJobBoards);
+  document.addEventListener("astro:page-load", fitJobBoards);
+</script>

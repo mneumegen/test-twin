@@ -1,0 +1,443 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Image from "@core-elements/image/Image.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import ProcessStepsCarouselSlide from "@features/process-steps-carousel/ProcessStepsCarouselSlide.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  subtext = "",
+  buttonSections = [],
+  slides = [],
+  textureImageSource = "",
+  textureImageAlt = "",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "sky",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["process-steps-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <SimpleText
+    class="process-steps-carousel__eyebrow"
+    text={eyebrow}
+    variant="label"
+    size="body"
+    alignmentHorizontal="center"
+    data-prop="eyebrow"
+  />
+  <Heading
+    text={heading}
+    level="h2"
+    size="fluid-h2"
+    alignmentHorizontal="center"
+    data-prop="heading"
+  />
+  <SimpleText
+    class="process-steps-carousel__subtext"
+    text={subtext}
+    size="body"
+    alignmentHorizontal="center"
+    data-prop="subtext"
+  />
+  <ButtonGroup
+    class="process-steps-carousel__ctas"
+    direction="row"
+    alignmentHorizontal="center"
+    buttonSections={buttonSections}
+    data-children-prop="buttonSections"
+  />
+  <Carousel
+    class="process-steps-carousel__carousel"
+    label="Process steps"
+    slideWidthPercent={100}
+    minSlideWidth={0}
+    alignmentHorizontal="start"
+    slidesToScroll={1}
+    loop={false}
+    autoPlay={false}
+    autoScroll={false}
+    showIndicators={true}
+    indicatorStyle="dots"
+    showArrows={true}
+    prevIconName="chevron-left"
+    nextIconName="chevron-right"
+    data-children-prop="slides"
+  >
+    {slides.map((slide) => (
+      <ProcessStepsCarouselSlide
+        aria-roledescription="slide"
+        data-editable="array-item"
+        data-id="page-sections/features/process-steps-carousel/process-steps-carousel-slide"
+        {...slide}
+      />
+    ))}
+  </Carousel>
+  <Image
+    class="process-steps-carousel__texture"
+    source={textureImageSource}
+    alt={textureImageAlt}
+    priority={false}
+    sizes="906px"
+    widths={[906, 1812]}
+    data-prop-src="textureImageSource"
+    data-prop-alt="textureImageAlt"
+  />
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .process-steps-carousel,
+    .process-steps-carousel * {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .process-steps-carousel {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .process-steps-carousel .process-steps-carousel__texture {
+      left: calc(50% - 50vw - 400px);
+      margin-top: 0;
+      max-width: 100%;
+      pointer-events: none;
+      position: absolute;
+      top: -100px;
+      width: 906px;
+      z-index: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__eyebrow {
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__subtext {
+      margin-inline: auto;
+      margin-top: 0;
+      max-width: 768px;
+    }
+
+    .process-steps-carousel .process-steps-carousel__ctas {
+      margin-top: 72.8px;
+    }
+
+    .process-steps-carousel .process-steps-carousel__carousel {
+      margin-top: var(--spacing-xl);
+    }
+
+    .process-steps-carousel__panel {
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      background-color: var(--color-bg);
+      background-position: 0% 0%;
+      background-repeat: repeat;
+      background-size: auto;
+      border-radius: 16px;
+      border-width: 0;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: grid;
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      grid-template-columns: 1fr;
+      height: 100%;
+      line-height: 22.4px;
+      margin: 0;
+      opacity: 1;
+      outline: 3px none rgb(0, 0, 0);
+      overflow: hidden;
+      padding: 0;
+      text-align: center;
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+      text-transform: none;
+      transition-property: all;
+      transition-timing-function: ease;
+      word-spacing: 0px;
+    }
+
+    .process-steps-carousel__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 24px;
+      text-align: left;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-label {
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-description {
+      margin-top: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-image {
+      margin-top: 0;
+    }
+
+    @media (min-width: 768px) {
+      .process-steps-carousel__panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .process-steps-carousel__copy {
+        padding-inline: 32px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .process-steps-carousel .content > .heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__copy > .heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .process-steps-carousel .process-steps-carousel__eyebrow > .simple-text-content.variant-label,
+    .process-steps-carousel
+      .process-steps-carousel__step-label
+      > .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+    }
+
+    .process-steps-carousel .process-steps-carousel__subtext > .simple-text-content,
+    .process-steps-carousel .process-steps-carousel__step-description > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      margin-bottom: 22.4px;
+      text-transform: none;
+    }
+
+    .process-steps-carousel .process-steps-carousel__ctas .button > .button-inner {
+      border-bottom-color: rgb(24, 62, 102);
+      border-bottom-width: 2px;
+      border-left-color: rgb(24, 62, 102);
+      border-left-width: 2px;
+      border-right-color: rgb(24, 62, 102);
+      border-right-width: 2px;
+      border-top-color: rgb(24, 62, 102);
+      border-top-width: 2px;
+      gap: normal;
+      justify-content: normal;
+      padding-bottom: 12px;
+      padding-left: 32px;
+      padding-right: 32px;
+      padding-top: 12px;
+      transition-duration: 0.5s;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .process-steps-carousel > .outer-content > .content.pad-y-6xl {
+      padding-block: var(--spacing-6xl);
+    }
+
+    .process-steps-carousel .carousel-inner > .viewport {
+      overflow: visible;
+    }
+
+    .process-steps-carousel .carousel-inner > .viewport > .track {
+      --slide-gap: 40px;
+    }
+
+    .process-steps-carousel .carousel-inner > .controls-wrapper {
+      inset: 0;
+      margin-block: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .process-steps-carousel .controls-wrapper > .prev,
+    .process-steps-carousel .controls-wrapper > .next {
+      pointer-events: auto;
+      position: absolute;
+      top: 50%;
+    }
+
+    .process-steps-carousel .controls-wrapper > .prev {
+      left: -20px;
+    }
+
+    .process-steps-carousel .controls-wrapper > .next {
+      right: -20px;
+    }
+
+    .process-steps-carousel .carousel-inner > .controls-wrapper > .prev > .button-inner,
+    .process-steps-carousel .carousel-inner > .controls-wrapper > .next > .button-inner {
+      align-items: center;
+      background-color: var(--color-bg);
+      border-color: rgb(229, 231, 235);
+      border-radius: 50% !important;
+      border-style: solid;
+      border-width: 2px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;
+      color: var(--color-text);
+      display: flex;
+      font-weight: var(--font-weight-normal);
+      height: 40px;
+      justify-content: center;
+      padding: 0;
+      text-transform: none;
+      transform: translateY(-50%);
+      transition: all 0.3s ease;
+      width: 40px;
+    }
+
+    .process-steps-carousel .carousel-inner > .controls-wrapper > .prev > .button-inner:hover,
+    .process-steps-carousel .carousel-inner > .controls-wrapper > .next > .button-inner:hover {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px;
+    }
+
+    .process-steps-carousel .controls-wrapper > .prev > .button-inner svg,
+    .process-steps-carousel .controls-wrapper > .next > .button-inner svg {
+      border-radius: 0;
+      color: rgb(55, 65, 81);
+      display: block;
+      height: 24px;
+      line-height: 22.4px;
+      transition: color 0.3s;
+      width: 24px;
+    }
+
+    .process-steps-carousel .controls-wrapper > .prev > .button-inner:hover svg,
+    .process-steps-carousel .controls-wrapper > .next > .button-inner:hover svg {
+      color: #111827;
+    }
+
+    .process-steps-carousel .carousel-inner > .controls-wrapper > .indicators {
+      gap: 8px;
+      left: 32px;
+      pointer-events: auto;
+      position: absolute;
+      top: 15px;
+      z-index: 10;
+    }
+
+    .process-steps-carousel .controls-wrapper > .indicators > .indicator {
+      background-color: #d1d5db;
+      height: 12px;
+      transition: all 0.3s ease;
+      width: 12px;
+    }
+
+    .process-steps-carousel .controls-wrapper > .indicators > .indicator:hover {
+      background-color: #9ca3af;
+    }
+
+    .process-steps-carousel .controls-wrapper > .indicators > .indicator[data-selected="true"] {
+      background-color: #f99454;
+      transform: none;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-image .image-inner {
+      font-size: 9.328px;
+      height: 100%;
+      line-height: 13.0592px;
+      text-align: center;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-image .image-inner picture,
+    .process-steps-carousel .process-steps-carousel__step-image .image-inner img {
+      height: 100%;
+    }
+
+    .process-steps-carousel .process-steps-carousel__step-image .image-inner img {
+      object-fit: cover;
+    }
+
+    .process-steps-carousel .process-steps-carousel__texture .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .process-steps-carousel .process-steps-carousel__texture .image-inner img {
+      transform: rotate(90deg) scale(0.5);
+    }
+
+    @media (max-width: 768px) {
+      .process-steps-carousel .content > .heading > .heading-inner {
+        font-size: 32.5651px;
+        line-height: 38.0004px;
+      }
+
+      .process-steps-carousel .process-steps-carousel__copy > .heading > .heading-inner {
+        font-size: 24.8576px;
+        line-height: 29.0004px;
+      }
+
+      .process-steps-carousel .carousel-inner > .viewport > .track {
+        --slide-gap: 30px;
+      }
+
+      .process-steps-carousel .controls-wrapper > .prev > .button-inner svg,
+      .process-steps-carousel .controls-wrapper > .next > .button-inner svg {
+        height: 20px;
+        width: 20px;
+      }
+
+      .process-steps-carousel .controls-wrapper > .indicators > .indicator {
+        height: 10px;
+        width: 10px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .process-steps-carousel .content > .heading > .heading-inner {
+        font-size: 30px;
+        line-height: 35px;
+      }
+
+      .process-steps-carousel .process-steps-carousel__copy > .heading > .heading-inner {
+        font-size: 24px;
+        line-height: 28px;
+      }
+    }
+  }
+</style>

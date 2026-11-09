@@ -1,0 +1,287 @@
+---
+import CollectionBreadcrumb from "@page-sections/collections/breadcrumb/CollectionBreadcrumb.astro";
+import CtaBannerImage from "@page-sections/ctas/cta-banner-image/CtaBannerImage.astro";
+import ProductCard from "@page-sections/collections/cards/ProductCard.astro";
+import Image from "@core-elements/image/Image.astro";
+import Page from "@layouts/Page.astro";
+import templates from "@data/collectionTemplates.json";
+import { formatLabel, getProducts, useCaseLabel, type Product } from "@component-utils/collections";
+import markdownit from "markdown-it";
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+
+  return products.map((product) => ({
+    params: { slug: product.id },
+    props: { product, products },
+  }));
+}
+
+const { product, products } = Astro.props as { product: Product; products: Product[] };
+const p = product.data;
+const md = markdownit({ html: true });
+const description =
+  p.description ||
+  p.summary ||
+  "Check out product concepts for skincare, hair care, body care, personal care, deodorant and bar soap.";
+
+// "You might also like": most shared formats + use cases, then alphabetical.
+const score = (o: Product) =>
+  o.data.formats.filter((f) => p.formats.includes(f)).length * 3 +
+  o.data.useCases.filter((u) => p.useCases.includes(u)).length;
+const related = products
+  .filter((o) => o.id !== product.id)
+  .map((o) => ({ o, s: score(o) }))
+  .sort((a, b) => b.s - a.s)
+  .slice(0, 3)
+  .map(({ o }) => o);
+const { cta, relatedHeading } = templates.product;
+const check = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><polyline points="3.5,7.5 6,10 10.5,4.5" fill="none" stroke="#3C5896" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="#183E66" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+---
+
+<Page
+  title={p.title}
+  description={description}
+  image={p.image}
+>
+  <CollectionBreadcrumb
+    items={[
+      { label: "Home", href: "/" },
+      { label: "Products", href: "/products" },
+      { label: p.title },
+    ]}
+  />
+  <article
+    class="product-detail"
+    data-pagefind-filter="Type:Product"
+  >
+    <div class="product-detail__media">
+      <Image
+        source={p.image}
+        alt={p.imageAlt || p.title}
+        aspectRatio="square"
+        priority={true}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        widths={[640, 960, 1280]}
+      />
+    </div>
+    <div class="product-detail__info">
+      <h1>{p.title}</h1>
+      {p.featuredIngredients.length > 0 && (
+        <section>
+          <h2 class="product-detail__label">Featured Ingredients</h2>
+          <ul class="product-detail__list product-detail__list--ingredients">
+            {p.featuredIngredients.map((i) => (
+              <li>
+                <span
+                  class="product-detail__icon"
+                  set:html={check}
+                />
+                <span set:html={md.renderInline(i)} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {p.libraryBase && (
+        <section>
+          <h2 class="product-detail__label">Library Base</h2>
+          <p class="product-detail__value">{p.libraryBase}</p>
+        </section>
+      )}
+      {p.naturallyDerived && (
+        <section>
+          <h2 class="product-detail__label">Naturally Derived</h2>
+          <p class="product-detail__value">{p.naturallyDerived}</p>
+        </section>
+      )}
+      {p.freeFrom.length > 0 && (
+        <section>
+          <h2 class="product-detail__label">Product Claims &amp; Certifications</h2>
+          <h3 class="product-detail__value">Free from</h3>
+          <ul class="product-detail__list product-detail__list--claims">
+            {p.freeFrom.map((c) => (
+              <li>
+                <span
+                  class="product-detail__icon"
+                  set:html={cross}
+                />
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {(p.formats.length > 0 || p.useCases.length > 0) && (
+        <p class="visually-hidden">
+          {[...p.formats.map(formatLabel), ...p.useCases.map(useCaseLabel)].join(", ")}
+        </p>
+      )}
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section
+      class="product-related"
+      aria-labelledby="product-related-heading"
+    >
+      <h2 id="product-related-heading">{relatedHeading}</h2>
+      <ul role="list">
+        {related.map((o) => (
+          <li>
+            <ProductCard product={o} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <CtaBannerImage
+    imageSource={cta.imageSource}
+    imageAlt={cta.imageAlt}
+    heading={cta.heading}
+    textureImageSource={cta.textureImageSource}
+    buttonSections={[
+      {
+        _component: "building-blocks/core-elements/button",
+        text: cta.buttonText,
+        link: cta.buttonLink,
+        variant: "pill",
+        size: "md",
+      },
+    ]}
+  />
+</Page>
+
+<style is:global>
+  @layer overrides {
+    .product-detail {
+      display: grid;
+
+      @media (min-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .product-detail__media {
+      align-self: start;
+
+      .image,
+      .image-inner {
+        margin: 0;
+      }
+
+      img {
+        aspect-ratio: 1;
+        display: block;
+        object-fit: cover;
+        width: 100%;
+      }
+    }
+
+    .product-detail__info {
+      align-self: center;
+      color: var(--brand-navy);
+      padding: 32px 24px;
+
+      @media (min-width: 1024px) {
+        padding: 64px;
+      }
+
+      h1 {
+        color: var(--brand-navy);
+        font-size: clamp(2.25rem, 4.2vw, 53.632px);
+        line-height: 1.12;
+        margin: 0 0 22.4px;
+      }
+
+      > section {
+        border-bottom: 1px solid var(--brand-navy);
+        padding: 24px 0;
+      }
+    }
+
+    .product-detail__label {
+      color: var(--brand-blue);
+      font-family: var(--font-label);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 28px;
+      margin: 0 0 16px;
+      text-transform: uppercase;
+    }
+
+    .product-detail__value {
+      color: var(--brand-navy);
+      font-family: var(--font-family-heading);
+      font-size: 28.288px;
+      font-weight: 600;
+      line-height: 1.17;
+      margin: 0;
+    }
+
+    h3.product-detail__value {
+      margin-bottom: 22.4px;
+    }
+
+    .product-detail__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        align-items: flex-start;
+        display: flex;
+        gap: 12px;
+        line-height: 22.4px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .product-detail__list--claims li {
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .product-detail__icon {
+      align-items: center;
+      background: var(--brand-mint);
+      border-radius: 50%;
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 20px;
+      justify-content: center;
+      width: 20px;
+    }
+
+    .product-detail__list--claims .product-detail__icon {
+      background: #f9c9c6;
+    }
+
+    .product-related {
+      background: var(--brand-sky);
+      padding: 112px var(--spacing-lg);
+
+      h2 {
+        color: var(--brand-navy);
+        margin: 0 0 24px;
+        text-align: center;
+      }
+
+      ul {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+        list-style: none;
+        margin: 0 auto;
+        max-width: var(--content-width-2xl, 1280px);
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+      }
+    }
+  }
+</style>

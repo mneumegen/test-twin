@@ -1,0 +1,42 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+imageSource:
+  type: image
+  label: Photo
+  comment: Photo filling the left column. Leave empty to omit it.
+  options:
+    paths:
+      uploads: src/assets/images
+imageAlt:
+  type: text
+  label: Photo alt text
+  comment: Describes the photo for screen readers.
+heading:
+  type: markdown
+  label: Heading
+  comment: Headline in the grid-pattern panel.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Call-to-action buttons beneath the heading.
+  options:
+    structures: _structures.buttonSections
+textureImageSource:
+  type: image
+  label: Texture image
+  comment: Decorative product texture bleeding off the bottom-right corner. Leave empty to omit it.
+  options:
+    paths:
+      uploads: src/assets/images
+textureImageAlt:
+  type: text
+  label: Texture alt text
+  comment: Usually empty — the texture is decorative.

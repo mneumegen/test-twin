@@ -1,0 +1,33 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+
+const { title, body, _component, ...htmlAttributes } = Astro.props;
+---
+
+<div
+  class="packaging-options__item"
+  {...htmlAttributes}
+>
+  <Icon
+    name="checkmark-polyline"
+    size="sm"
+    color="default"
+    background={true}
+  />
+  <div class="packaging-options__item-text">
+    <Heading
+      text={title}
+      level="h3"
+      size="fluid-h3"
+      alignmentHorizontal="start"
+      data-prop="title"
+    />
+    <SimpleText
+      text={body}
+      size="body"
+      data-prop="body"
+    />
+  </div>
+</div>

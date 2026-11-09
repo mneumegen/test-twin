@@ -1,0 +1,94 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+import Image from "@core-elements/image/Image.astro";
+import Text from "@core-elements/text/Text.astro";
+import Card from "@wrappers/card/Card.astro";
+
+const {
+  imageSource = "",
+  imageAlt = "",
+  title = "",
+  body = "",
+  linkText = "",
+  linkUrl = "",
+  alignment = "start",
+  imageAspect = "square",
+  imageRounded = false,
+  imageFit = "cover",
+  bodyInset = "all",
+  cardColor = "base",
+  cardLinkStyle = "pinned",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showBody = Boolean(body);
+const showLink = Boolean(linkUrl);
+const cardBackground = cardColor === "none" ? undefined : cardColor;
+---
+
+<div
+  class:list={["card-grid-card", className]}
+  {...htmlAttributes}
+>
+  <Card
+    class:list={[
+      `card-grid-card--align-${alignment}`,
+      `card-grid-card--fit-${imageFit}`,
+      `card-grid-card--inset-${bodyInset}`,
+      `card-grid-card--link-${cardLinkStyle}`,
+    ]}
+    rounded={true}
+    backgroundColor={cardBackground}
+  >
+    <Image
+      slot="before"
+      source={imageSource}
+      alt={imageAlt}
+      aspectRatio={imageAspect}
+      rounded={imageRounded}
+      priority={false}
+      autoSizes={false}
+      imageElementAttributes={{ loading: "eager" }}
+      sizes="(min-width: 1024px) 395px, (min-width: 640px) 297px, 260px"
+      widths={[260, 297, 395, 520, 594, 790]}
+      data-prop-src="imageSource"
+      data-prop-alt="imageAlt"
+    />
+    <Heading
+      text={title}
+      level="h3"
+      size="fluid-h4"
+      alignmentHorizontal={alignment}
+      data-prop="title"
+    />
+    {showBody && (
+      <Text
+        text={body}
+        size="body"
+        alignmentHorizontal={alignment}
+        data-prop="body"
+      />
+    )}
+    {showLink && (
+      <a
+        class="card-grid-card__link"
+        href={linkUrl}
+      >
+        <span
+          data-editable="text"
+          data-prop="linkText"
+        >
+          {linkText}
+        </span>
+        <Icon
+          name="arrow-long-right-alt"
+          color="default"
+        />
+      </a>
+    )}
+  </Card>
+</div>

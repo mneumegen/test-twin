@@ -1,0 +1,74 @@
+label: Testimonial Carousel
+icon: format_quote
+description: Intro column with eyebrow, heading, copy and CTA beside a sliding carousel of testimonial quote cards.
+value:
+  _component: page-sections/people/testimonial-carousel
+  sectionLabel: ""
+  eyebrow: Testimonials
+  heading: Hear from our customers
+  intro: See what our brand partners have to say.
+  buttonSections:
+    - _component: building-blocks/core-elements/button
+      text: Read more testimonials
+      hideText: false
+      link: ""
+      iconName: ""
+      iconPosition: before
+      variant: pill
+      size: md
+  testimonials: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: sky
+preview:
+  text:
+    - Testimonial Carousel
+  subtext:
+    - key: heading
+  icon: format_quote
+picker_preview:
+  text: Testimonial Carousel
+  subtext: Intro column with eyebrow, heading, copy and CTA beside a sliding carousel of testimonial quote cards.
+_inputs_from_glob:
+  - /src/components/page-sections/people/testimonial-carousel/testimonial-carousel.cloudcannon.inputs.yml
+_structures:
+  testimonial:
+    style: modal
+    values:
+      - label: Testimonial
+        icon: format_quote
+        value:
+          quote: ""
+          name: ""
+          role: ""
+        preview:
+          text:
+            - key: name
+            - Testimonial
+          subtext:
+            - key: role
+          icon: format_quote
+        picker_preview:
+          text: Testimonial
+          icon: format_quote
+        _inputs:
+          quote:
+            type: markdown
+            label: Quote
+            comment: The testimonial quote, including its own quotation marks. Bold the key phrases that should stand out.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          name:
+            type: text
+            label: Name
+            comment: Name of the person quoted.
+          role:
+            type: text
+            label: Role
+            comment: Title and company of the person quoted.

@@ -1,0 +1,58 @@
+heading:
+  type: markdown
+  label: Heading
+  comment: Centred section heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+embedUrl:
+  type: url
+  label: Job Board URL
+  comment: Address of the job-board page shown in the embedded frame. Leave empty to omit the board.
+maxContentWidth:
+  type: select
+  label: Max Content Width
+  options:
+    values:
+      - { id: none, name: None }
+      - { id: xs, name: Extra Small }
+      - { id: sm, name: Small }
+      - { id: md, name: Medium }
+      - { id: lg, name: Large }
+      - { id: xl, name: Extra Large }
+      - { id: 2xl, name: 2xl }
+      - { id: 3xl, name: 3xl }
+      - { id: 512px, name: 512px (source max-w-lg) }
+      - { id: 576px, name: 576px (source max-w-xl) }
+      - { id: 672px, name: 672px (source max-w-2xl) }
+      - { id: 896px, name: 896px (source max-w-4xl) }
+paddingHorizontal:
+  type: select
+  label: Horizontal Padding
+  options:
+    values:
+      - { id: none, name: None }
+      - { id: xs, name: Extra Small }
+      - { id: sm, name: Small }
+      - { id: md, name: Medium }
+      - { id: lg, name: Large }
+      - { id: xl, name: Extra Large }
+      - { id: 2xl, name: 2xl }
+      - { id: 3xl, name: 3xl }
+paddingVertical:
+  type: select
+  label: Vertical Padding
+  options:
+    values:
+      - { id: none, name: None }
+      - { id: xs, name: Extra Small }
+      - { id: sm, name: Small }
+      - { id: md, name: Medium }
+      - { id: lg, name: Large }
+      - { id: xl, name: Extra Large }
+      - { id: 2xl, name: 2xl }
+      - { id: 3xl, name: 3xl }
+      - { id: 6xl, name: 6xl }

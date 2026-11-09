@@ -1,0 +1,32 @@
+label: CTA Banner Image
+icon: campaign
+description: Full-width CTA band with a photo on the left and a grid-pattern panel holding a heading and a pill button on the right.
+value:
+  _component: page-sections/ctas/cta-banner-image
+  sectionLabel: ""
+  imageSource: /src/assets/images/hs-fs/hubfs/2026/photography/Employees.jpg
+  imageAlt: Employees
+  heading: Let’s work together
+  buttonSections:
+    - _component: building-blocks/core-elements/button
+      text: Let's connect
+      hideText: false
+      link: ""
+      iconName: ""
+      iconColor: default
+      iconPosition: before
+      variant: pill
+      size: md
+  textureImageSource: /src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-6.png
+  textureImageAlt: ""
+preview:
+  text:
+    - CTA Banner Image
+  subtext:
+    - key: heading
+  icon: campaign
+picker_preview:
+  text: CTA Banner Image
+  subtext: Full-width CTA band with a photo on the left and a grid-pattern panel holding a heading and a pill button on the right.
+_inputs_from_glob:
+  - /src/components/page-sections/ctas/cta-banner-image/cta-banner-image.cloudcannon.inputs.yml

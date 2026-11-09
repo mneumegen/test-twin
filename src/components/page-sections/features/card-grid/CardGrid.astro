@@ -1,0 +1,480 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import CardGridCard from "@features/card-grid/CardGridCard.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import Grid from "@wrappers/grid/Grid.astro";
+
+type CardProps = Record<string, unknown>;
+
+const CARD_VARIANTS = {
+  "photo-card": {
+    alignment: "start",
+    imageAspect: "square",
+    imageRounded: false,
+    imageFit: "cover",
+    bodyInset: "all",
+  },
+  plain: {
+    alignment: "center",
+    imageAspect: "square",
+    imageRounded: true,
+    imageFit: "cover",
+    bodyInset: "top",
+  },
+  "contained-card": {
+    alignment: "center",
+    imageAspect: "square",
+    imageRounded: false,
+    imageFit: "contain-inset",
+    bodyInset: "all",
+  },
+  "plain-contained": {
+    alignment: "center",
+    imageAspect: "square",
+    imageRounded: true,
+    imageFit: "contain-inset",
+    bodyInset: "top",
+  },
+  "plain-wide": {
+    alignment: "center",
+    imageAspect: "widescreen",
+    imageRounded: true,
+    imageFit: "cover",
+    bodyInset: "top",
+  },
+};
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  subtext = "",
+  headerLayout = "centered",
+  cards = [],
+  cardVariant = "photo-card",
+  cardColor = "base",
+  cardLinkStyle = "pinned",
+  buttonSections = [],
+  backgroundColor = "sky",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const variant =
+  CARD_VARIANTS[cardVariant as keyof typeof CARD_VARIANTS] ?? CARD_VARIANTS["photo-card"];
+const headerAlign = headerLayout === "centered" ? "center" : "start";
+const showEyebrow = Boolean(eyebrow);
+const showSubtext = Boolean(subtext);
+const showButtons = buttonSections?.length > 0;
+const showCards = cards?.length > 0;
+---
+
+<CustomSection
+  class:list={["card-grid", className]}
+  label={sectionLabel}
+  maxContentWidth="2xl"
+  paddingHorizontal="lg"
+  paddingVertical="6xl"
+  backgroundColor={backgroundColor}
+  {...htmlAttributes}
+>
+  <div
+    class="card-grid__shell"
+    data-header-layout={headerLayout}
+    style={`--card-grid-columns: ${Math.max(cards.length, 1)}`}
+  >
+    <div class="card-grid__header">
+      <div class="card-grid__header-title">
+        {showEyebrow && (
+          <SimpleText
+            text={eyebrow}
+            variant="label"
+            size="body"
+            alignmentHorizontal={headerAlign}
+            data-prop="eyebrow"
+          />
+        )}
+        <Heading
+          text={heading}
+          level="h2"
+          size="fluid-h2"
+          alignmentHorizontal={headerAlign}
+          data-prop="heading"
+        />
+      </div>
+      <div class="card-grid__header-intro">
+        {showSubtext && (
+          <SimpleText
+            text={subtext}
+            size="body"
+            alignmentHorizontal={headerAlign}
+            data-prop="subtext"
+          />
+        )}
+      </div>
+    </div>
+    {showCards && (
+      <Grid
+        layout="start"
+        gap="lg"
+        class="card-grid__grid"
+        data-children-prop="cards"
+      >
+        {cards.map((card: CardProps) => (
+          <CardGridCard
+            data-editable="array-item"
+            data-id="page-sections/features/card-grid/card-grid-card"
+            {...card}
+            alignment={variant.alignment}
+            imageAspect={variant.imageAspect}
+            imageRounded={variant.imageRounded}
+            imageFit={variant.imageFit}
+            bodyInset={variant.bodyInset}
+            cardColor={cardColor}
+            cardLinkStyle={cardLinkStyle}
+          />
+        ))}
+      </Grid>
+    )}
+    {showCards && (
+      <Carousel
+        label="Cards"
+        autoPlay={false}
+        autoScroll={false}
+        loop={false}
+        showArrows={false}
+        showIndicators={true}
+        indicatorStyle="progress"
+        alignmentHorizontal="start"
+        gap="xl"
+        slideWidthPercent={83.333}
+        minSlideWidth={0}
+        style="--slide-width: var(--card-grid-slide-width, 83.333%); --slide-gap: var(--card-grid-slide-gap, var(--spacing-xl))"
+        data-children-prop="cards"
+      >
+        {cards.map((card: CardProps) => (
+          <CarouselSlide
+            data-editable="array-item"
+            data-id="page-sections/features/card-grid/card-grid-card"
+          >
+            <CardGridCard
+              {...card}
+              alignment={variant.alignment}
+              imageAspect={variant.imageAspect}
+              imageRounded={variant.imageRounded}
+              imageFit={variant.imageFit}
+              bodyInset={variant.bodyInset}
+              cardColor={cardColor}
+              cardLinkStyle={cardLinkStyle}
+            />
+          </CarouselSlide>
+        ))}
+      </Carousel>
+    )}
+    {showButtons && (
+      <ButtonGroup
+        alignmentHorizontal="center"
+        buttonSections={buttonSections}
+        data-children-prop="buttonSections"
+      />
+    )}
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .card-grid.custom-section {
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      transition-property: all;
+      transition-timing-function: ease;
+    }
+
+    .card-grid > .outer-content > .content.pad-y-6xl {
+      padding-block: 112px;
+    }
+
+    .card-grid > .outer-content > .content:has(> .card-grid__shell[data-header-layout="centered"]) {
+      text-align: center;
+    }
+
+    .card-grid .card-grid__header .simple-text {
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      background-color: rgba(0, 0, 0, 0);
+      background-position: 0% 0%;
+      background-repeat: repeat;
+      background-size: auto;
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      box-sizing: border-box;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: normal;
+      justify-content: normal;
+      align-items: normal;
+      margin: 0;
+      opacity: 1;
+      outline: 3px none rgb(24, 62, 102);
+      padding: 0;
+      transition-property: all;
+      transition-timing-function: ease;
+    }
+
+    .card-grid .card-grid__header .simple-text-content {
+      text-decoration-line: none;
+      word-spacing: 0px;
+    }
+
+    .card-grid .card-grid__header-title .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+    }
+
+    .card-grid .card-grid__header-intro .simple-text-content {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      text-transform: none;
+    }
+
+    .card-grid .card-grid__header h2.heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-top: 0;
+      margin-bottom: 22.4px;
+    }
+
+    .card-grid .card-grid-card .card {
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: 100%;
+      margin-top: 0;
+      padding-block: 0;
+      transition-property: all;
+      transition-timing-function: ease;
+    }
+
+    .card-grid .card-grid-card .card-inner {
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-grid .card-grid-card--align-center > .card-inner {
+      text-align: center;
+    }
+
+    .card-grid .card-grid-card .card-outer-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-grid .card-grid-card .card-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      width: 100%;
+    }
+
+    .card-grid .card-grid-card--inset-all .card-content {
+      padding: 24px;
+    }
+
+    .card-grid .card-grid-card--inset-top .card-content {
+      padding-top: 24px;
+    }
+
+    .card-grid .card-grid-card .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .card-grid .card-grid-card .image-inner img {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .card-grid .card-grid-card .image-inner.rounded,
+    .card-grid .card-grid-card .image-inner.rounded img {
+      border-radius: 16px;
+    }
+
+    .card-grid .card-grid-card--fit-contain-inset .image-inner img {
+      object-fit: contain;
+      padding: 24px;
+    }
+
+    .card-grid .card-grid-card h3.heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .card-grid .card-grid-card h3.heading .heading-inner {
+      line-height: 28px;
+    }
+
+    .card-grid .card-grid-card--link-pinned .card-grid-card__link {
+      font-family: var(--font-label);
+      letter-spacing: 0.025em;
+      margin-top: auto;
+      text-transform: uppercase;
+    }
+
+    .card-grid .card-grid-card--link-inline .card-grid-card__link {
+      font-family: var(--font-family-body);
+      margin-top: 24px;
+      text-transform: uppercase;
+    }
+
+    .card-grid .card-grid-card__link {
+      align-items: center;
+      align-self: flex-start;
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    .card-grid .card-grid-card--align-center .card-grid-card__link {
+      align-self: center;
+    }
+
+    .card-grid .card-grid-card__link .icon-inner,
+    .card-grid .card-grid-card__link .icon-inner svg {
+      height: 16px;
+      width: 32px;
+    }
+
+    .card-grid .carousel {
+      width: 100vw;
+      margin-inline-start: calc(50% - 50vw);
+      padding-inline: 4px;
+    }
+
+    .card-grid .carousel .carousel-inner > .viewport {
+      padding-inline: 32px;
+    }
+
+    .card-grid .carousel {
+      --carousel-progress-track-color: rgb(255, 255, 255);
+      --carousel-progress-thumb-color: var(--brand-peach);
+      --carousel-progress-height: 8px;
+      --carousel-progress-radius: 8px;
+    }
+
+    .card-grid .carousel .controls-wrapper {
+      margin-block: 22px 50px;
+    }
+
+    .card-grid .carousel .controls-wrapper > .carousel-progress {
+      flex: 0 0 auto;
+      width: 98vw;
+    }
+
+    .card-grid .card-grid__grid .grid-inner {
+      grid-template-columns: repeat(var(--card-grid-columns), minmax(0, 1fr));
+    }
+
+    @media (min-width: 768px) {
+      .card-grid .carousel {
+        --card-grid-slide-width: 45.4545%;
+        --card-grid-slide-gap: 36px;
+      }
+
+      .card-grid .card-grid-card--fit-contain-inset .image-inner img {
+        padding: 32px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .card-grid .carousel {
+        display: none;
+      }
+
+      .card-grid .card-grid__shell[data-header-layout="split-inset"] > .button-group {
+        padding-inline: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card-grid .card-grid__header .heading-inner {
+        font-size: 32.5651px;
+        line-height: 38.0004px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .card-grid .card-grid__header .heading-inner {
+        font-size: 30px;
+        line-height: 35px;
+      }
+    }
+  }
+
+  @layer page-sections {
+    .card-grid__header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .card-grid__header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-grid__shell[data-header-layout="centered"] .card-grid__header {
+      margin-inline: auto;
+      max-width: calc(var(--content-width-896px) - 48px);
+      text-align: center;
+    }
+
+    .card-grid__shell[data-header-layout="split"] .card-grid__header-intro {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .card-grid__shell[data-header-layout="split-inset"] .card-grid__header-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-grid__grid {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .card-grid__shell[data-header-layout="split"] .card-grid__header {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card-grid__shell[data-header-layout="split-inset"] .card-grid__header {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .card-grid__header {
+        padding-bottom: 40px;
+      }
+
+      .card-grid__grid {
+        display: block;
+        margin-bottom: 32px;
+      }
+
+      .card-grid__shell[data-header-layout="split-inset"] .card-grid__grid {
+        padding-inline: 24px;
+      }
+    }
+  }
+</style>

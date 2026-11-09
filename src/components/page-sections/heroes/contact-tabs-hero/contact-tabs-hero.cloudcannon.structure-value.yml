@@ -1,0 +1,56 @@
+label: Contact Tabs Hero
+icon: contact_mail
+description: Contact hero with intro copy and CTA beside a tabbed card of embedded forms.
+value:
+  _component: page-sections/heroes/contact-tabs-hero
+  sectionLabel: ""
+  heading: Heading text
+  subtext: Subtext placeholder text that will be replaced with actual content.
+  buttonSections:
+    - _component: building-blocks/core-elements/button
+      text: My Button
+      hideText: false
+      link: ""
+      iconName: ""
+      iconColor: default
+      iconPosition: before
+      variant: pill
+      size: md
+  tabs: []
+preview:
+  text:
+    - Contact Tabs Hero
+  subtext:
+    - key: heading
+  icon: contact_mail
+picker_preview:
+  text: Contact Tabs Hero
+  subtext: Contact hero with intro copy and CTA beside a tabbed card of embedded forms.
+_inputs_from_glob:
+  - /src/components/page-sections/heroes/contact-tabs-hero/contact-tabs-hero.cloudcannon.inputs.yml
+_structures:
+  contactTab:
+    values:
+      - label: Tab
+        icon: tab
+        value:
+          title: ""
+          contentSections: []
+        preview:
+          text:
+            - key: title
+          icon: tab
+        picker_preview:
+          text: Tab
+          icon: tab
+        _inputs:
+          title:
+            type: text
+            label: Tab title
+            comment: Label shown on the tab button.
+          contentSections:
+            type: array
+            label: Panel content
+            comment: Blocks shown when this tab is selected.
+            options:
+              structures: _structures.contentSelectorSections

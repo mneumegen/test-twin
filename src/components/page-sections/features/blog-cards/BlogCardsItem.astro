@@ -1,0 +1,84 @@
+---
+import Button from "@core-elements/button/Button.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Card from "@wrappers/card/Card.astro";
+
+const {
+  image = "",
+  imageAlt = "",
+  tag = "",
+  tagLink = "",
+  title = "",
+  excerpt = "",
+  link = "",
+  linkText = "Explore",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<Card
+  class:list={["blog-cards__card", className]}
+  backgroundColor="base"
+  paddingHorizontal="md"
+  paddingVertical="md"
+  {...htmlAttributes}
+>
+  <Image
+    slot="before"
+    source={image}
+    alt={imageAlt}
+    aspectRatio="square"
+    priority={false}
+    background={false}
+    sizes="(min-width: 1280px) 395px, (min-width: 768px) calc((100vw - 96px) / 3), calc(100vw - 48px)"
+    widths={[342, 395, 684, 790]}
+    data-prop-src="image"
+    data-prop-alt="imageAlt"
+  />
+  <div class="blog-cards__card-top">
+    <Button
+      class="blog-cards__tag"
+      text={tag}
+      link={tagLink}
+      variant="pill-flat"
+      size="sm"
+      data-prop="tag"
+    />
+    <Heading
+      level="h3"
+      size="fluid-h4"
+      alignmentHorizontal="start"
+      text={title}
+      data-prop="title"
+    />
+    <SimpleText
+      text={excerpt}
+      size="body"
+      alignmentHorizontal="start"
+      data-prop="excerpt"
+    />
+  </div>
+  <a
+    class="blog-cards__explore-link"
+    href={link}
+  >
+    <div class="blog-cards__explore-label">
+      <SimpleText
+        text={linkText}
+        size="md"
+        alignmentHorizontal="start"
+        data-prop="linkText"
+      />
+      <Icon
+        name="arrow-long-right"
+        size="sm"
+      />
+    </div>
+  </a>
+</Card>

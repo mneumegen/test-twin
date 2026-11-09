@@ -1,0 +1,31 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+
+const { name, address, _component, ...htmlAttributes } = Astro.props;
+---
+
+<div
+  class="locations-list__item"
+  {...htmlAttributes}
+>
+  <Icon
+    name="map-pin"
+    color="default"
+  />
+  <div class="locations-list__item-text">
+    <SimpleText
+      text={name}
+      variant="label"
+      size="body"
+      class="locations-list__name"
+      data-prop="name"
+    />
+    <SimpleText
+      text={address}
+      size="body"
+      class="locations-list__address"
+      data-prop="address"
+    />
+  </div>
+</div>

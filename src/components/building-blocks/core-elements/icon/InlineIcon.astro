@@ -1,0 +1,32 @@
+---
+/**
+ * Inline SVG icon from the astro-icon "local" set (src/icons), equivalent to
+ * `<Icon is:inline>` from astro-icon/components.
+ *
+ * astro-icon's own component keys a cache on `Astro.locals`, which CloudCannon's
+ * in-browser renderer (editable-regions) doesn't provide, so every section with an
+ * icon failed to re-render in the Visual Editor ("WeakMap key undefined").
+ * Inline icons never use that cache, so this renders the same markup without it.
+ */
+// @ts-expect-error virtual module provided by the astro-icon integration
+import icons from "virtual:astro-icon";
+import { getIconData, iconToSVG, replaceIDs } from "@iconify/utils";
+
+const { name = "", ...props } = Astro.props as { name: string; [key: string]: unknown };
+const collection = icons.local;
+const iconData = collection ? getIconData(collection, name) : null;
+
+if (!iconData) {
+  throw new Error(`Unable to locate "${name}" icon!`);
+}
+
+const renderData = iconToSVG(iconData);
+const attributes = { ...renderData.attributes, ...props };
+const body = replaceIDs(renderData.body);
+---
+
+<svg
+  {...attributes}
+  data-icon={name}
+  set:html={body}
+/>

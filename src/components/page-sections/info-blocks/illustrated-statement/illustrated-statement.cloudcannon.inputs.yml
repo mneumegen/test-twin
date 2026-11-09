@@ -1,0 +1,113 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small uppercase line above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Main statement heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+body:
+  type: markdown
+  label: Body
+  comment: Statement paragraph below the heading.
+  options:
+    blockquote: false
+    bold: true
+    format: p h1 h2 h3 h4 h5 h6 pre
+    italic: true
+    link: true
+    strike: false
+    subscript: true
+    superscript: true
+    underline: false
+    bulletedlist: true
+    numberedlist: true
+    indent: true
+    outdent: true
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Call-to-action buttons below the body. Leave empty to omit the button row.
+  options:
+    structures: _structures.buttonSections
+backdrop:
+  type: object
+  label: Backdrop
+  comment: Full-width decorative layer behind the text — an illustration (desktop + mobile art) or two corner textures.
+  options:
+    structures: _structures.illustratedStatementBackdrop
+    preview:
+      subtext:
+        - key: type
+maxContentWidth:
+  type: select
+  label: Max content width
+  comment: Maximum width of the content column.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+      - id: 512px
+        name: 512px (source max-w-lg)
+      - id: 576px
+        name: 576px (source max-w-xl)
+      - id: 672px
+        name: 672px (source max-w-2xl)
+      - id: 896px
+        name: 896px (source max-w-4xl)
+backgroundColor:
+  type: select
+  label: Background color
+  comment: Solid background color behind the section.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: base
+        name: Base
+      - id: surface
+        name: Surface
+      - id: accent
+        name: Accent
+      - id: highlight
+        name: Highlight
+      - id: sky
+        name: Sky
+      - id: mint
+        name: Mint
+      - id: mint-strong
+        name: Mint Strong
+      - id: mint-grid
+        name: Mint Grid
+      - id: peach
+        name: Peach

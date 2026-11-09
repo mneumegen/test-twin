@@ -1,0 +1,419 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import PostCard from "@page-sections/collections/cards/PostCard.astro";
+import {
+  allTags,
+  getPosts,
+  postUrl,
+  tagLabel,
+  tagUrl,
+  type Post,
+} from "@component-utils/collections";
+
+/**
+ * Lists Learning Lab articles (newest first).
+ * - mode "all": every article, with search and topic filters.
+ * - mode "featured": articles marked `featured`, as large image + text rows.
+ * - `posts` can be passed by templates (tag/author/related) to list a specific set.
+ */
+const {
+  sectionLabel,
+  heading = "",
+  subheading = "",
+  mode = "all",
+  showFilters = true,
+  ctaText = "",
+  ctaLink = "",
+  limit = 0,
+  posts: postsProp,
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "mint-grid",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+let posts: Post[] = Array.isArray(postsProp) ? postsProp : await getPosts();
+
+if (!postsProp && mode === "featured") posts = posts.filter((p) => p.data.featured);
+if (limit > 0) posts = posts.slice(0, limit);
+const featured = mode === "featured";
+const filters = mode === "all" && showFilters && !postsProp;
+const topics = [...allTags].sort((a, b) => a.slug.localeCompare(b.slug));
+const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-hidden="true" focusable="false"><line x1="2" y1="8" x2="28" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="22,3 28,8 22,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<CustomSection
+  class:list={["post-list", `post-list--${featured ? "featured" : "grid"}`, className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Heading
+    level="h2"
+    size="fluid-h2"
+    alignmentHorizontal={featured ? "start" : "center"}
+    text={heading}
+    data-prop="heading"
+  />
+  {subheading && <p class="post-list__subheading">{subheading}</p>}
+
+  {featured ? (
+    <>
+      {ctaText && (
+        <a
+          class="collection-search-button post-list__cta"
+          href={ctaLink}
+        >
+          {ctaText}
+        </a>
+      )}
+      <div class="post-list__featured">
+        {posts.map((p, i) => (
+          <article class:list={["featured-post", { "featured-post--flip": i % 2 === 1 }]}>
+            {p.data.image && (
+              <a
+                class="featured-post__media"
+                href={postUrl(p)}
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <Image
+                  source={p.data.image}
+                  alt=""
+                  aspectRatio="widescreen"
+                  sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+                  widths={[600, 900, 1200]}
+                />
+              </a>
+            )}
+            <div class="featured-post__text">
+              {p.data.tags[0] && (
+                <a
+                  class:list={["collection-tag", `collection-tag--${p.data.tags[0]}`]}
+                  href={tagUrl(p.data.tags[0])}
+                >
+                  {tagLabel(p.data.tags[0])}
+                </a>
+              )}
+              <h3 class="featured-post__title">
+                <a href={postUrl(p)}>{p.data.title}</a>
+              </h3>
+              <p class="featured-post__excerpt">{p.data.excerpt || p.data.description}</p>
+              <a
+                class="collection-card__link featured-post__more"
+                href={postUrl(p)}
+                aria-label={`Read more: ${p.data.title}`}
+              >
+                Read more <Fragment set:html={arrow} />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </>
+  ) : (
+    <>
+      {filters && (
+        <form
+          class="post-list__filters"
+          role="search"
+          aria-label="Filter articles"
+          data-post-filters
+        >
+          <button
+            type="reset"
+            class="collection-clear"
+          >
+            Clear filters
+          </button>
+          <div class="collection-bar">
+            <label class="collection-search">
+              <span class="visually-hidden">Search articles</span>
+              <input
+                type="search"
+                name="q"
+                placeholder="Search articles"
+                autocomplete="off"
+              />
+            </label>
+            <button
+              type="submit"
+              class="collection-search-button"
+            >
+              Search
+            </button>
+          </div>
+          <fieldset class="post-list__topics">
+            <legend class="visually-hidden">Topics</legend>
+            {topics.map((t) => (
+              <label class="post-list__topic">
+                <input
+                  type="checkbox"
+                  name="tags"
+                  value={t.slug}
+                />
+                {t.icon && (
+                  <Image
+                    source={t.icon}
+                    alt=""
+                    width={80}
+                    height={80}
+                    widths={[80, 160]}
+                    sizes="80px"
+                    autoSizes={false}
+                  />
+                )}
+                <span>{t.label}</span>
+              </label>
+            ))}
+          </fieldset>
+          <p
+            class="collection-count"
+            aria-live="polite"
+            data-post-count
+          >
+            Showing {posts.length} / {posts.length}
+          </p>
+        </form>
+      )}
+      <ul
+        class="post-list__grid"
+        role="list"
+      >
+        {posts.map((p) => (
+          <li>
+            <PostCard post={p} />
+          </li>
+        ))}
+      </ul>
+      {filters && (
+        <p
+          class="post-list__empty"
+          hidden
+          data-post-empty
+        >
+          No articles match those filters.
+        </p>
+      )}
+    </>
+  )}
+</CustomSection>
+
+<script>
+  // Topic filters are OR'd; the search box matches title and excerpt.
+  function initPostFilters(form: HTMLFormElement) {
+    const section = form.closest(".post-list");
+
+    if (!section || form.dataset.ready) return;
+    form.dataset.ready = "true";
+    const items = [...section.querySelectorAll<HTMLElement>(".post-list__grid > li")];
+    const total = items.length;
+    const count = form.querySelector<HTMLElement>("[data-post-count]");
+    const empty = section.querySelector<HTMLElement>("[data-post-empty]");
+
+    const apply = () => {
+      const data = new FormData(form);
+      const q = String(data.get("q") || "")
+        .trim()
+        .toLowerCase();
+      const tags = data.getAll("tags").map(String);
+      let shown = 0;
+
+      for (const li of items) {
+        const card = li.querySelector<HTMLElement>("[data-post]");
+        const postTags = (card?.dataset.tags || "").split("|");
+        const match =
+          (!q || (card?.dataset.search || "").includes(q)) &&
+          (!tags.length || tags.some((t) => postTags.includes(t)));
+
+        li.hidden = !match;
+        if (match) shown++;
+      }
+      if (count) count.textContent = `Showing ${shown} / ${total}`;
+      if (empty) empty.hidden = shown > 0;
+    };
+
+    form.addEventListener("input", apply);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      apply();
+    });
+    form.addEventListener("reset", () => requestAnimationFrame(apply));
+  }
+
+  const init = () =>
+    document.querySelectorAll<HTMLFormElement>("[data-post-filters]").forEach(initPostFilters);
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style is:global>
+  @layer overrides {
+    .post-list .content > .heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .post-list--featured .content > .heading {
+      margin-bottom: 40px;
+    }
+
+    .post-list__subheading {
+      color: var(--brand-navy);
+      line-height: 28px;
+      margin: 0 0 22.4px;
+      text-align: center;
+    }
+
+    .post-list__cta {
+      display: inline-block;
+      margin-bottom: 32px;
+      text-decoration: none;
+    }
+
+    .post-list__featured {
+      display: grid;
+      gap: 48px;
+    }
+
+    .featured-post {
+      align-items: center;
+      display: grid;
+      gap: 32px;
+
+      @media (min-width: 768px) {
+        gap: 48px;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .featured-post--flip .featured-post__media {
+        order: 2;
+      }
+    }
+
+    .featured-post__media img {
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .featured-post__title {
+      font-family: var(--font-family-heading);
+      font-size: 28.288px;
+      font-weight: 600;
+      line-height: 1.17;
+      margin: 16px 0 22.4px;
+
+      a {
+        color: var(--brand-navy);
+        text-decoration: none;
+      }
+    }
+
+    .featured-post__excerpt {
+      color: var(--brand-navy);
+      line-height: 28px;
+      margin: 0;
+    }
+
+    .featured-post__more {
+      font-family: var(--font-label);
+      margin-top: 24px;
+    }
+
+    .post-list__filters {
+      margin-bottom: 24px;
+
+      .collection-search input::placeholder {
+        text-transform: none;
+      }
+    }
+
+    .post-list__topics {
+      border: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 40px;
+      justify-content: center;
+      margin: 24px 0 0;
+      padding: 0;
+    }
+
+    .post-list__topic {
+      align-items: center;
+      border-radius: 6px;
+      color: var(--brand-navy);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-label);
+      font-size: 14px;
+      font-weight: 400;
+      gap: 12px;
+      line-height: 20px;
+      padding: 8px;
+      position: relative;
+      text-transform: uppercase;
+      transition: background-color 0.15s ease;
+      white-space: nowrap;
+
+      input {
+        opacity: 0;
+        position: absolute;
+      }
+
+      img {
+        border-radius: 9999px;
+        height: 80px;
+        object-fit: cover;
+        width: 80px;
+      }
+
+      &:has(input:checked) {
+        background-color: #d6eaeb;
+      }
+
+      &:has(input:focus-visible) {
+        outline: 2px solid var(--color-focus-ring);
+      }
+    }
+
+    .post-list__grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        display: flex;
+      }
+
+      > li[hidden] {
+        display: none;
+      }
+    }
+
+    .post-list__empty {
+      color: var(--brand-navy);
+      text-align: center;
+    }
+  }
+</style>

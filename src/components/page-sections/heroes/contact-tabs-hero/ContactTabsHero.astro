@@ -1,0 +1,365 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Text from "@core-elements/text/Text.astro";
+import Image from "@core-elements/image/Image.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Card from "@wrappers/card/Card.astro";
+import ContentSelector from "@wrappers/content-selector/ContentSelector.astro";
+
+const {
+  sectionLabel,
+  heading = "",
+  subtext = "",
+  buttonSections = [],
+  tabs = [],
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["contact-tabs-hero", className]}
+  label={sectionLabel}
+  maxContentWidth="2xl"
+  paddingHorizontal="lg"
+  paddingVertical="6xl"
+  backgroundColor="sky"
+  colorScheme="light"
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="contact-tabs-hero__grid">
+    <div class="contact-tabs-hero__intro">
+      <Heading
+        text={heading}
+        level="h1"
+        size="fluid-h1"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+      <Text
+        text={subtext}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="subtext"
+      />
+      <ButtonGroup
+        buttonSections={buttonSections}
+        direction="row"
+        alignmentHorizontal="start"
+        data-children-prop="buttonSections"
+      />
+    </div>
+    <div class="contact-tabs-hero__forms">
+      <Card
+        backgroundColor="base"
+        rounded={true}
+        colorScheme="inherit"
+      >
+        <ContentSelector
+          items={tabs}
+          navigationPosition="top"
+          tabElement="button"
+          data-children-prop="tabs"
+        />
+      </Card>
+    </div>
+  </div>
+  <Image
+    class="contact-tabs-hero__texture-top"
+    source="/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-a.png"
+    alt=""
+    priority={false}
+    background={false}
+    rounded={false}
+    sizes="1186px"
+    widths={[640, 1186, 2372]}
+  />
+  <Image
+    class="contact-tabs-hero__texture-bottom"
+    source="/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-5.png"
+    alt=""
+    priority={false}
+    background={false}
+    rounded={false}
+    sizes="906px"
+    widths={[640, 906, 1812]}
+  />
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .contact-tabs-hero {
+      border: 0 solid rgb(229, 231, 235);
+      transition: all 0s ease 0s;
+    }
+
+    .contact-tabs-hero__grid {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: minmax(0, 1fr);
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-tabs-hero__intro {
+      padding-top: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .contact-tabs-hero__grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+
+      .contact-tabs-hero__intro {
+        grid-column: span 5 / span 5;
+      }
+
+      .contact-tabs-hero__forms {
+        grid-column: span 7 / span 7;
+      }
+    }
+  }
+
+  @layer overrides {
+    .contact-tabs-hero > .outer-content {
+      overflow: hidden;
+    }
+
+    .contact-tabs-hero > .outer-content > .content {
+      padding-bottom: 112px;
+      padding-top: 112px;
+      position: static;
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__intro > .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__intro > .text {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+      margin-top: 0;
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__intro > .text > .text-inner,
+    .contact-tabs-hero .contact-tabs-hero__intro > .text > .text-inner > p {
+      color: var(--color-text-strong);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__intro > .text > .text-inner::after {
+      content: "";
+      display: block;
+      height: 28px;
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__intro > .button-group {
+      margin-top: 0;
+    }
+
+    .contact-tabs-hero .button-group .button > .button-inner {
+      border: 2px solid rgb(24, 62, 102);
+      border-radius: 9999px;
+      gap: normal;
+      justify-content: normal;
+      outline-color: rgb(24, 62, 102);
+      padding: 12px 32px;
+      text-decoration-color: rgb(24, 62, 102);
+      transition-duration: 0.5s;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__forms > .card {
+      background-color: var(--color-bg);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 16px;
+      margin-top: 0;
+      overflow: hidden;
+      padding-bottom: 0;
+      padding-top: 0;
+      transition: all 0s ease 0s;
+    }
+
+    .contact-tabs-hero .contact-tabs-hero__forms > .card > .card-inner {
+      border-radius: 16px;
+    }
+
+    .contact-tabs-hero .content-selector > .content-selector-items.nav-top {
+      column-gap: 0;
+      display: grid;
+      grid-auto-columns: minmax(0, 1fr);
+      grid-auto-flow: column;
+      grid-template-rows: auto auto;
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
+
+    .contact-tabs-hero .content-selector-items.nav-top .content-selector-tab {
+      align-items: normal;
+      background-color: var(--color-bg-mint);
+      border: 0 solid rgb(255, 255, 255);
+      border-left-width: 1px;
+      border-radius: 0;
+      border-right-width: 1px;
+      color: var(--color-text);
+      display: block;
+      font-family: var(--font-family-heading);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      grid-row: 1;
+      justify-content: normal;
+      line-height: 28px;
+      outline-color: rgb(0, 0, 0);
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration-color: rgb(0, 0, 0);
+      text-transform: none;
+      transition: all 0.2s ease-in-out;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .contact-tabs-hero .content-selector-items.nav-top .content-selector-tab::before {
+      background: none;
+      content: normal;
+      display: inline;
+      height: auto;
+      inset: auto;
+      position: static;
+      transition: all 0s ease 0s;
+      width: auto;
+    }
+
+    .contact-tabs-hero
+      .content-selector-items.nav-top
+      .content-selector-item:first-child
+      > .content-selector-tab {
+      border-left-width: 0;
+    }
+
+    .contact-tabs-hero
+      .content-selector-items.nav-top
+      .content-selector-item:last-child
+      > .content-selector-tab {
+      border-right-width: 0;
+    }
+
+    .contact-tabs-hero
+      .content-selector-items.nav-top
+      .content-selector-input:checked
+      + .content-selector-tab {
+      background-color: var(--color-bg);
+      color: rgb(31, 41, 55);
+      font-weight: var(--font-weight-semibold);
+      outline-color: rgb(31, 41, 55);
+      text-decoration-color: rgb(31, 41, 55);
+    }
+
+    .contact-tabs-hero .content-selector-tab > .content-selector-tab-heading,
+    .contact-tabs-hero .content-selector-tab > .content-selector-tab-heading > .heading-inner {
+      color: inherit;
+      font: inherit;
+      letter-spacing: inherit;
+      overflow-wrap: normal;
+      text-align: inherit;
+      text-transform: inherit;
+      white-space: nowrap;
+    }
+
+    .contact-tabs-hero .content-selector-tab-chevron {
+      display: none;
+    }
+
+    .contact-tabs-hero .content-selector-items.nav-top .content-selector-panel {
+      container-type: normal;
+      grid-column: 1;
+      grid-row: 2;
+      overflow: visible;
+      padding: 0;
+      position: relative;
+      width: 0;
+      z-index: 1;
+    }
+
+    .contact-tabs-hero .content-selector-items.nav-top .content-selector-panel-content {
+      inset-inline-start: auto;
+      margin-top: 0;
+      padding: 0;
+      position: static;
+      width: 100cqi;
+    }
+
+    .contact-tabs-hero .embed-content {
+      aspect-ratio: auto;
+    }
+
+    .contact-tabs-hero .embed-content > iframe {
+      height: 700px;
+    }
+
+    .contact-tabs-hero .image {
+      inset: 0;
+      margin: 0;
+      overflow: visible;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .contact-tabs-hero .image > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+      overflow: visible;
+    }
+
+    .contact-tabs-hero .image > .image-inner img {
+      border: 0 solid rgb(229, 231, 235);
+      height: auto;
+      position: absolute;
+    }
+
+    .contact-tabs-hero .image.contact-tabs-hero__texture-top > .image-inner img {
+      right: -400px;
+      top: -350px;
+      transform: matrix(0.53033, 0.53033, -0.53033, 0.53033, 0, 0);
+      width: min(1186px, 100%);
+    }
+
+    .contact-tabs-hero .image.contact-tabs-hero__texture-bottom > .image-inner img {
+      bottom: -100px;
+      left: -250px;
+      transform: matrix(0.75, 0, 0, 0.75, 0, 0);
+      width: min(906px, 100%);
+    }
+
+    @media (max-width: 768px) {
+      .contact-tabs-hero .content-selector > .content-selector-items.nav-top {
+        column-gap: 4px;
+      }
+
+      .contact-tabs-hero .embed-content > iframe {
+        height: 600px;
+      }
+    }
+  }
+</style>

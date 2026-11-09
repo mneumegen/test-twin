@@ -1,0 +1,87 @@
+label: Team Grid
+icon: groups
+description: Eyebrow and heading above a grid of employee cards with a See-all reveal toggle.
+value:
+  _component: page-sections/people/team-grid
+  sectionLabel: ""
+  eyebrow: Get to know our people
+  heading: These are the folks who help bring your concepts to life.
+  members: []
+  showMoreText: See all employees
+  showLessText: Show Fewer
+  decorativeImage: /src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-d.png
+  decorativeImageAlt: ""
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: sky
+preview:
+  text:
+    - Team Grid
+  subtext:
+    - key: heading
+  icon: groups
+picker_preview:
+  text: Team Grid
+  subtext: Eyebrow and heading above a grid of employee cards with a See-all reveal toggle.
+_inputs_from_glob:
+  - /src/components/page-sections/people/team-grid/team-grid.cloudcannon.inputs.yml
+_structures:
+  teamMember:
+    values:
+      - label: Team member
+        icon: person
+        value:
+          name: ""
+          position: ""
+          imageSource: ""
+          imageAlt: ""
+          linkedinUrl: ""
+        preview:
+          text:
+            - key: name
+          subtext:
+            - key: position
+          image:
+            - key: imageSource
+          icon: person
+        picker_preview:
+          text: Team member
+          icon: person
+        _inputs:
+          name:
+            label: Name
+            comment: Member name.
+            type: markdown
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          position:
+            label: Position
+            comment: Job title.
+            type: markdown
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          imageSource:
+            type: image
+            label: Photo
+            comment: Square headshot.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Photo alt text
+            comment: Describe the headshot for screen readers.
+          linkedinUrl:
+            type: url
+            label: LinkedIn URL
+            comment: Profile link shown as a LinkedIn icon. Leave empty to omit it.

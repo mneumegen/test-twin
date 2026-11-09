@@ -1,0 +1,60 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Short uppercase label above the heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Main section heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+intro:
+  type: markdown
+  label: Intro
+  comment: Introductory copy beside the heading. Leave empty to omit it.
+  options:
+    blockquote: false
+    bold: true
+    format: p h1 h2 h3 h4 h5 h6 pre
+    italic: true
+    link: true
+    strike: false
+    subscript: true
+    superscript: true
+    underline: false
+    bulletedlist: true
+    numberedlist: true
+    indent: true
+    outdent: true
+milestones:
+  type: array
+  label: Milestones
+  comment: Timeline milestone cards shown in the carousel.
+  options:
+    structures: _structures.milestone
+colorScheme:
+  type: select
+  label: Color scheme
+  comment: Color scheme theme for the section.
+  options:
+    values:
+      - id: inherit
+        name: Inherit
+      - id: light
+        name: Light
+      - id: dark
+        name: Dark

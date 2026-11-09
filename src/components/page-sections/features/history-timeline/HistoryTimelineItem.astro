@@ -1,0 +1,59 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+
+const {
+  imageSource = "",
+  imageAlt = "",
+  year = "",
+  description = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showImage = Boolean(imageSource);
+---
+
+<CarouselSlide
+  class={className}
+  {...htmlAttributes}
+>
+  <div class="history-timeline__item">
+    <div class="history-timeline__content">
+      {showImage && (
+        <Image
+          source={imageSource}
+          alt={imageAlt}
+          aspectRatio="square"
+          rounded={true}
+          priority={false}
+          background={false}
+          sizes="(max-width: 767px) 162px, (max-width: 1439px) 242px, 292px"
+          widths={[162, 242, 292, 484, 584]}
+          data-prop-src="imageSource"
+          data-prop-alt="imageAlt"
+        />
+      )}
+      <div class="history-timeline__year">
+        <Heading
+          text={year}
+          level="h3"
+          size="fluid-h4"
+          data-prop="year"
+        />
+      </div>
+      <div class="history-timeline__description">
+        <SimpleText
+          text={description}
+          size="md"
+          data-prop="description"
+        />
+      </div>
+    </div>
+    <div class="history-timeline__dot"></div>
+  </div>
+</CarouselSlide>

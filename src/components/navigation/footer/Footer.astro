@@ -1,0 +1,478 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import List from "@core-elements/list/List.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+
+type FooterLink = { text?: string; link?: string; iconName?: string };
+type FooterColumn = { heading?: string; links?: FooterLink[] };
+type FooterSocial = { label?: string; link?: string; imageSource?: string; imageAlt?: string };
+type FooterContactItem = { label?: string; text?: string; link?: string; iconName?: string };
+
+const {
+  logoSource,
+  logoAlt,
+  buttonSections = [],
+  columns = [] as FooterColumn[],
+  followLabel,
+  socials = [] as FooterSocial[],
+  contactItems = [] as FooterContactItem[],
+  copyrightText,
+  legalLinks = [] as FooterLink[],
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showLogo = Boolean(logoSource);
+const showBrandButtons = buttonSections.length > 0;
+const showColumns = columns.length > 0;
+const showFollowLabel = Boolean(followLabel);
+const showSocials = socials.length > 0;
+const showContact = contactItems.length > 0;
+const showCopyright = Boolean(copyrightText);
+const showLegalLinks = legalLinks.length > 0;
+---
+
+<footer
+  class="footer"
+  {...htmlAttributes}
+>
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        {showLogo && (
+          <Image
+            source={logoSource}
+            alt={logoAlt}
+            class="footer-logo"
+            sizes="144px"
+            widths={[144, 288]}
+            useDefaultEditableBinding={false}
+          />
+        )}
+        {showBrandButtons && (
+          <ButtonGroup
+            direction="column"
+            alignmentHorizontal="start"
+            buttonSections={buttonSections}
+            class="footer-buttons"
+            useDefaultEditableBinding={false}
+          />
+        )}
+      </div>
+      {showColumns && (
+        <div class="footer-columns">
+          {columns.map((column) => (
+            <div class="footer-col">
+              <Heading
+                level="div"
+                text={column.heading}
+                class="footer-col-heading"
+                useDefaultEditableBinding={false}
+              />
+              {(column.links?.length ?? 0) > 0 && (
+                <nav aria-label={column.heading}>
+                  <List
+                    items={column.links}
+                    class="footer-col-links"
+                    useDefaultEditableBinding={false}
+                  />
+                </nav>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+    <div class="footer-meta">
+      <div class="footer-follow">
+        {showFollowLabel && (
+          <SimpleText
+            text={followLabel}
+            variant="label"
+            class="footer-label"
+            useDefaultEditableBinding={false}
+          />
+        )}
+        {showSocials && (
+          <div class="footer-socials">
+            {socials.map((social) => (
+              <a
+                href={social.link}
+                target="_blank"
+                rel="noopener"
+                aria-label={social.label}
+                class="footer-social-link"
+              >
+                <Image
+                  source={social.imageSource}
+                  alt={social.imageAlt}
+                  class="footer-social-image"
+                  sizes="40px"
+                  widths={[40, 80]}
+                  useDefaultEditableBinding={false}
+                />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      {showContact && (
+        <nav
+          aria-label="Contact"
+          class="footer-contact"
+        >
+          {contactItems.map((item) => {
+            const showItemLabel = Boolean(item.label);
+            return (
+              <div class="footer-contact-item">
+                {showItemLabel && (
+                  <SimpleText
+                    text={item.label}
+                    variant="label"
+                    class="footer-label"
+                    useDefaultEditableBinding={false}
+                  />
+                )}
+                <List
+                  items={[{ text: item.text, link: item.link, iconName: item.iconName }]}
+                  class="footer-contact-link"
+                  useDefaultEditableBinding={false}
+                />
+              </div>
+            );
+          })}
+        </nav>
+      )}
+    </div>
+  </div>
+  <div class="footer-legal">
+    <div class="footer-container">
+      {showCopyright && (
+        <SimpleText
+          text={copyrightText}
+          class="footer-copyright"
+          useDefaultEditableBinding={false}
+        />
+      )}
+      {showLegalLinks && (
+        <nav aria-label="Legal">
+          <List
+            direction="horizontal"
+            items={legalLinks}
+            class="footer-legal-links"
+            useDefaultEditableBinding={false}
+          />
+        </nav>
+      )}
+    </div>
+  </div>
+</footer>
+
+<style is:global>
+  @layer page-sections {
+    .footer {
+      --footer-legal-bg: rgb(249 201 198);
+      --footer-link-hover: rgb(24 62 102 / 50%);
+
+      background-color: rgb(255 255 255);
+      padding-top: 40px;
+
+      .footer-container {
+        margin-inline: auto;
+        max-width: 1280px;
+        padding-inline: 24px;
+        width: 100%;
+
+        @media (min-width: 1536px) {
+          max-width: 1536px;
+        }
+      }
+
+      .footer-top {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        grid-column: span 12 / span 12;
+
+        @media (min-width: 1024px) {
+          grid-column: span 3 / span 3;
+        }
+      }
+
+      .footer-columns {
+        display: grid;
+        gap: 32px;
+        grid-column: span 9 / span 9;
+        margin-block: 24px;
+
+        @media (min-width: 1024px) {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          margin-block: 0;
+        }
+      }
+
+      .footer-meta {
+        display: grid;
+        padding-block: 32px;
+
+        @media (min-width: 1024px) {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+
+      .footer-socials {
+        display: flex;
+        gap: 32px;
+        margin-top: 8px;
+      }
+
+      .footer-social-link {
+        color: inherit;
+        display: block;
+        width: 40px;
+      }
+
+      .footer-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        margin-top: 32px;
+
+        @media (min-width: 768px) {
+          flex-direction: row;
+        }
+
+        @media (min-width: 1024px) {
+          margin-top: 0;
+        }
+      }
+
+      .footer-contact-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .footer-legal {
+        background-color: var(--footer-legal-bg);
+        padding: 16px;
+
+        > .footer-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          @media (min-width: 768px) {
+            flex-direction: row;
+          }
+        }
+      }
+    }
+  }
+
+  @layer overrides {
+    .footer {
+      .footer-logo,
+      .footer-buttons,
+      .footer-col-heading,
+      .footer-col-links,
+      .footer-label,
+      .footer-social-image,
+      .footer-contact-link,
+      .footer-copyright,
+      .footer-legal-links {
+        margin-top: 0;
+      }
+
+      img {
+        font-size: 0.583rem;
+      }
+
+      .footer-logo {
+        width: 144px;
+
+        img {
+          height: auto;
+          margin-bottom: 24px;
+          width: 144px;
+        }
+      }
+
+      .footer-buttons {
+        margin-block: 8px;
+
+        > .button-group__items {
+          gap: 24px;
+        }
+
+        .button {
+          display: block;
+        }
+
+        .button-inner {
+          gap: normal;
+          justify-content: normal;
+          vertical-align: top;
+        }
+      }
+
+      .footer-col-heading > .heading-inner {
+        border-bottom: 2px solid var(--color-text-label);
+        color: var(--color-text-label);
+        font-family: var(--font-label);
+        font-size: 1rem;
+        font-weight: var(--font-weight-label);
+        line-height: 28px;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .footer-label > .simple-text-content {
+        line-height: 28px;
+      }
+
+      .footer-social-image {
+        width: 40px;
+
+        img {
+          height: auto;
+          max-height: 40px;
+          object-fit: contain;
+          width: 40px;
+        }
+      }
+
+      .footer-col-links,
+      .footer-contact-link,
+      .footer-legal-links {
+        > ul {
+          padding: 0;
+        }
+
+        .item > a.item-inner {
+          display: block;
+          text-decoration: none;
+
+          > p {
+            line-height: inherit;
+          }
+        }
+      }
+
+      .footer-col-links {
+        > ul {
+          gap: 0;
+        }
+
+        .item > a.item-inner {
+          color: var(--color-text-label);
+          margin-top: 8px;
+          font-family: var(--font-label);
+          font-size: 1rem;
+          font-weight: var(--font-weight-normal);
+          line-height: 28px;
+
+          &:hover {
+            color: var(--footer-link-hover);
+          }
+        }
+      }
+
+      .footer-contact-link {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > ul {
+          flex: 1 1 auto;
+          gap: 0;
+        }
+
+        .item {
+          flex: 1 1 auto;
+        }
+
+        .item > a.item-inner {
+          color: var(--color-text-label);
+          font-family: var(--font-body);
+          font-size: 1rem;
+          line-height: 22.4px;
+
+          &:hover {
+            color: var(--footer-link-hover);
+          }
+        }
+
+        .item.list-item-has-icon {
+          align-items: stretch;
+          display: flex;
+
+          > .list-icon {
+            align-self: center;
+            color: var(--color-text-label);
+            height: 38px;
+            margin-inline-end: 0;
+            pointer-events: none;
+            transform: scale(0.75);
+            translate: none;
+            width: 27px;
+            z-index: 1;
+
+            svg {
+              display: block;
+              height: 38px;
+              max-height: none;
+              width: 27px;
+            }
+          }
+
+          > a.item-inner {
+            align-items: center;
+            display: flex;
+            flex: 1 1 auto;
+            margin-inline-start: -27px;
+            padding-inline-start: 31px;
+          }
+        }
+      }
+
+      .footer-copyright > .simple-text-content {
+        color: var(--color-text-label);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        line-height: 22.4px;
+      }
+
+      .footer-legal-links > ul {
+        gap: 16px;
+        justify-content: center;
+        margin-top: 24px;
+
+        @media (min-width: 768px) {
+          gap: 32px;
+          justify-content: flex-end;
+          margin-top: 0;
+        }
+
+        .item > a.item-inner {
+          color: rgb(0 0 0);
+          font-family: var(--font-body);
+          font-size: 1rem;
+          line-height: 22.4px;
+
+          &:hover {
+            color: rgb(0 0 0);
+          }
+        }
+      }
+    }
+  }
+</style>

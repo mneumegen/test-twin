@@ -1,0 +1,136 @@
+---
+import Image from "@core-elements/image/Image.astro";
+import { postUrl, tagLabel, tagUrl, type Post } from "@component-utils/collections";
+
+/** Learning Lab article card (index grid, tag/author pages, related posts). */
+const { post, headingLevel = "h3" } = Astro.props as { post: Post; headingLevel?: "h2" | "h3" };
+const d = post.data;
+const Heading = headingLevel;
+---
+
+<article
+  class="post-card"
+  data-post
+  data-tags={d.tags.join("|")}
+  data-search={`${d.title} ${d.excerpt ?? ""} ${d.description}`.toLowerCase()}
+>
+  {d.image && (
+    <Image
+      source={d.image}
+      alt={d.imageAlt}
+      aspectRatio="square"
+      sizes="(min-width: 1280px) 390px, (min-width: 768px) 33vw, 100vw"
+      widths={[390, 585, 780]}
+    />
+  )}
+  <div class="post-card__body">
+    <div>
+      {d.tags.length > 0 && (
+        <ul
+          class="post-card__tags"
+          role="list"
+        >
+          {d.tags.map((t) => (
+            <li>
+              <a
+                class:list={["collection-tag", `collection-tag--${t}`]}
+                href={tagUrl(t)}
+              >
+                {tagLabel(t)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <Heading class="post-card__title">{d.title}</Heading>
+      <p class="post-card__summary">{d.excerpt || d.description}</p>
+    </div>
+    <a
+      class="collection-card__link"
+      href={postUrl(post)}
+      aria-label={`Read ${d.title}`}
+    >
+      Explore
+      <svg
+        width="32"
+        height="16"
+        viewBox="0 0 32 16"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <line
+          x1="2"
+          y1="8"
+          x2="28"
+          y2="8"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></line>
+        <polyline
+          points="22,3 28,8 22,13"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></polyline>
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style is:global>
+  @layer components {
+    .post-card {
+      background: #fff;
+      border-radius: 16px;
+      color: var(--brand-navy);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+
+      img {
+        aspect-ratio: 1;
+        object-fit: cover;
+        width: 100%;
+      }
+    }
+
+    .post-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+    }
+
+    .post-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      list-style: none;
+      margin: 0 0 16px;
+      padding: 0;
+    }
+
+    .post-card__title {
+      color: var(--brand-navy);
+      font-family: var(--font-family-heading);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 28px;
+      margin: 0 0 12px;
+    }
+
+    .post-card__summary {
+      color: rgb(75 85 99);
+      font-size: 16px;
+      line-height: 28px;
+      margin: 0 0 16px;
+    }
+  }
+</style>

@@ -1,0 +1,115 @@
+/* Shared pieces of the Products / Learning Lab templates (cards, filter bars, tags, buttons). */
+@layer components {
+  /* Images inside cards/blocks sit flush (cancel the flow spacing .image gets elsewhere). */
+  .product-card > .image,
+  .post-card > .image,
+  .featured-post__media > .image,
+  .article-closer > .image,
+  .product-detail__media > .image {
+    margin: 0;
+  }
+
+  .collection-card__link {
+    align-items: center;
+    color: var(--brand-navy);
+    display: inline-flex;
+    gap: 8px;
+    letter-spacing: 0.4px;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    svg {
+      color: var(--brand-blue);
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg,
+    &:focus-visible svg {
+      transform: translateX(1rem);
+    }
+  }
+
+  .collection-tag {
+    background: var(--brand-mint-strong);
+    border-radius: 9999px;
+    color: var(--brand-navy);
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 0.025em;
+    line-height: 28px;
+    padding: 4px 12px 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .collection-tag--trends-innovation {
+    background: #f4bb71;
+  }
+
+  .collection-clear {
+    background: none;
+    border: 0;
+    color: var(--brand-navy);
+    cursor: pointer;
+    font: inherit;
+    line-height: 28px;
+    margin-bottom: 16px;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  .collection-bar {
+    align-items: center;
+    background: #fff;
+    border-radius: 9999px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+
+    @media (width <= 767px) {
+      border-radius: 24px;
+    }
+  }
+
+  .collection-search {
+    flex: 1 1 16rem;
+
+    input {
+      background: var(--brand-mint);
+      border: 0;
+      border-radius: 9999px;
+      color: var(--brand-navy);
+      font-family: var(--font-label);
+      font-size: 16px;
+      padding: 14px 24px;
+      width: 100%;
+    }
+
+    input::placeholder {
+      color: rgb(107 114 128);
+      text-transform: uppercase;
+    }
+  }
+
+  .collection-search-button {
+    background: var(--brand-peach);
+    border: 2px solid var(--brand-navy);
+    border-radius: 9999px;
+    color: var(--brand-navy);
+    cursor: pointer;
+    font: inherit;
+    padding: 12px 32px;
+    text-transform: uppercase;
+
+    &:hover {
+      background: var(--brand-peach-dark);
+    }
+  }
+
+  .collection-count {
+    color: var(--brand-navy);
+    line-height: 28px;
+    margin: 16px 0 0;
+  }
+}

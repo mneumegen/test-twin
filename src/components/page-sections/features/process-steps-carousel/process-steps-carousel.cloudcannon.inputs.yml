@@ -1,0 +1,171 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small uppercase label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Main section heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+subtext:
+  type: markdown
+  label: Intro text
+  comment: Introductory paragraph beneath the heading. Use **bold** for emphasis.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Call-to-action buttons beneath the intro text.
+  options:
+    structures: _structures.buttonSections
+slides:
+  type: array
+  label: Steps
+  comment: Process steps shown in the carousel, one panel per step.
+  options:
+    structures: _structures.processStep
+textureImageSource:
+  type: image
+  label: Texture image
+  comment: Decorative product texture in the top-left corner. Leave empty to omit it.
+  options:
+    paths:
+      uploads: src/assets/images
+textureImageAlt:
+  type: text
+  label: Texture alt text
+  comment: Usually empty — the texture is decorative.
+maxContentWidth:
+  type: select
+  label: Max content width
+  comment: Maximum width constraint for the content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "512px"
+        name: "512px (source max-w-lg)"
+      - id: "576px"
+        name: "576px (source max-w-xl)"
+      - id: "672px"
+        name: "672px (source max-w-2xl)"
+      - id: "896px"
+        name: "896px (source max-w-4xl)"
+paddingHorizontal:
+  type: select
+  label: Horizontal padding
+  comment: Horizontal padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+paddingVertical:
+  type: select
+  label: Vertical padding
+  comment: Vertical padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "6xl"
+        name: "6xl"
+colorScheme:
+  type: select
+  label: Color scheme
+  comment: Color scheme theme for the section wrapper.
+  options:
+    values:
+      - id: "inherit"
+        name: "Inherit"
+      - id: "light"
+        name: "Light"
+      - id: "dark"
+        name: "Dark"
+backgroundColor:
+  type: select
+  label: Background color
+  comment: Background color of the section.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "base"
+        name: "Base"
+      - id: "surface"
+        name: "Surface"
+      - id: "accent"
+        name: "Accent"
+      - id: "highlight"
+        name: "Highlight"
+      - id: "sky"
+        name: "Sky"
+      - id: "mint"
+        name: "Mint"
+      - id: "mint-strong"
+        name: "Mint Strong"
+      - id: "mint-grid"
+        name: "Mint Grid"
+      - id: "peach"
+        name: "Peach"

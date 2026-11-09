@@ -1,0 +1,76 @@
+label: Video Card Carousel
+icon: smart_display
+description: Centred heading above a carousel of video cards (YouTube or Vimeo embed, label, title and text).
+value:
+  _component: page-sections/features/video-card-carousel
+  sectionLabel: ""
+  heading: Section heading
+  slides: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: none
+preview:
+  text:
+    - Video Card Carousel
+  subtext:
+    - key: heading
+  icon: smart_display
+picker_preview:
+  text: Video Card Carousel
+  subtext: Centred heading above a carousel of video cards (YouTube or Vimeo embed, label, title and text).
+_inputs_from_glob:
+  - /src/components/page-sections/features/video-card-carousel/video-card-carousel.cloudcannon.inputs.yml
+_structures:
+  videoCard:
+    values:
+      - label: Video card
+        icon: smart_display
+        value:
+          _component: page-sections/features/video-card-carousel/video-card-carousel-slide
+          label: ""
+          title: Video title
+          description: ""
+          videoType: youtube
+          videoId: ""
+          videoTitle: ""
+        preview:
+          text:
+            - key: title
+            - Video card
+          subtext:
+            - key: label
+          icon: smart_display
+        _inputs:
+          label:
+            type: text
+            label: Label
+            comment: Small uppercase label above the title, e.g. "How It's Made".
+          title:
+            type: text
+            label: Title
+          description:
+            type: markdown
+            label: Description
+            options:
+              bold: true
+              italic: true
+              link: true
+          videoType:
+            type: select
+            label: Video host
+            options:
+              values:
+                - id: youtube
+                  name: YouTube
+                - id: vimeo
+                  name: Vimeo
+          videoId:
+            type: text
+            label: Video ID
+            comment: The ID from the video URL, e.g. NaUwtSi6fo8 from youtube.com/watch?v=NaUwtSi6fo8.
+          videoTitle:
+            type: text
+            label: Video title
+            comment: Accessible name for the player. Defaults to the card title.

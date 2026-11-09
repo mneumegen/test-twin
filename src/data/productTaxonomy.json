@@ -1,0 +1,137 @@
+{
+  "formatGroups": [
+    {
+      "label": "Bar Soap",
+      "items": [
+        {
+          "value": "bar_soap",
+          "label": "Bar Soap"
+        }
+      ]
+    },
+    {
+      "label": "Liquid Formulations",
+      "items": [
+        {
+          "value": "liquid_formulations_skincare",
+          "label": "Skincare"
+        },
+        {
+          "value": "liquid_formulations_hair_care",
+          "label": "Hair Care"
+        },
+        {
+          "value": "liquid_formulations_body_personal_care",
+          "label": "Body Personal Care"
+        },
+        {
+          "value": "liquid_formulations_spf_suncare",
+          "label": "SPF Suncare"
+        }
+      ]
+    },
+    {
+      "label": "Hot Pour & Deodorant",
+      "items": [
+        {
+          "value": "hot_pour_deodorant_natural_deodorant_antiperspirant",
+          "label": "Natural Deodorant & Antiperspirant"
+        },
+        {
+          "value": "hot_pour_deodorant_spf_suncare",
+          "label": "SPF Suncare"
+        },
+        {
+          "value": "hot_pour_deodorant_skincare_body_care_hair_care",
+          "label": "Skincare, Body Care & Hair Care"
+        }
+      ]
+    }
+  ],
+  "useCases": [
+    {
+      "value": "anti-aging",
+      "label": "Anti Aging"
+    },
+    {
+      "value": "beauty_products",
+      "label": "Beauty Products"
+    },
+    {
+      "value": "brightening_even_complexion",
+      "label": "Brightening Even Complexion"
+    },
+    {
+      "value": "cleansers",
+      "label": "Cleansers"
+    },
+    {
+      "value": "deodorant",
+      "label": "Deodorant"
+    },
+    {
+      "value": "exfoliating",
+      "label": "Exfoliating"
+    },
+    {
+      "value": "eye_lip_care",
+      "label": "Eye Lip Care"
+    },
+    {
+      "value": "hair_styling_treatments",
+      "label": "Hair Styling Treatments"
+    },
+    {
+      "value": "home_bath",
+      "label": "Home Bath"
+    },
+    {
+      "value": "masks",
+      "label": "Masks"
+    },
+    {
+      "value": "men’s_products",
+      "label": "Men’s Products"
+    },
+    {
+      "value": "moisturizers",
+      "label": "Moisturizers"
+    },
+    {
+      "value": "moisturizing",
+      "label": "Moisturizing"
+    },
+    {
+      "value": "natural_sustainable",
+      "label": "Natural Sustainable"
+    },
+    {
+      "value": "scalp_care",
+      "label": "Scalp Care"
+    },
+    {
+      "value": "sensitive_skin",
+      "label": "Sensitive Skin"
+    },
+    {
+      "value": "serums_toners",
+      "label": "Serums Toners"
+    },
+    {
+      "value": "shampoo_conditioner",
+      "label": "Shampoo Conditioner"
+    },
+    {
+      "value": "shaving_grooming",
+      "label": "Shaving Grooming"
+    },
+    {
+      "value": "soap-free",
+      "label": "Soap Free"
+    },
+    {
+      "value": "spf_suncare",
+      "label": "Spf Suncare"
+    }
+  ]
+}

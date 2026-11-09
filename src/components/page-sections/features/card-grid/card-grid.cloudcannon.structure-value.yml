@@ -1,0 +1,76 @@
+label: Card Grid
+icon: view_module
+description: Section header above a row of image cards that becomes a swipe carousel on smaller screens.
+value:
+  _component: page-sections/features/card-grid
+  sectionLabel: ""
+  eyebrow: ""
+  heading: Heading text
+  subtext: ""
+  headerLayout: centered
+  cards: []
+  cardVariant: photo-card
+  cardColor: base
+  cardLinkStyle: pinned
+  buttonSections: []
+  backgroundColor: sky
+preview:
+  text:
+    - Card Grid
+  subtext:
+    - key: heading
+  icon: view_module
+picker_preview:
+  text: Card Grid
+  subtext: Section header above a row of image cards that becomes a swipe carousel on smaller screens.
+_inputs_from_glob:
+  - /src/components/page-sections/features/card-grid/card-grid.cloudcannon.inputs.yml
+_structures:
+  cardGridCards:
+    values:
+      - label: Card
+        icon: crop_square
+        value:
+          _component: page-sections/features/card-grid/card-grid-card
+          imageSource: /src/assets/images/hubfs/2026/spot-illustrations/folding-carton.png
+          imageAlt: ""
+          title: Card title
+          body: ""
+          linkText: ""
+          linkUrl: ""
+        preview:
+          text:
+            - key: title
+            - Card
+          image:
+            - key: imageSource
+        picker_preview:
+          text: Card
+        _inputs:
+          imageSource:
+            type: image
+            label: Image
+            comment: Image shown at the top of the card.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Image alt text
+            comment: Describes the image for screen readers.
+          title:
+            type: text
+            label: Title
+            comment: Card title below the image.
+          body:
+            type: textarea
+            label: Body
+            comment: Body copy below the title. Leave empty to omit it.
+          linkText:
+            type: text
+            label: Link text
+            comment: Label of the arrow link at the bottom of the card.
+          linkUrl:
+            type: text
+            label: Link URL
+            comment: URL the arrow link points to. Leave empty to omit the link.

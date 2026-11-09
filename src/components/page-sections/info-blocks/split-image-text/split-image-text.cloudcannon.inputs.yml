@@ -1,0 +1,99 @@
+sectionLabel:
+  type: text
+  label: Section Label
+  comment: Optional label for the section; an anchor id is derived from it.
+frame:
+  type: select
+  label: Frame
+  comment: Full bleed puts the image edge to edge; contained centres a rounded photo with padding.
+  options:
+    values:
+      - id: full-bleed
+        name: Full Bleed
+      - id: contained
+        name: Contained
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Section heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+body:
+  type: markdown
+  label: Body
+  comment: Rich body copy with paragraphs, sub-headings and lists.
+  options:
+    blockquote: false
+    bold: true
+    format: p h1 h2 h3 h4 h5 h6 pre
+    italic: true
+    link: true
+    strike: false
+    subscript: true
+    superscript: true
+    underline: false
+    bulletedlist: true
+    numberedlist: true
+    indent: true
+    outdent: true
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Buttons below the body. Leave empty to omit them.
+  options:
+    structures: _structures.buttonSections
+imageOnLeft:
+  type: switch
+  label: Image On Left
+  comment: Place the image on the left on tablet and desktop.
+image:
+  type: image
+  label: Image
+  comment: Photo shown beside the copy.
+  options:
+    paths:
+      uploads: src/assets/images
+imageAlt:
+  type: text
+  label: Image Alt
+  comment: Alternative text for the image.
+backgroundColor:
+  type: select
+  label: Background Color
+  comment: Section surface colour.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: base
+        name: Base
+      - id: surface
+        name: Surface
+      - id: accent
+        name: Accent
+      - id: highlight
+        name: Highlight
+      - id: sky
+        name: Sky
+      - id: mint
+        name: Mint
+      - id: mint-strong
+        name: Mint Strong
+      - id: mint-grid
+        name: Mint Grid
+      - id: peach
+        name: Peach

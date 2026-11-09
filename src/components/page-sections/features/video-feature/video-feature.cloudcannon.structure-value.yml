@@ -1,0 +1,27 @@
+label: Video Feature
+icon: smart_display
+description: Centred eyebrow, heading and intro with optional button above a wide rounded YouTube video.
+value:
+  _component: page-sections/features/video-feature
+  sectionLabel: ""
+  eyebrow: Eyebrow text
+  heading: Heading text
+  subtext: Supporting copy placeholder text.
+  buttonSections: []
+  videoId: ""
+  videoTitle: ""
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+preview:
+  text:
+    - Video Feature
+  subtext:
+    - key: heading
+  icon: smart_display
+picker_preview:
+  text: Video Feature
+  subtext: Centred eyebrow, heading and intro with optional button above a wide rounded YouTube video.
+_inputs_from_glob:
+  - /src/components/page-sections/features/video-feature/video-feature.cloudcannon.inputs.yml

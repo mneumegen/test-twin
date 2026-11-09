@@ -1,0 +1,74 @@
+label: Packaging Options
+icon: checklist
+description: Eyebrow, heading and intro on the left; a checklist of titled options on the right over a bottom-anchored illustration.
+value:
+  _component: page-sections/info-blocks/packaging-options
+  sectionLabel: ""
+  eyebrow: Section eyebrow
+  heading: Section heading
+  intro: Short introduction for this section.
+  items: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  background:
+    type: image
+    positionVertical: bottom
+    positionHorizontal: center
+    priority: false
+    imageSource: /src/assets/images/shared/illustrative-bg-2.png
+    imageAlt: ""
+    videoSource: null
+    overlay: 0
+preview:
+  text:
+    - Packaging Options
+  subtext:
+    - key: heading
+  icon: checklist
+picker_preview:
+  text: Packaging Options
+  subtext: Eyebrow, heading and intro on the left; a checklist of titled options on the right over a bottom-anchored illustration.
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/packaging-options/packaging-options.cloudcannon.inputs.yml
+_structures:
+  packagingOptionItems:
+    values:
+      - label: Option
+        icon: check
+        value:
+          title: ""
+          body: ""
+        preview:
+          text:
+            - key: title
+            - Option
+          subtext:
+            - key: body
+          icon: check
+        picker_preview:
+          text:
+            - Option
+          icon: check
+        _inputs:
+          title:
+            type: markdown
+            label: Title
+            comment: Option title beside the check mark.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          body:
+            type: markdown
+            label: Body
+            comment: Paragraph describing the option.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

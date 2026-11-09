@@ -1,0 +1,22 @@
+label: Rich Text
+icon: article
+description: "Long-form prose column: markdown headings, paragraphs, lists and links (legal / policy pages)."
+value:
+  _component: page-sections/structure/rich-text
+  body: |-
+    ## Section heading
+
+    Paragraph text with a [link](https://example.com).
+
+    - **List item lead** - List item text.
+preview:
+  text:
+    - Rich Text
+  subtext:
+    - key: body
+  icon: article
+picker_preview:
+  text: Rich Text
+  subtext: "Long-form prose column: markdown headings, paragraphs, lists and links (legal / policy pages)."
+_inputs_from_glob:
+  - /src/components/page-sections/structure/rich-text/rich-text.cloudcannon.inputs.yml

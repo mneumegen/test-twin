@@ -1,0 +1,130 @@
+logoSource:
+  type: image
+  comment: "Logo image shown at the top of the footer's brand column."
+  options:
+    resize_style: contain
+    width: 1920
+    height: 1280
+logoAlt:
+  type: text
+  comment: "Alt text for the footer logo image for accessibility."
+buttonSections:
+  type: array
+  comment: "Call-to-action buttons stacked under the footer logo. See the Button component documentation for more information."
+  options:
+    structures: _structures.buttonSections
+columns:
+  type: array
+  comment: "Link columns, each with a heading and a list of links."
+  options:
+    structures: _structures.footerColumns
+followLabel:
+  type: text
+  comment: "Label shown above the social media links."
+socials:
+  type: array
+  comment: "Social media links, each rendered as its own image."
+  options:
+    structures: _structures.socials
+contactItems:
+  type: array
+  comment: "Contact links with an optional label above each one and an optional icon before the link text."
+  options:
+    structures: _structures.footerContactItems
+copyrightText:
+  type: text
+  comment: "Copyright line shown in the legal bar at the bottom of the footer."
+legalLinks:
+  type: array
+  comment: "Links shown on the right of the legal bar."
+  options:
+    structures: _structures.footerLinks
+_structures:
+  footerColumns:
+    values:
+      - label: Footer Column
+        icon: view_column
+        value:
+          heading: ""
+          links: []
+        preview:
+          text:
+            - key: heading
+            - Footer Column
+        _inputs:
+          heading:
+            type: text
+            comment: "Heading shown above the column's links."
+          links:
+            type: array
+            comment: "Links listed in this column."
+            options:
+              structures: _structures.footerLinks
+  footerContactItems:
+    values:
+      - label: Contact Item
+        icon: contact_phone
+        value:
+          label: ""
+          text: ""
+          link: ""
+          iconName: ""
+        preview:
+          text:
+            - key: text
+            - Contact Item
+          subtext:
+            - key: label
+        _inputs:
+          label:
+            type: text
+            comment: "Optional label shown above the contact link. Leave empty to show the link alone."
+          text:
+            type: text
+            comment: "Display text for the contact link."
+          link:
+            type: url
+            comment: "URL, telephone or email link for the contact item."
+          iconName:
+            type: select
+            comment: "Optional icon shown before the link text."
+            options:
+              allow_empty: true
+              values: _select_data.icons
+              preview:
+                text:
+                  - key: name
+                image:
+                  - template: src/icons/{id}.svg
+  footerLinks:
+    values:
+      - label: Footer Link
+        icon: link
+        value:
+          text: ""
+          link: ""
+          iconName: ""
+        preview:
+          text:
+            - key: text
+            - Footer Link
+          subtext:
+            - key: link
+        _inputs:
+          text:
+            type: text
+            comment: "Display text for the footer link."
+          link:
+            type: url
+            comment: "URL for the footer link."
+          iconName:
+            type: select
+            comment: "Optional icon shown before the link text."
+            options:
+              allow_empty: true
+              values: _select_data.icons
+              preview:
+                text:
+                  - key: name
+                image:
+                  - template: src/icons/{id}.svg

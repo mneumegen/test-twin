@@ -1,0 +1,987 @@
+collections_config:
+  pages:
+    path: src/content/pages
+    glob:
+      - "**/*.md"
+    # Pages build as /about-us.html (no trailing slash); the homepage (flagged _is_homepage) is /.
+    # eslint-disable-next-line yml/quotes -- Prettier prefers single quotes when the value contains double quotes
+    url: '/[full_slug]{".html"|unless=_is_homepage}'
+    icon: web
+    _enabled_editors:
+      - visual
+    add_options:
+      - name: Add New Page
+        schema: default
+        icon: pages
+    schemas:
+      default:
+        name: New Page
+        path: .cloudcannon/schemas/page.md
+        remove_extra_inputs: false
+    create:
+      path: "[relative_base_path]/{filename|slugify|lowercase}.md"
+    new_preview_url: /
+    _inputs:
+      title:
+        type: text
+        comment: Controls the metadata title for the page.
+      keywords:
+        type: array
+        comment: Optional meta keywords for this page.
+      keywords[*]:
+        type: text
+  products:
+    path: src/content/products
+    glob:
+      - "**/*.md"
+    url: /products/[slug].html
+    name: Products
+    icon: inventory_2
+    description: Product concepts shown in the Product Library (/products). Each product uses the same page template.
+    _enabled_editors:
+      - data
+    add_options:
+      - name: Add Product
+        schema: default
+        icon: inventory_2
+    schemas:
+      default:
+        name: New Product
+        path: .cloudcannon/schemas/product.md
+        remove_extra_inputs: false
+    create:
+      path: "[relative_base_path]/{title|slugify}.md"
+    new_preview_url: /products
+    sort_options:
+      - key: title
+        order: asc
+    _inputs:
+      title:
+        type: text
+      summary:
+        type: textarea
+        comment: Short description shown on the product card in the library.
+      image:
+        type: image
+        comment: Square product photo.
+      imageAlt:
+        type: text
+        label: Image alt text
+      formats:
+        type: multiselect
+        label: Product formats
+        comment: Used by the Product Format filter.
+        options:
+          values:
+            - id: "bar_soap"
+              name: "Bar Soap: Bar Soap"
+            - id: "liquid_formulations_skincare"
+              name: "Liquid Formulations: Skincare"
+            - id: "liquid_formulations_hair_care"
+              name: "Liquid Formulations: Hair Care"
+            - id: "liquid_formulations_body_personal_care"
+              name: "Liquid Formulations: Body Personal Care"
+            - id: "liquid_formulations_spf_suncare"
+              name: "Liquid Formulations: SPF Suncare"
+            - id: "hot_pour_deodorant_natural_deodorant_antiperspirant"
+              name: "Hot Pour & Deodorant: Natural Deodorant & Antiperspirant"
+            - id: "hot_pour_deodorant_spf_suncare"
+              name: "Hot Pour & Deodorant: SPF Suncare"
+            - id: "hot_pour_deodorant_skincare_body_care_hair_care"
+              name: "Hot Pour & Deodorant: Skincare, Body Care & Hair Care"
+      useCases:
+        type: multiselect
+        label: Use cases
+        comment: Used by the Use Cases filter. Labels come from src/data/productTaxonomy.json.
+        options:
+          values:
+            - id: "anti-aging"
+              name: "Anti Aging"
+            - id: "beauty_products"
+              name: "Beauty Products"
+            - id: "brightening_even_complexion"
+              name: "Brightening Even Complexion"
+            - id: "cleansers"
+              name: "Cleansers"
+            - id: "deodorant"
+              name: "Deodorant"
+            - id: "exfoliating"
+              name: "Exfoliating"
+            - id: "eye_lip_care"
+              name: "Eye Lip Care"
+            - id: "hair_styling_treatments"
+              name: "Hair Styling Treatments"
+            - id: "home_bath"
+              name: "Home Bath"
+            - id: "masks"
+              name: "Masks"
+            - id: "men’s_products"
+              name: "Men’s Products"
+            - id: "moisturizers"
+              name: "Moisturizers"
+            - id: "moisturizing"
+              name: "Moisturizing"
+            - id: "natural_sustainable"
+              name: "Natural Sustainable"
+            - id: "scalp_care"
+              name: "Scalp Care"
+            - id: "sensitive_skin"
+              name: "Sensitive Skin"
+            - id: "serums_toners"
+              name: "Serums Toners"
+            - id: "shampoo_conditioner"
+              name: "Shampoo Conditioner"
+            - id: "shaving_grooming"
+              name: "Shaving Grooming"
+            - id: "soap-free"
+              name: "Soap Free"
+            - id: "spf_suncare"
+              name: "Spf Suncare"
+      featuredIngredients:
+        type: array
+        comment: One line per ingredient. Bold the ingredient name, e.g. **Shea butter** moisturizes skin.
+      featuredIngredients[*]:
+        type: markdown
+        options:
+          bold: true
+          italic: true
+      libraryBase:
+        type: text
+      naturallyDerived:
+        type: text
+        comment: e.g. 99.1%
+      freeFrom:
+        type: array
+        label: Free from
+      freeFrom[*]:
+        type: text
+      featured:
+        type: switch
+        comment: Show in the Current Innovation Collection on /products.
+      featuredOrder:
+        type: number
+        comment: Position within the Current Innovation Collection.
+  learningLab:
+    path: src/content/learning-lab
+    glob:
+      - "**/*.mdx"
+      - "**/*.md"
+    url: /learning-lab/[slug].html
+    name: Learning Lab
+    icon: school
+    description: Learning Lab articles. Newest first on /learning-lab.
+    _enabled_editors:
+      - content
+      - data
+    add_options:
+      - name: Add Article
+        schema: default
+        icon: article
+    schemas:
+      default:
+        name: New Article
+        path: .cloudcannon/schemas/learning-lab-article.mdx
+        remove_extra_inputs: false
+    create:
+      path: "[relative_base_path]/{title|slugify}.mdx"
+    new_preview_url: /learning-lab
+    sort_options:
+      - key: publishedDate
+        order: desc
+    _inputs:
+      title:
+        type: text
+      description:
+        type: textarea
+        comment: Used for search engines (and article cards when Excerpt is empty).
+      excerpt:
+        type: textarea
+        comment: Short teaser shown on article cards and Featured Articles.
+      image:
+        type: image
+        label: Featured image
+      imageAlt:
+        type: text
+        label: Featured image alt text
+      publishedDate:
+        type: datetime
+      modifiedDate:
+        type: datetime
+      author:
+        type: select
+        options:
+          values:
+            - id: "anna-keller-director-of-trend-marketing-strategy"
+              name: "Anna Keller, Director of Trend & Marketing Strategy"
+            - id: "david-rose-associate-director-of-sales"
+              name: "David Rose, Associate Director of Sales"
+            - id: "emily-spine-associate-director-of-sales"
+              name: "Emily Spine, Associate Director of Sales"
+            - id: "niamhoconnor"
+              name: "Niamh O'Connor, Content Marketing Manager"
+            - id: "nina-hudson-director-of-marketing-trend-and-product-innovation"
+              name: "Nina Hudson, Director of Marketing, Trend, and Product Innovation"
+            - id: "rebecca-adams-digital-marketing-trend-strategist"
+              name: "Rebecca Adams, Digital Marketing & Trend Strategist"
+            - id: "twincraft"
+              name: "Twincraft"
+            - id: "wayne-labonte-vp-sales-marketing"
+              name: "Wayne LaBonte, VP Sales & Marketing"
+      tags:
+        type: multiselect
+        options:
+          values:
+            - id: "product-development"
+              name: "product development"
+            - id: "trends-innovation"
+              name: "Trends & Innovation"
+            - id: "formulation"
+              name: "formulation"
+            - id: "news-updates"
+              name: "news & updates"
+            - id: "regulatory"
+              name: "regulatory"
+      featured:
+        type: switch
+        comment: Show under Featured Articles on /learning-lab.
+# Editor uploads go where Astro can optimize them (paths are stored as /src/assets/images/...).
+paths:
+  uploads: src/assets/images
+collection_groups:
+  - heading: Content
+    collections:
+      - pages
+      - products
+      - learningLab
+  - heading: Data
+    collections:
+      - data
+_inputs:
+  pageSections:
+    comment: The main sections of the page.
+  logoSource:
+    type: image
+  logoAlternateSource:
+    type: image
+_select_data:
+  # Selectable UI icons match [Heroicons](https://heroicons.com/); SVGs live in src/icons/.
+  icons:
+    - id: academic-cap
+      name: Academic Cap
+    - id: adjustments-horizontal
+      name: Adjustments Horizontal
+    - id: adjustments-vertical
+      name: Adjustments Vertical
+    - id: archive-box
+      name: Archive Box
+    - id: archive-box-arrow-down
+      name: Archive Box Arrow Down
+    - id: archive-box-x-mark
+      name: Archive Box X Mark
+    - id: arrow-down
+      name: Arrow Down
+    - id: arrow-down-circle
+      name: Arrow Down Circle
+    - id: arrow-down-left
+      name: Arrow Down Left
+    - id: arrow-down-on-square
+      name: Arrow Down On Square
+    - id: arrow-down-on-square-stack
+      name: Arrow Down On Square Stack
+    - id: arrow-down-right
+      name: Arrow Down Right
+    - id: arrow-down-tray
+      name: Arrow Down Tray
+    - id: arrow-left
+      name: Arrow Left
+    - id: arrow-left-circle
+      name: Arrow Left Circle
+    - id: arrow-left-end-on-rectangle
+      name: Arrow Left End On Rectangle
+    - id: arrow-left-on-rectangle
+      name: Arrow Left On Rectangle
+    - id: arrow-left-start-on-rectangle
+      name: Arrow Left Start On Rectangle
+    - id: arrow-long-down
+      name: Arrow Long Down
+    - id: arrow-long-left
+      name: Arrow Long Left
+    - id: arrow-long-right
+      name: Arrow Long Right
+    - id: arrow-long-up
+      name: Arrow Long Up
+    - id: arrow-path
+      name: Arrow Path
+    - id: arrow-path-rounded-square
+      name: Arrow Path Rounded Square
+    - id: arrow-right
+      name: Arrow Right
+    - id: arrow-right-circle
+      name: Arrow Right Circle
+    - id: arrow-right-end-on-rectangle
+      name: Arrow Right End On Rectangle
+    - id: arrow-right-on-rectangle
+      name: Arrow Right On Rectangle
+    - id: arrow-right-start-on-rectangle
+      name: Arrow Right Start On Rectangle
+    - id: arrow-small-down
+      name: Arrow Small Down
+    - id: arrow-small-left
+      name: Arrow Small Left
+    - id: arrow-small-right
+      name: Arrow Small Right
+    - id: arrow-small-up
+      name: Arrow Small Up
+    - id: arrow-top-right-on-square
+      name: Arrow Top Right On Square
+    - id: arrow-trending-down
+      name: Arrow Trending Down
+    - id: arrow-trending-up
+      name: Arrow Trending Up
+    - id: arrow-turn-down-left
+      name: Arrow Turn Down Left
+    - id: arrow-turn-down-right
+      name: Arrow Turn Down Right
+    - id: arrow-turn-left-down
+      name: Arrow Turn Left Down
+    - id: arrow-turn-left-up
+      name: Arrow Turn Left Up
+    - id: arrow-turn-right-down
+      name: Arrow Turn Right Down
+    - id: arrow-turn-right-up
+      name: Arrow Turn Right Up
+    - id: arrow-turn-up-left
+      name: Arrow Turn Up Left
+    - id: arrow-turn-up-right
+      name: Arrow Turn Up Right
+    - id: arrow-up
+      name: Arrow Up
+    - id: arrow-up-circle
+      name: Arrow Up Circle
+    - id: arrow-up-left
+      name: Arrow Up Left
+    - id: arrow-up-on-square
+      name: Arrow Up On Square
+    - id: arrow-up-on-square-stack
+      name: Arrow Up On Square Stack
+    - id: arrow-up-right
+      name: Arrow Up Right
+    - id: arrow-up-tray
+      name: Arrow Up Tray
+    - id: arrow-uturn-down
+      name: Arrow Uturn Down
+    - id: arrow-uturn-left
+      name: Arrow Uturn Left
+    - id: arrow-uturn-right
+      name: Arrow Uturn Right
+    - id: arrow-uturn-up
+      name: Arrow Uturn Up
+    - id: arrows-pointing-in
+      name: Arrows Pointing In
+    - id: arrows-pointing-out
+      name: Arrows Pointing Out
+    - id: arrows-right-left
+      name: Arrows Right Left
+    - id: arrows-up-down
+      name: Arrows Up Down
+    - id: at-symbol
+      name: At Symbol
+    - id: backspace
+      name: Backspace
+    - id: backward
+      name: Backward
+    - id: banknotes
+      name: Banknotes
+    - id: bars-2
+      name: Bars 2
+    - id: bars-3
+      name: Bars 3
+    - id: bars-3-bottom-left
+      name: Bars 3 Bottom Left
+    - id: bars-3-bottom-right
+      name: Bars 3 Bottom Right
+    - id: bars-3-center-left
+      name: Bars 3 Center Left
+    - id: bars-4
+      name: Bars 4
+    - id: bars-arrow-down
+      name: Bars Arrow Down
+    - id: bars-arrow-up
+      name: Bars Arrow Up
+    - id: battery-0
+      name: Battery 0
+    - id: battery-100
+      name: Battery 100
+    - id: battery-50
+      name: Battery 50
+    - id: beaker
+      name: Beaker
+    - id: bell
+      name: Bell
+    - id: bell-alert
+      name: Bell Alert
+    - id: bell-slash
+      name: Bell Slash
+    - id: bell-snooze
+      name: Bell Snooze
+    - id: bold
+      name: Bold
+    - id: bolt
+      name: Bolt
+    - id: bolt-slash
+      name: Bolt Slash
+    - id: book-open
+      name: Book Open
+    - id: bookmark
+      name: Bookmark
+    - id: bookmark-slash
+      name: Bookmark Slash
+    - id: bookmark-square
+      name: Bookmark Square
+    - id: briefcase
+      name: Briefcase
+    - id: bug-ant
+      name: Bug Ant
+    - id: building-library
+      name: Building Library
+    - id: building-office
+      name: Building Office
+    - id: building-office-2
+      name: Building Office 2
+    - id: building-storefront
+      name: Building Storefront
+    - id: cake
+      name: Cake
+    - id: calculator
+      name: Calculator
+    - id: calendar
+      name: Calendar
+    - id: calendar-date-range
+      name: Calendar Date Range
+    - id: calendar-days
+      name: Calendar Days
+    - id: camera
+      name: Camera
+    - id: chart-bar
+      name: Chart Bar
+    - id: chart-bar-square
+      name: Chart Bar Square
+    - id: chart-pie
+      name: Chart Pie
+    - id: chat-bubble-bottom-center
+      name: Chat Bubble Bottom Center
+    - id: chat-bubble-bottom-center-text
+      name: Chat Bubble Bottom Center Text
+    - id: chat-bubble-left
+      name: Chat Bubble Left
+    - id: chat-bubble-left-ellipsis
+      name: Chat Bubble Left Ellipsis
+    - id: chat-bubble-left-right
+      name: Chat Bubble Left Right
+    - id: chat-bubble-oval-left
+      name: Chat Bubble Oval Left
+    - id: chat-bubble-oval-left-ellipsis
+      name: Chat Bubble Oval Left Ellipsis
+    - id: check
+      name: Check
+    - id: check-badge
+      name: Check Badge
+    - id: check-circle
+      name: Check Circle
+    - id: chevron-double-down
+      name: Chevron Double Down
+    - id: chevron-double-left
+      name: Chevron Double Left
+    - id: chevron-double-right
+      name: Chevron Double Right
+    - id: chevron-double-up
+      name: Chevron Double Up
+    - id: chevron-down
+      name: Chevron Down
+    - id: chevron-left
+      name: Chevron Left
+    - id: chevron-right
+      name: Chevron Right
+    - id: chevron-up
+      name: Chevron Up
+    - id: chevron-up-down
+      name: Chevron Up Down
+    - id: circle-stack
+      name: Circle Stack
+    - id: clipboard
+      name: Clipboard
+    - id: clipboard-document
+      name: Clipboard Document
+    - id: clipboard-document-check
+      name: Clipboard Document Check
+    - id: clipboard-document-list
+      name: Clipboard Document List
+    - id: clock
+      name: Clock
+    - id: cloud
+      name: Cloud
+    - id: cloud-arrow-down
+      name: Cloud Arrow Down
+    - id: cloud-arrow-up
+      name: Cloud Arrow Up
+    - id: code-bracket
+      name: Code Bracket
+    - id: code-bracket-square
+      name: Code Bracket Square
+    - id: cog
+      name: Cog
+    - id: cog-6-tooth
+      name: Cog 6 Tooth
+    - id: cog-8-tooth
+      name: Cog 8 Tooth
+    - id: command-line
+      name: Command Line
+    - id: computer-desktop
+      name: Computer Desktop
+    - id: cpu-chip
+      name: Cpu Chip
+    - id: credit-card
+      name: Credit Card
+    - id: cube
+      name: Cube
+    - id: cube-transparent
+      name: Cube Transparent
+    - id: currency-bangladeshi
+      name: Currency Bangladeshi
+    - id: currency-dollar
+      name: Currency Dollar
+    - id: currency-euro
+      name: Currency Euro
+    - id: currency-pound
+      name: Currency Pound
+    - id: currency-rupee
+      name: Currency Rupee
+    - id: currency-yen
+      name: Currency Yen
+    - id: cursor-arrow-rays
+      name: Cursor Arrow Rays
+    - id: cursor-arrow-ripple
+      name: Cursor Arrow Ripple
+    - id: device-phone-mobile
+      name: Device Phone Mobile
+    - id: device-tablet
+      name: Device Tablet
+    - id: divide
+      name: Divide
+    - id: document
+      name: Document
+    - id: document-arrow-down
+      name: Document Arrow Down
+    - id: document-arrow-up
+      name: Document Arrow Up
+    - id: document-chart-bar
+      name: Document Chart Bar
+    - id: document-check
+      name: Document Check
+    - id: document-currency-bangladeshi
+      name: Document Currency Bangladeshi
+    - id: document-currency-dollar
+      name: Document Currency Dollar
+    - id: document-currency-euro
+      name: Document Currency Euro
+    - id: document-currency-pound
+      name: Document Currency Pound
+    - id: document-currency-rupee
+      name: Document Currency Rupee
+    - id: document-currency-yen
+      name: Document Currency Yen
+    - id: document-duplicate
+      name: Document Duplicate
+    - id: document-magnifying-glass
+      name: Document Magnifying Glass
+    - id: document-minus
+      name: Document Minus
+    - id: document-plus
+      name: Document Plus
+    - id: document-text
+      name: Document Text
+    - id: ellipsis-horizontal
+      name: Ellipsis Horizontal
+    - id: ellipsis-horizontal-circle
+      name: Ellipsis Horizontal Circle
+    - id: ellipsis-vertical
+      name: Ellipsis Vertical
+    - id: envelope
+      name: Envelope
+    - id: envelope-open
+      name: Envelope Open
+    - id: equals
+      name: Equals
+    - id: exclamation-circle
+      name: Exclamation Circle
+    - id: exclamation-triangle
+      name: Exclamation Triangle
+    - id: eye
+      name: Eye
+    - id: eye-dropper
+      name: Eye Dropper
+    - id: eye-slash
+      name: Eye Slash
+    - id: face-frown
+      name: Face Frown
+    - id: face-smile
+      name: Face Smile
+    - id: film
+      name: Film
+    - id: finger-print
+      name: Finger Print
+    - id: fire
+      name: Fire
+    - id: flag
+      name: Flag
+    - id: folder
+      name: Folder
+    - id: folder-arrow-down
+      name: Folder Arrow Down
+    - id: folder-minus
+      name: Folder Minus
+    - id: folder-open
+      name: Folder Open
+    - id: folder-plus
+      name: Folder Plus
+    - id: forward
+      name: Forward
+    - id: funnel
+      name: Funnel
+    - id: gif
+      name: Gif
+    - id: gift
+      name: Gift
+    - id: gift-top
+      name: Gift Top
+    - id: globe-alt
+      name: Globe Alt
+    - id: globe-americas
+      name: Globe Americas
+    - id: globe-asia-australia
+      name: Globe Asia Australia
+    - id: globe-europe-africa
+      name: Globe Europe Africa
+    - id: h1
+      name: H1
+    - id: h2
+      name: H2
+    - id: h3
+      name: H3
+    - id: hand-raised
+      name: Hand Raised
+    - id: hand-thumb-down
+      name: Hand Thumb Down
+    - id: hand-thumb-up
+      name: Hand Thumb Up
+    - id: hashtag
+      name: Hashtag
+    - id: heart
+      name: Heart
+    - id: home
+      name: Home
+    - id: home-modern
+      name: Home Modern
+    - id: identification
+      name: Identification
+    - id: inbox
+      name: Inbox
+    - id: inbox-arrow-down
+      name: Inbox Arrow Down
+    - id: inbox-stack
+      name: Inbox Stack
+    - id: information-circle
+      name: Information Circle
+    - id: italic
+      name: Italic
+    - id: key
+      name: Key
+    - id: language
+      name: Language
+    - id: lifebuoy
+      name: Lifebuoy
+    - id: light-bulb
+      name: Light Bulb
+    - id: link
+      name: Link
+    - id: link-slash
+      name: Link Slash
+    - id: list-bullet
+      name: List Bullet
+    - id: lock-closed
+      name: Lock Closed
+    - id: lock-open
+      name: Lock Open
+    - id: ltr
+      name: Ltr
+    - id: magnifying-glass
+      name: Magnifying Glass
+    - id: magnifying-glass-circle
+      name: Magnifying Glass Circle
+    - id: magnifying-glass-minus
+      name: Magnifying Glass Minus
+    - id: magnifying-glass-plus
+      name: Magnifying Glass Plus
+    - id: map
+      name: Map
+    - id: map-pin
+      name: Map Pin
+    - id: megaphone
+      name: Megaphone
+    - id: microphone
+      name: Microphone
+    - id: minus
+      name: Minus
+    - id: minus-circle
+      name: Minus Circle
+    - id: minus-small
+      name: Minus Small
+    - id: moon
+      name: Moon
+    - id: musical-note
+      name: Musical Note
+    - id: newspaper
+      name: Newspaper
+    - id: no-symbol
+      name: No Symbol
+    - id: numbered-list
+      name: Numbered List
+    - id: paint-brush
+      name: Paint Brush
+    - id: paper-airplane
+      name: Paper Airplane
+    - id: paper-clip
+      name: Paper Clip
+    - id: pause
+      name: Pause
+    - id: pause-circle
+      name: Pause Circle
+    - id: pencil
+      name: Pencil
+    - id: pencil-square
+      name: Pencil Square
+    - id: percent-badge
+      name: Percent Badge
+    - id: phone
+      name: Phone
+    - id: phone-arrow-down-left
+      name: Phone Arrow Down Left
+    - id: phone-arrow-up-right
+      name: Phone Arrow Up Right
+    - id: phone-x-mark
+      name: Phone X Mark
+    - id: photo
+      name: Photo
+    - id: play
+      name: Play
+    - id: play-circle
+      name: Play Circle
+    - id: play-pause
+      name: Play Pause
+    - id: plus
+      name: Plus
+    - id: plus-circle
+      name: Plus Circle
+    - id: plus-small
+      name: Plus Small
+    - id: power
+      name: Power
+    - id: presentation-chart-bar
+      name: Presentation Chart Bar
+    - id: presentation-chart-line
+      name: Presentation Chart Line
+    - id: printer
+      name: Printer
+    - id: puzzle-piece
+      name: Puzzle Piece
+    - id: qr-code
+      name: Qr Code
+    - id: question-mark-circle
+      name: Question Mark Circle
+    - id: queue-list
+      name: Queue List
+    - id: radio
+      name: Radio
+    - id: receipt-percent
+      name: Receipt Percent
+    - id: receipt-refund
+      name: Receipt Refund
+    - id: rectangle-group
+      name: Rectangle Group
+    - id: rectangle-stack
+      name: Rectangle Stack
+    - id: rocket-launch
+      name: Rocket Launch
+    - id: rss
+      name: Rss
+    - id: rtl
+      name: Rtl
+    - id: scale
+      name: Scale
+    - id: scissors
+      name: Scissors
+    - id: server
+      name: Server
+    - id: server-stack
+      name: Server Stack
+    - id: share
+      name: Share
+    - id: shield-check
+      name: Shield Check
+    - id: shield-exclamation
+      name: Shield Exclamation
+    - id: shopping-bag
+      name: Shopping Bag
+    - id: shopping-cart
+      name: Shopping Cart
+    - id: signal
+      name: Signal
+    - id: signal-slash
+      name: Signal Slash
+    - id: slash
+      name: Slash
+    - id: social/bluesky
+      name: Social/bluesky
+    - id: social/discord
+      name: Social/discord
+    - id: social/facebook
+      name: Social/facebook
+    - id: social/github
+      name: Social/github
+    - id: social/gitlab
+      name: Social/gitlab
+    - id: social/gitter
+      name: Social/gitter
+    - id: social/google
+      name: Social/google
+    - id: social/instagram
+      name: Social/instagram
+    - id: social/linkedin
+      name: Social/linkedin
+    - id: social/medium
+      name: Social/medium
+    - id: social/pinterest
+      name: Social/pinterest
+    - id: social/reddit
+      name: Social/reddit
+    - id: social/tiktok
+      name: Social/tiktok
+    - id: social/twitch
+      name: Social/twitch
+    - id: social/x
+      name: Social/x
+    - id: social/yelp
+      name: Social/yelp
+    - id: social/youtube
+      name: Social/youtube
+    - id: sparkles
+      name: Sparkles
+    - id: speaker-wave
+      name: Speaker Wave
+    - id: speaker-x-mark
+      name: Speaker X Mark
+    - id: square-2-stack
+      name: Square 2 Stack
+    - id: square-3-stack-3d
+      name: Square 3 Stack 3d
+    - id: squares-2x2
+      name: Squares 2x2
+    - id: squares-plus
+      name: Squares Plus
+    - id: star
+      name: Star
+    - id: stop
+      name: Stop
+    - id: stop-circle
+      name: Stop Circle
+    - id: strikethrough
+      name: Strikethrough
+    - id: sun
+      name: Sun
+    - id: swatch
+      name: Swatch
+    - id: table-cells
+      name: Table Cells
+    - id: tag
+      name: Tag
+    - id: ticket
+      name: Ticket
+    - id: trash
+      name: Trash
+    - id: trophy
+      name: Trophy
+    - id: truck
+      name: Truck
+    - id: tv
+      name: Tv
+    - id: underline
+      name: Underline
+    - id: user
+      name: User
+    - id: user-circle
+      name: User Circle
+    - id: user-group
+      name: User Group
+    - id: user-minus
+      name: User Minus
+    - id: user-plus
+      name: User Plus
+    - id: users
+      name: Users
+    - id: variable
+      name: Variable
+    - id: video-camera
+      name: Video Camera
+    - id: video-camera-slash
+      name: Video Camera Slash
+    - id: view-columns
+      name: View Columns
+    - id: viewfinder-circle
+      name: Viewfinder Circle
+    - id: wallet
+      name: Wallet
+    - id: wifi
+      name: Wifi
+    - id: window
+      name: Window
+    - id: wrench
+      name: Wrench
+    - id: wrench-screwdriver
+      name: Wrench Screwdriver
+    - id: x-circle
+      name: X Circle
+    - id: x-mark
+      name: X Mark
+    - id: arrow-long-right-alt
+      name: Arrow Long Right Alt
+    - id: carousel-chevron
+      name: Carousel Chevron
+    - id: carousel-chevron-alt
+      name: Carousel Chevron Alt
+    - id: header-close-toggle
+      name: Header Close Toggle
+    - id: header-navigation-toggle
+      name: Header Navigation Toggle
+    - id: hs-search-field-input
+      name: Hs Search Field Input
+    - id: linkedin
+      name: Linkedin
+    - id: medium
+      name: Medium
+    - id: checkmark-polyline
+      name: Checkmark Polyline
+    - id: nav-arrow-wide
+      name: Nav Arrow Wide
+    - id: nav-chevron-down
+      name: Nav Chevron Down
+    - id: nav-close
+      name: Nav Close
+    - id: nav-hamburger
+      name: Nav Hamburger
+
+_structures_from_glob:
+  - /.cloudcannon/structures/*.cloudcannon.structures.yml
+_snippets_imports:
+  mdx: true
+_snippets_from_glob:
+  - /**/*.cloudcannon.snippets.yml

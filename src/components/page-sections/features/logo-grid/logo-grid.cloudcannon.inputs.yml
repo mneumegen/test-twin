@@ -1,0 +1,156 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+decorationImage:
+  type: image
+  label: Decoration image
+  comment: Decorative brand texture behind the content. Leave empty to omit it.
+  options:
+    paths:
+      uploads: src/assets/images
+decorationImageAlt:
+  type: text
+  label: Decoration alt text
+  comment: Alt text for the decoration image. Leave empty to keep it decorative and hidden from screen readers.
+  hidden: "!decorationImage"
+decorationPlacement:
+  type: select
+  label: Decoration placement
+  comment: Position ladder for the decoration image.
+  hidden: "!decorationImage"
+  options:
+    values:
+      - id: wave
+        name: Wave (top left, scaled)
+      - id: texture
+        name: Texture (top left, rotated)
+heading:
+  type: markdown
+  label: Heading
+  comment: Centred section heading above the logos.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+headingLevel:
+  type: select
+  label: Heading level
+  comment: HTML heading level for the section heading.
+  options:
+    values:
+      - id: "h1"
+        name: "h1"
+      - id: "h2"
+        name: "h2"
+      - id: "h3"
+        name: "h3"
+      - id: "h4"
+        name: "h4"
+      - id: "h5"
+        name: "h5"
+      - id: "h6"
+        name: "h6"
+logoLayout:
+  type: object
+  label: Logo layout
+  comment: The logo area — a plain grid, a carded grid or a scrolling carousel, each holding the logos.
+  options:
+    structures: _structures.logoLayout
+    preview:
+      subtext:
+        - key: type
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Call-to-action buttons below the logos. Leave empty to omit them.
+  options:
+    structures: _structures.buttonSections
+maxContentWidth:
+  type: select
+  label: Max content width
+  comment: Maximum width constraint for the content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+      - id: "512px"
+        name: "512px (source max-w-lg)"
+      - id: "576px"
+        name: "576px (source max-w-xl)"
+      - id: "672px"
+        name: "672px (source max-w-2xl)"
+      - id: "896px"
+        name: "896px (source max-w-4xl)"
+paddingHorizontal:
+  type: select
+  label: Horizontal padding
+  comment: Horizontal padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+paddingVertical:
+  type: select
+  label: Vertical padding
+  comment: Vertical padding applied to the section content.
+  options:
+    values:
+      - id: "none"
+        name: "None"
+      - id: "xs"
+        name: "Extra Small"
+      - id: "sm"
+        name: "Small"
+      - id: "md"
+        name: "Medium"
+      - id: "lg"
+        name: "Large"
+      - id: "xl"
+        name: "Extra Large"
+      - id: "2xl"
+        name: "2xl"
+      - id: "3xl"
+        name: "3xl"
+colorScheme:
+  type: select
+  label: Color scheme
+  comment: Colour scheme for the section.
+  options:
+    values:
+      - id: "inherit"
+        name: "Inherit"
+      - id: "light"
+        name: "Light"
+      - id: "dark"
+        name: "Dark"

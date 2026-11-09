@@ -1,0 +1,294 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Text from "@core-elements/text/Text.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Image from "@core-elements/image/Image.astro";
+
+const {
+  sectionLabel,
+  frame = "full-bleed",
+  eyebrow = "",
+  heading = "",
+  body = "",
+  buttonSections = [],
+  imageOnLeft = false,
+  image,
+  imageAlt = "",
+  backgroundColor = "base",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const FRAMES = {
+  "full-bleed": {
+    paddingVertical: "none",
+    paddingHorizontal: "none",
+    maxContentWidth: "none",
+    rounded: false,
+  },
+  contained: {
+    paddingVertical: "3xl",
+    paddingHorizontal: "lg",
+    maxContentWidth: "2xl",
+    rounded: true,
+  },
+};
+const frameSettings = FRAMES[frame] ?? FRAMES["full-bleed"];
+
+const showEyebrow = Boolean(eyebrow);
+const showHeading = Boolean(heading);
+const showButtons = buttonSections?.length > 0;
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["split-image-text", className]}
+  label={sectionLabel}
+  colorScheme="light"
+  backgroundColor={backgroundColor}
+  paddingVertical={frameSettings.paddingVertical}
+  paddingHorizontal={frameSettings.paddingHorizontal}
+  maxContentWidth={frameSettings.maxContentWidth}
+>
+  <div
+    class:list={["split-image-text__grid", { "split-image-text__grid--image-left": imageOnLeft }]}
+    data-frame={frame}
+  >
+    <div class="split-image-text__copy">
+      {showEyebrow && (
+        <SimpleText
+          class="split-image-text__eyebrow"
+          text={eyebrow}
+          size="body"
+          variant="label"
+          alignmentHorizontal="start"
+          data-prop="eyebrow"
+        />
+      )}
+      {showHeading && (
+        <Heading
+          class="split-image-text__heading"
+          text={heading}
+          level="h2"
+          size="fluid-h2"
+          alignmentHorizontal="start"
+          data-prop="heading"
+        />
+      )}
+      <Text
+        class="split-image-text__body"
+        text={body}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="body"
+      />
+      {showButtons && (
+        <ButtonGroup
+          class="split-image-text__buttons"
+          buttonSections={buttonSections}
+          direction="row"
+          alignmentHorizontal="start"
+          data-children-prop="buttonSections"
+        />
+      )}
+    </div>
+    <div class="split-image-text__media">
+      <Image
+        class="split-image-text__image"
+        source={image}
+        alt={imageAlt}
+        priority={false}
+        rounded={frameSettings.rounded}
+        sizes="(max-width: 767px) 100vw, 50vw"
+        widths={[390, 544, 720, 1088, 1440]}
+        data-prop-src="image"
+        data-prop-alt="imageAlt"
+      />
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .split-image-text {
+      background-color: var(--color-bg);
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .split-image-text__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .split-image-text__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .split-image-text__copy:not(:has(> .split-image-text__buttons))::after {
+      content: "";
+      margin-top: 1.5rem;
+    }
+
+    .split-image-text__grid[data-frame="full-bleed"] > .split-image-text__copy {
+      padding: 24px;
+    }
+
+    .split-image-text__grid[data-frame="contained"] {
+      gap: 64px;
+    }
+
+    .split-image-text__grid[data-frame="contained"] > .split-image-text__copy {
+      padding: 0;
+    }
+
+    @media (min-width: 768px) {
+      .split-image-text__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .split-image-text__grid--image-left > .split-image-text__copy {
+        order: 2;
+      }
+
+      .split-image-text__grid--image-left > .split-image-text__media {
+        order: 1;
+      }
+
+      .split-image-text__grid[data-frame="full-bleed"] > .split-image-text__copy {
+        padding: 80px;
+      }
+
+      .split-image-text__grid[data-frame="contained"] {
+        gap: 144px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .split-image-text .split-image-text__eyebrow {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .split-image-text .split-image-text__eyebrow > .simple-text-content {
+      color: rgb(24, 62, 102);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .split-image-text .split-image-text__heading {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .split-image-text .split-image-text__heading > .heading-inner {
+      line-height: 53.7507px;
+    }
+
+    .split-image-text .split-image-text__body {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .split-image-text .split-image-text__body > .text-inner {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      font-family: var(--font-family-body);
+      text-transform: none;
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .split-image-text .split-image-text__body > .text-inner :is(p, ul, ol, li) {
+      color: var(--color-text-strong);
+    }
+
+    .split-image-text .split-image-text__body > .text-inner > :is(p, h3, ul, ol):not(:last-child) {
+      margin-bottom: 1.4rem;
+    }
+
+    .split-image-text .split-image-text__body > .text-inner h3 {
+      margin-top: 0;
+      color: var(--color-text-strong);
+      font-family: var(--font-family-heading);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-heading-fluid-h3);
+      line-height: var(--line-height-heading-fluid-h3);
+      text-wrap: balance;
+    }
+
+    .split-image-text .split-image-text__body > .text-inner ul {
+      list-style-type: disc;
+      padding-inline-start: 0.75rem;
+    }
+
+    .split-image-text .split-image-text__body > .text-inner li {
+      margin-bottom: 0.75rem;
+    }
+
+    .split-image-text .split-image-text__body > .text-inner li > p {
+      margin: 0 0 1.4rem;
+    }
+
+    .split-image-text .split-image-text__image {
+      margin-top: 0;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .split-image-text .split-image-text__image > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .split-image-text__grid[data-frame="contained"] .split-image-text__image > .image-inner img {
+      object-fit: fill;
+    }
+
+    @media (min-width: 768px) {
+      .split-image-text__grid[data-frame="full-bleed"] .split-image-text__image,
+      .split-image-text__grid[data-frame="full-bleed"] .split-image-text__image > .image-inner,
+      .split-image-text__grid[data-frame="full-bleed"]
+        .split-image-text__image
+        > .image-inner
+        picture {
+        height: 100%;
+      }
+
+      .split-image-text__grid[data-frame="full-bleed"] .split-image-text__image .image-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .split-image-text .split-image-text__heading > .heading-inner {
+        line-height: 38.0004px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .split-image-text .split-image-text__heading > .heading-inner {
+        line-height: 35px;
+      }
+    }
+  }
+</style>

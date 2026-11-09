@@ -1,0 +1,27 @@
+label: Video Split
+icon: smart_display
+description: "Two columns: eyebrow, heading and paragraph beside a rounded embedded Vimeo video."
+value:
+  _component: page-sections/info-blocks/video-split
+  sectionLabel: ""
+  eyebrow: Eyebrow label
+  heading: Section heading
+  body: Supporting paragraph text.
+  videoUrl: https://player.vimeo.com/video/732229240?h=82da759a86
+  videoTitle: vimeo-player
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: base
+preview:
+  text:
+    - Video Split
+  subtext:
+    - key: heading
+  icon: smart_display
+picker_preview:
+  text: Video Split
+  subtext: "Two columns: eyebrow, heading and paragraph beside a rounded embedded Vimeo video."
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/video-split/video-split.cloudcannon.inputs.yml

@@ -1,0 +1,39 @@
+label: Home Video Hero
+icon: smart_display
+description: Full-width background video hero with a gradient scrim and a headline with a rotating word.
+value:
+  _component: page-sections/heroes/home-video-hero
+  sectionLabel: ""
+  videoSource: /videos/home-hero.mp4
+  headingLead: Heading lead text
+  rotatingWords: []
+  tagline: Tagline text
+preview:
+  text:
+    - Home Video Hero
+  subtext:
+    - key: headingLead
+  icon: smart_display
+picker_preview:
+  text: Home Video Hero
+  subtext: Full-width background video hero with a gradient scrim and a headline with a rotating word.
+_inputs_from_glob:
+  - /src/components/page-sections/heroes/home-video-hero/home-video-hero.cloudcannon.inputs.yml
+_structures:
+  rotatingWord:
+    values:
+      - label: Rotating word
+        icon: text_fields
+        value:
+          word: ""
+        preview:
+          text:
+            - key: word
+          icon: text_fields
+        picker_preview:
+          text: Rotating word
+        _inputs:
+          word:
+            type: text
+            label: Word
+            comment: One word or short phrase in the rotation.

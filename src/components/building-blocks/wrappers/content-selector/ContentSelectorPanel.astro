@@ -1,0 +1,199 @@
+---
+import RenderBlock from "@components/utils/renderBlock.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+
+const {
+  title,
+  subtext,
+  iconName,
+  iconColor,
+  contentSections,
+  useDefaultEditableBinding = false,
+  checked = false,
+  groupName = "content-selector-tabs",
+  navigationPosition = "start",
+  tabElement = "label",
+  _component,
+  class: className,
+  "data-children-prop": childrenDataProp,
+  ...htmlAttributes
+} = Astro.props;
+
+const uniqueId = crypto.randomUUID();
+const tabId = `tab-${uniqueId}`;
+const panelId = `panel-${uniqueId}`;
+const tabLabelId = `tablabel-${uniqueId}`;
+
+// Adapted (Phase 2.5): `tabElement: "button"` renders the tab as a real <button> (source tab bars are
+// buttons); the default "label" keeps the original <label for> markup byte-for-byte.
+const isButtonTab = tabElement === "button";
+const TabTag = isButtonTab ? "button" : "label";
+const tabElementAttributes = isButtonTab ? { type: "button", "data-for": tabId } : { for: tabId };
+
+const effectiveChildrenProp =
+  childrenDataProp ?? (useDefaultEditableBinding ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
+  : {};
+---
+
+<div
+  class:list={["content-selector-item", className]}
+  {...htmlAttributes}
+>
+  <input
+    type="radio"
+    name={groupName}
+    id={tabId}
+    class="content-selector-input"
+    checked={checked}
+    autocomplete="off"
+  />
+  <TabTag
+    class:list={["content-selector-tab", isButtonTab && "is-button"]}
+    id={tabLabelId}
+    {...tabElementAttributes}
+    role="tab"
+    aria-controls={panelId}
+    aria-selected={checked ? "true" : "false"}
+    tabindex="0"
+  >
+    <Heading
+      text={title}
+      level="h3"
+      size="sm"
+      iconName={iconName}
+      iconColor={iconColor}
+      alignmentHorizontal={navigationPosition === "top" ? "center" : "start"}
+      class="content-selector-tab-heading"
+    />
+    {subtext && (
+      <span
+        class:list={[
+          "content-selector-tab-subtext",
+          `align-${navigationPosition === "top" ? "center" : "start"}`,
+        ]}
+      >
+        {subtext}
+      </span>
+    )}
+    <Icon
+      name="chevron-down"
+      size="none"
+      class="content-selector-tab-chevron"
+      aria-hidden="true"
+    />
+  </TabTag>
+  <div
+    class="content-selector-panel"
+    id={panelId}
+    role="tabpanel"
+    aria-labelledby={tabLabelId}
+    aria-hidden={checked ? "false" : "true"}
+  >
+    <div
+      class="content-selector-panel-content"
+      {...arrayDataAttributes}
+    >
+      <slot>
+        {contentSections && (
+          <RenderBlock
+            contentSections={contentSections}
+            useDefaultEditableBinding={!!effectiveChildrenProp}
+          />
+        )}
+      </slot>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  @layer components {
+    .content-selector-item {
+      display: contents;
+    }
+
+    .content-selector-input {
+      display: none;
+    }
+
+    .content-selector-tab {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: block;
+      padding: var(--spacing-md);
+      position: relative;
+      transition: background-color var(--animation-normal) ease-in-out;
+
+      &::before {
+        background: transparent;
+        content: "";
+        position: absolute;
+        transition:
+          transform var(--animation-normal),
+          background var(--animation-normal);
+      }
+
+      &:hover {
+        background: var(--color-state-hover);
+      }
+
+      > .content-selector-tab-heading {
+        margin: 0;
+      }
+    }
+
+    /* Adapted (Phase 2.5): neutralise UA <button> chrome so a button tab lays out like the label tab */
+    button.content-selector-tab.is-button {
+      appearance: none;
+      border-radius: 0;
+      color: inherit;
+      font: inherit;
+      margin: 0;
+      text-align: inherit;
+      width: 100%;
+    }
+
+    .content-selector-tab-subtext {
+      color: var(--color-text-muted);
+      display: block;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-normal);
+      margin-top: var(--spacing-xs);
+
+      &.align-center {
+        text-align: center;
+      }
+
+      &.align-start {
+        text-align: start;
+      }
+    }
+
+    .content-selector-tab-chevron {
+      display: none;
+      flex: 0 0 auto;
+      transition: transform var(--animation-normal) ease-out;
+    }
+
+    .content-selector-input:checked + .content-selector-tab::before {
+      background: var(--color-border-strong);
+    }
+
+    .content-selector-input:checked + .content-selector-tab + .content-selector-panel {
+      display: block;
+    }
+
+    .content-selector-panel {
+      animation: fade-in var(--animation-slow) ease-in-out forwards;
+      container-type: inline-size;
+      display: none;
+    }
+
+    .content-selector-panel-content > *:first-child {
+      margin-top: 0;
+    }
+  }
+</style>

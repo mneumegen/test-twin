@@ -1,0 +1,22 @@
+label: Page Hero Split
+icon: vertical_split
+description: Interior page hero with heading and intro on a light panel beside a full-height photo.
+value:
+  _component: page-sections/heroes/page-hero-split
+  sectionLabel: ""
+  heading: Heading text
+  body: Intro paragraph placeholder text that will be replaced with actual content.
+  imageSource: /src/assets/images/hs-fs/hubfs/Corporate-Cup.jpg
+  imageAlt: Hero image
+  texture: waves-top-left
+preview:
+  text:
+    - Page Hero Split
+  subtext:
+    - key: heading
+  icon: vertical_split
+picker_preview:
+  text: Page Hero Split
+  subtext: Interior page hero with heading and intro on a light panel beside a full-height photo.
+_inputs_from_glob:
+  - /src/components/page-sections/heroes/page-hero-split/page-hero-split.cloudcannon.inputs.yml

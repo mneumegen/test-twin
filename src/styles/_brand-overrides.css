@@ -1,0 +1,25 @@
+/* Brand overrides (Twincraft) — values measured in discovery.json */
+@layer overrides {
+  body {
+    line-height: 1.4;
+  }
+
+  .heading-inner {
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    letter-spacing: normal;
+    text-wrap: balance;
+    color: var(--color-text-strong);
+  }
+
+  .button-inner {
+    border-radius: 9999px;
+    text-transform: uppercase;
+  }
+
+  .button-inner.variant-pill {
+    padding: 12px 32px;
+    border-width: 2px;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

@@ -1,0 +1,1091 @@
+---
+import Button from "@core-elements/button/Button.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+import Image from "@core-elements/image/Image.astro";
+import List from "@core-elements/list/List.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+
+type NavLink = {
+  name?: string;
+  path?: string;
+};
+
+type NavColumn = {
+  name?: string;
+  path?: string;
+  links?: NavLink[];
+  subtext?: string;
+};
+
+type NavItem = {
+  name?: string;
+  featuredImage?: { source?: string; alt?: string };
+  caption?: string;
+  columns?: NavColumn[];
+  cta?: { text?: string; link?: string };
+};
+
+const {
+  logoSource,
+  logoAlt,
+  logoText,
+  skipLinkText,
+  navData = [] as NavItem[],
+  buttonSections = [] as Record<string, unknown>[],
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const items: NavItem[] = Array.isArray(navData) ? navData : [];
+const ctaButtons = Array.isArray(buttonSections) ? buttonSections : [];
+const showSkipLink = Boolean(skipLinkText);
+const showCtaButtons = ctaButtons.length > 0;
+const mobileCtaButtons = ctaButtons.slice(0, 1);
+
+const columnTitleItems = (column: NavColumn) => [
+  {
+    text: column.name ?? "",
+    link: column.path ?? "",
+    iconName: "nav-arrow-wide",
+    iconPosition: "after",
+  },
+];
+
+const columnLinkItems = (column: NavColumn) =>
+  (column.links ?? []).map((link) => ({
+    text: link.name ?? "",
+    link: link.path ?? "",
+  }));
+
+const mobileLinkItems = (item: NavItem) =>
+  (item.columns ?? []).map((column) => ({
+    text: column.name ?? "",
+    link: column.path ?? "",
+    iconName: "arrow-long-right",
+    iconPosition: "after",
+  }));
+---
+
+<header
+  class:list={["main-nav", className]}
+  data-mchrome-header-compatible
+  {...htmlAttributes}
+>
+  {showSkipLink && (
+    <a
+      class="main-nav-skip-link"
+      href="#main-content"
+    >
+      {skipLinkText}
+    </a>
+  )}
+  <nav
+    class="main-nav-bar"
+    aria-label="Main"
+  >
+    <a
+      href="/"
+      class="main-nav-logo-link"
+    >
+      <SimpleText
+        class="visually-hidden"
+        text={logoText}
+        useDefaultEditableBinding={false}
+      />
+      <Image
+        source={logoSource}
+        alt={logoAlt}
+        class="main-nav-logo"
+        sizes="247px"
+        widths={[247, 494]}
+        autoSizes={false}
+        priority
+        useDefaultEditableBinding={false}
+      />
+    </a>
+
+    <Button
+      element="button"
+      iconName="nav-hamburger"
+      hideText
+      text="Toggle mobile menu"
+      variant="ghost"
+      class="main-nav-toggle"
+      useDefaultEditableBinding={false}
+    />
+    <Icon
+      name="nav-close"
+      size="none"
+      class="main-nav-toggle-close"
+      aria-hidden="true"
+      useDefaultEditableBinding={false}
+    />
+
+    <div class="main-nav-desktop">
+      <div class="main-nav-items">
+        {items.map((item, itemIndex) => {
+          const columns = item.columns ?? [];
+          const showFeatureImage = Boolean(item.featuredImage?.source);
+          const showCaption = Boolean(item.caption);
+          const showCta = Boolean(item.cta?.text);
+          return (
+            <div class="mega-item">
+              <Button
+                element="button"
+                text={item.name}
+                iconName="nav-chevron-down"
+                iconPosition="after"
+                variant="ghost"
+                class="mega-trigger"
+                data-mega-target={`mega-panel-${itemIndex}`}
+                useDefaultEditableBinding={false}
+              />
+              <div
+                class="mega-panel"
+                id={`mega-panel-${itemIndex}`}
+                aria-hidden="true"
+              >
+                <div class="mega-container">
+                  <div class="mega-feature">
+                    {showFeatureImage && (
+                      <Image
+                        source={item.featuredImage?.source}
+                        alt={item.featuredImage?.alt}
+                        class="mega-feature-image"
+                        sizes="(min-width: 1280px) 284px, 220px"
+                        widths={[220, 284, 568]}
+                        useDefaultEditableBinding={false}
+                      />
+                    )}
+                    {showCaption && (
+                      <SimpleText
+                        text={item.caption}
+                        class="mega-caption"
+                        useDefaultEditableBinding={false}
+                      />
+                    )}
+                  </div>
+                  <div class="mega-columns">
+                    {columns.map((column) => {
+                      const showLinks = (column.links ?? []).length > 0;
+                      const showSubtext = Boolean(column.subtext);
+                      return (
+                        <div class="mega-col">
+                          <nav aria-label={column.name}>
+                            <List
+                              items={columnTitleItems(column)}
+                              class="mega-col-title"
+                              useDefaultEditableBinding={false}
+                            />
+                            {showLinks && (
+                              <List
+                                items={columnLinkItems(column)}
+                                class="mega-col-links"
+                                useDefaultEditableBinding={false}
+                              />
+                            )}
+                            {showSubtext && (
+                              <SimpleText
+                                text={column.subtext}
+                                class="mega-col-subtext"
+                                useDefaultEditableBinding={false}
+                              />
+                            )}
+                          </nav>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div class="mega-cta-col">
+                    {showCta && (
+                      <Button
+                        element="a"
+                        text={item.cta?.text}
+                        link={item.cta?.link}
+                        variant="primary"
+                        class="mega-cta"
+                        useDefaultEditableBinding={false}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {showCtaButtons && (
+        <ButtonGroup
+          buttonSections={ctaButtons}
+          class="main-nav-cta-group"
+          useDefaultEditableBinding={false}
+        />
+      )}
+    </div>
+
+    <div
+      class="main-nav-overlay"
+      id="main-nav-mobile-overlay"
+    >
+      <div class="main-nav-mobile-content">
+        <div class="mobile-items">
+          {items.map((item, itemIndex) => {
+            const showMobileLinks = (item.columns ?? []).length > 0;
+            const showCta = Boolean(item.cta?.text);
+            return (
+              <div class="mobile-item">
+                <Button
+                  element="button"
+                  text={item.name}
+                  iconName="nav-chevron-down"
+                  iconPosition="after"
+                  variant="ghost"
+                  class="mobile-acc-trigger"
+                  data-mobile-target={`mobile-sub-${itemIndex}`}
+                  useDefaultEditableBinding={false}
+                />
+                <div
+                  class="mobile-sub"
+                  id={`mobile-sub-${itemIndex}`}
+                  aria-hidden="true"
+                >
+                  <div class="mobile-sub-inner">
+                    {showMobileLinks && (
+                      <nav aria-label={item.name}>
+                        <List
+                          items={mobileLinkItems(item)}
+                          class="mobile-sub-links"
+                          useDefaultEditableBinding={false}
+                        />
+                      </nav>
+                    )}
+                    {showCta && (
+                      <Button
+                        element="a"
+                        text={item.cta?.text}
+                        link={item.cta?.link}
+                        variant="primary"
+                        class="mega-cta mobile-sub-cta"
+                        useDefaultEditableBinding={false}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {showCtaButtons && (
+          <div class="mobile-cta-wrap">
+            <ButtonGroup
+              buttonSections={mobileCtaButtons}
+              class="mobile-cta-group"
+              useDefaultEditableBinding={false}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import { onPageLoad } from "@component-utils/onPageLoad";
+
+  const setupMainNav = () => {
+    const header = document.querySelector<HTMLElement>(".main-nav");
+    if (!header || header.dataset.navReady === "1") return;
+    header.dataset.navReady = "1";
+
+    const bar = header.querySelector<HTMLElement>(".main-nav-bar");
+    const megaItems = Array.from(header.querySelectorAll<HTMLElement>(".mega-item"));
+
+    const megaParts = megaItems.map((item) => {
+      const trigger = item.querySelector<HTMLElement>(".mega-trigger");
+      const inner = trigger?.querySelector<HTMLElement>(".button-inner") ?? null;
+      const panel = item.querySelector<HTMLElement>(".mega-panel");
+      const panelId = trigger?.dataset.megaTarget;
+      if (inner) {
+        inner.setAttribute("aria-expanded", "false");
+        if (panelId) inner.setAttribute("aria-controls", panelId);
+      }
+      return { item, inner, panel };
+    });
+
+    const setMega = (target: HTMLElement | null) => {
+      for (const part of megaParts) {
+        const open = part.item === target;
+        part.item.classList.toggle("is-open", open);
+        part.inner?.setAttribute("aria-expanded", open ? "true" : "false");
+        part.panel?.setAttribute("aria-hidden", open ? "false" : "true");
+      }
+    };
+
+    for (const part of megaParts) {
+      part.inner?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setMega(part.item.classList.contains("is-open") ? null : part.item);
+      });
+    }
+
+    const toggleInner = header.querySelector<HTMLElement>(".main-nav-toggle .button-inner");
+    toggleInner?.setAttribute("aria-expanded", "false");
+    toggleInner?.setAttribute("aria-controls", "main-nav-mobile-overlay");
+
+    const setMenu = (open: boolean) => {
+      header.classList.toggle("is-menu-open", open);
+      toggleInner?.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+
+    toggleInner?.addEventListener("click", () => {
+      setMenu(!header.classList.contains("is-menu-open"));
+    });
+
+    for (const mobileItem of header.querySelectorAll<HTMLElement>(".mobile-item")) {
+      const trigger = mobileItem.querySelector<HTMLElement>(".mobile-acc-trigger");
+      const inner = trigger?.querySelector<HTMLElement>(".button-inner");
+      const sub = mobileItem.querySelector<HTMLElement>(".mobile-sub");
+      const subId = trigger?.dataset.mobileTarget;
+      if (!inner) continue;
+      inner.setAttribute("aria-expanded", "false");
+      if (subId) inner.setAttribute("aria-controls", subId);
+      inner.addEventListener("click", () => {
+        const open = !mobileItem.classList.contains("is-open");
+        mobileItem.classList.toggle("is-open", open);
+        inner.setAttribute("aria-expanded", open ? "true" : "false");
+        sub?.setAttribute("aria-hidden", open ? "false" : "true");
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      if (bar && event.target instanceof Node && !bar.contains(event.target)) setMega(null);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setMega(null);
+        setMenu(false);
+      }
+    });
+
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    desktopQuery.addEventListener("change", () => {
+      setMenu(false);
+      setMega(null);
+    });
+  };
+
+  onPageLoad(setupMainNav);
+</script>
+
+<style is:global>
+  @layer page-sections {
+    .main-nav {
+      background-color: rgb(24, 62, 102);
+      color: var(--color-text);
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+    }
+
+    .main-nav-skip-link {
+      border: 0;
+      clip-path: inset(50%);
+      color: var(--color-text);
+      display: block;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+
+      &:focus {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow:
+          0 0 0 0 #fff,
+          0 0 0 2px rgb(59, 130, 246),
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        clip-path: none;
+        color: #000;
+        height: auto;
+        left: 16px;
+        margin: 0;
+        overflow: visible;
+        padding: 8px 16px;
+        top: 16px;
+        white-space: normal;
+        width: auto;
+        z-index: 50;
+      }
+    }
+
+    .main-nav-bar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding-left: 16px;
+      padding-right: 0;
+      position: relative;
+      z-index: 50;
+    }
+
+    .main-nav-logo-link {
+      color: var(--color-text);
+      display: block;
+      margin-right: 8px;
+    }
+
+    .main-nav-toggle {
+      display: flex;
+
+      @media (min-width: 1024px) {
+        display: none;
+      }
+    }
+
+    .main-nav-toggle-close {
+      display: none;
+      pointer-events: none;
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      translate: 0 -50%;
+    }
+
+    .main-nav.is-menu-open .main-nav-toggle-close {
+      display: block;
+
+      @media (min-width: 1024px) {
+        display: none;
+      }
+    }
+
+    .main-nav-desktop {
+      display: none;
+
+      @media (min-width: 1024px) {
+        align-items: center;
+        align-self: stretch;
+        display: flex;
+        gap: 32px;
+      }
+    }
+
+    .main-nav-items {
+      align-items: center;
+      display: flex;
+      gap: 24px;
+
+      @media (min-width: 1280px) {
+        gap: 64px;
+      }
+    }
+
+    .mega-panel {
+      background-color: #fff;
+      box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      color: var(--color-text);
+      display: none;
+      left: 0;
+      opacity: 0;
+      overflow: hidden;
+      padding-block: 32px;
+      position: absolute;
+      top: 71.4px;
+      transition:
+        opacity 150ms ease-in,
+        translate 150ms ease-in,
+        display 150ms allow-discrete;
+      translate: 0 -4px;
+      width: 100vw;
+      z-index: 10;
+    }
+
+    .mega-item.is-open > .mega-panel {
+      display: block;
+      opacity: 1;
+      transition:
+        opacity 200ms ease-out,
+        translate 200ms ease-out,
+        display 200ms allow-discrete;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 -4px;
+      }
+    }
+
+    .mega-container {
+      column-gap: 32px;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      margin-inline: auto;
+      max-width: 1280px;
+      padding-inline: 24px;
+      row-gap: 32px;
+      width: 100%;
+
+      @media (min-width: 1536px) {
+        max-width: 1536px;
+      }
+    }
+
+    .mega-feature {
+      grid-column: span 3 / span 3;
+    }
+
+    .mega-columns {
+      display: flex;
+      gap: 24px;
+      grid-column: span 6 / span 6;
+    }
+
+    .mega-col {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .mega-cta-col {
+      grid-column: span 3 / span 3;
+      padding-top: 32px;
+    }
+
+    .mega-cta {
+      display: block;
+      width: fit-content;
+    }
+
+    .mobile-sub-cta {
+      margin-inline-start: 24px;
+    }
+
+    .main-nav-overlay {
+      background-color: #fff;
+      bottom: 0;
+      color: var(--color-text);
+      display: none;
+      left: 0;
+      opacity: 0;
+      overflow: hidden;
+      position: fixed;
+      right: 0;
+      top: 72px;
+      transition:
+        opacity 200ms ease-in,
+        display 200ms allow-discrete;
+      z-index: 40;
+    }
+
+    .main-nav.is-menu-open .main-nav-overlay {
+      display: block;
+      opacity: 1;
+      transition:
+        opacity 300ms ease-out,
+        display 300ms allow-discrete;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      @media (min-width: 1024px) {
+        display: none;
+      }
+    }
+
+    .main-nav-mobile-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .mobile-item:not(:last-child) {
+      border-bottom: 2px solid rgb(228, 243, 250);
+    }
+
+    .mobile-acc-trigger {
+      display: flex;
+      width: 100%;
+    }
+
+    .mobile-sub {
+      display: none;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition:
+        opacity 150ms ease-in,
+        max-height 150ms ease-in,
+        display 150ms allow-discrete;
+    }
+
+    .mobile-item.is-open > .mobile-sub {
+      display: block;
+      max-height: 24rem;
+      opacity: 1;
+      transition:
+        opacity 200ms ease-out,
+        max-height 200ms ease-out,
+        display 200ms allow-discrete;
+
+      @starting-style {
+        max-height: 0;
+        opacity: 0;
+      }
+    }
+
+    .mobile-sub-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-block: 16px;
+    }
+
+    .mobile-cta-wrap {
+      margin-top: 32px;
+      width: 100%;
+    }
+  }
+
+  @layer overrides {
+    main {
+      padding-top: 4rem;
+    }
+
+    .main-nav {
+      :where(.image, .list, .button-group, .simple-text:not(.visually-hidden)) {
+        margin-top: 0;
+      }
+
+      .list > :where(ul, ol) {
+        padding: 0;
+      }
+
+      .item > .list-icon {
+        margin-inline: 0;
+        translate: 0 0;
+      }
+
+      .main-nav-logo {
+        overflow: visible;
+
+        > .image-inner {
+          font-size: 9.328px;
+          line-height: 13.0592px;
+          overflow: visible;
+          width: auto;
+        }
+
+        picture {
+          width: auto;
+        }
+
+        img {
+          display: block;
+          height: 24px;
+          margin-right: 24px;
+          max-width: none;
+          object-fit: contain;
+          width: auto;
+        }
+      }
+
+      .main-nav-toggle > .button-inner {
+        background-color: rgb(253, 192, 111);
+        border: 0;
+        border-radius: 0;
+        align-items: normal;
+        color: rgb(24, 62, 102);
+        display: block;
+        font-weight: 400;
+        gap: normal;
+        height: 72px;
+        justify-content: normal;
+        padding: 24px;
+        text-align: center;
+        width: 72px;
+
+        &:hover,
+        &:focus {
+          background-color: rgb(253, 192, 111);
+          box-shadow: none;
+          color: rgb(24, 62, 102);
+        }
+
+        .icon,
+        .icon-inner {
+          display: block;
+        }
+
+        svg {
+          display: block;
+          height: 24px;
+          width: 24px;
+        }
+      }
+
+      &.is-menu-open .main-nav-toggle > .button-inner .icon {
+        visibility: hidden;
+      }
+
+      .button-inner .icon,
+      .button-inner .icon-inner {
+        line-height: inherit;
+      }
+
+      .main-nav-toggle-close {
+        color: rgb(24, 62, 102);
+
+        svg {
+          display: block;
+          height: 24px;
+          width: 24px;
+        }
+      }
+
+      .mega-trigger > .button-inner {
+        align-items: center;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        font-family: var(--font-label);
+        font-size: 16px;
+        font-weight: 400;
+        gap: normal 4px;
+        justify-content: normal;
+        line-height: 22.4px;
+        padding: 0;
+        text-transform: uppercase;
+
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          box-shadow: none;
+          color: #fff;
+        }
+
+        > .icon {
+          order: 1;
+        }
+
+        svg {
+          display: block;
+          height: 16px;
+          stroke: rgb(253, 192, 111);
+          transition: transform 200ms;
+          width: 16px;
+        }
+
+        &[aria-expanded="true"] svg {
+          transform: rotate(180deg);
+        }
+      }
+
+      .mega-feature-image {
+        margin-bottom: 16px;
+
+        > .image-inner {
+          font-size: 9.328px;
+          line-height: 13.0592px;
+        }
+
+        img {
+          border-radius: 16px;
+          height: 192px;
+          max-height: 192px;
+          min-height: 192px;
+          object-fit: cover;
+          width: 100%;
+        }
+      }
+
+      .mega-caption > .simple-text-content,
+      .mega-col-subtext > .simple-text-content {
+        color: rgb(24, 62, 102);
+        font-family: var(--font-body);
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .mega-col-subtext {
+        margin-top: 16px;
+      }
+
+      .mega-col-links + .mega-col-subtext {
+        margin-top: 0;
+      }
+
+      .mega-col-title .item {
+        align-items: center;
+        border-bottom: 2px solid rgb(24, 62, 102);
+        color: rgb(24, 62, 102);
+        display: flex;
+        font-family: var(--font-label);
+        font-size: 16px;
+        font-weight: 500;
+        gap: 8px;
+        padding-block: 16px;
+        text-transform: uppercase;
+        transition: color 500ms;
+
+        &:hover {
+          color: rgba(24, 62, 102, 0.8);
+        }
+
+        > .item-inner {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        > .list-icon {
+          height: 12px;
+          transition: transform 300ms;
+          width: 24px;
+
+          > .icon-inner {
+            height: 100%;
+          }
+        }
+      }
+
+      .mega-col:hover .mega-col-title .list-icon {
+        transform: translateX(12px);
+      }
+
+      .mega-col-links {
+        margin-top: 16px;
+
+        > ul {
+          gap: 16px;
+        }
+
+        .item > .item-inner {
+          color: rgb(24, 62, 102);
+          display: block;
+          font-family: var(--font-body);
+          font-size: 16px;
+          line-height: 22.4px;
+          text-decoration: none;
+          transition: color 500ms;
+
+          &:hover {
+            color: rgba(24, 62, 102, 0.8);
+          }
+        }
+      }
+
+      .mega-cta > .button-inner {
+        background-color: rgb(228, 243, 250);
+        border: 0;
+        border-radius: 9999px;
+        color: rgb(24, 62, 102);
+        display: block;
+        font-family: var(--font-label);
+        font-size: 16px;
+        font-weight: 400;
+        padding: 10px 32px;
+        text-transform: uppercase;
+        transition:
+          color 300ms,
+          background-color 300ms;
+        width: fit-content;
+
+        &:hover,
+        &:focus {
+          background-color: rgb(24, 62, 102);
+          color: rgb(228, 243, 250);
+        }
+      }
+
+      .main-nav-cta-group {
+        align-self: stretch;
+        container-type: normal;
+        width: auto;
+
+        > .button-group__items {
+          gap: 0;
+          height: 100%;
+          width: auto;
+        }
+
+        .button {
+          height: 100%;
+        }
+
+        .button-inner {
+          background-color: rgb(253, 192, 111);
+          border: 0;
+          border-bottom: 2px solid rgb(24, 62, 102);
+          border-radius: 0;
+          align-items: normal;
+          color: rgb(24, 62, 102);
+          display: block;
+          font-family: var(--font-label);
+          font-size: 16px;
+          font-weight: 500;
+          gap: normal;
+          justify-content: normal;
+          line-height: 22.4px;
+          padding: 24px 16px;
+          text-align: start;
+          text-transform: uppercase;
+          transition: all 300ms;
+
+          @media (min-width: 1280px) {
+            padding-inline: 40px;
+          }
+
+          &:hover,
+          &:focus {
+            background-color: rgb(243, 163, 58);
+            border-color: rgb(24, 62, 102);
+            box-shadow: none;
+            color: rgb(24, 62, 102);
+          }
+        }
+      }
+
+      .mobile-acc-trigger > .button-inner {
+        align-items: center;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        color: rgb(24, 62, 102);
+        display: flex;
+        flex-direction: row;
+        font-family: var(--font-label);
+        font-size: 24px;
+        font-weight: 400;
+        gap: 16px;
+        justify-content: normal;
+        line-height: 28px;
+        padding: 24px 16px;
+        text-align: left;
+        text-transform: uppercase;
+        width: 100%;
+
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          box-shadow: none;
+          color: rgb(24, 62, 102);
+        }
+
+        > .icon {
+          color: rgb(253, 192, 111);
+          order: 1;
+        }
+
+        svg {
+          display: block;
+          height: 20px;
+          transition: transform 200ms;
+          width: 20px;
+        }
+
+        &[aria-expanded="true"] svg {
+          transform: rotate(180deg);
+        }
+      }
+
+      .mobile-sub-links {
+        > ul {
+          gap: 16px;
+        }
+
+        .item {
+          align-items: flex-start;
+          color: rgb(24, 62, 102);
+          display: flex;
+          font-family: var(--font-label);
+          font-size: 16px;
+          gap: 8px;
+          justify-content: space-between;
+          line-height: 28px;
+          padding: 8px 8px 8px 24px;
+          width: 100%;
+
+          &:hover {
+            opacity: 0.8;
+          }
+
+          > .item-inner {
+            color: inherit;
+            flex: 1 1 auto;
+            text-decoration: none;
+          }
+
+          > .list-icon {
+            height: 16px;
+            width: 32px;
+
+            > .icon-inner {
+              height: 100%;
+            }
+          }
+        }
+      }
+
+      .mobile-cta-group {
+        container-type: normal;
+
+        > .button-group__items {
+          gap: 0;
+          width: 100%;
+        }
+
+        .button {
+          display: flex;
+          width: 100%;
+        }
+
+        .button-inner {
+          background-color: rgb(253, 192, 111);
+          border: 0;
+          border-bottom: 2px solid rgb(24, 62, 102);
+          border-radius: 0;
+          border-top: 2px solid rgb(24, 62, 102);
+          align-items: normal;
+          color: rgb(24, 62, 102);
+          display: block;
+          font-family: var(--font-label);
+          font-size: 16px;
+          font-weight: 500;
+          gap: normal;
+          justify-content: normal;
+          line-height: 22.4px;
+          padding: 16px 32px;
+          text-align: center;
+          text-transform: uppercase;
+          transition: all 300ms;
+          width: 100%;
+
+          &:hover,
+          &:focus {
+            background-color: rgb(243, 163, 58);
+            border-color: rgb(24, 62, 102);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: rgb(24, 62, 102);
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+  }
+</style>

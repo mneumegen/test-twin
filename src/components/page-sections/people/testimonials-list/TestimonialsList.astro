@@ -1,0 +1,209 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import TestimonialsListItem from "./TestimonialsListItem.astro";
+
+const {
+  sectionLabel,
+  heading = "",
+  testimonials = [],
+  maxContentWidth = "lg",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const testimonialList = Array.isArray(testimonials) ? testimonials : [];
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["testimonials-list", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+>
+  <Heading
+    text={heading}
+    level="h1"
+    size="fluid-h2"
+    alignmentHorizontal="start"
+    data-prop="heading"
+  />
+  <div
+    class="testimonials-list__quotes"
+    data-editable="array"
+    data-prop="testimonials"
+    data-component="page-sections/people/testimonials-list/testimonials-list-item"
+  >
+    {testimonialList.map((item) => (
+      <TestimonialsListItem
+        data-editable="array-item"
+        data-id="page-sections/people/testimonials-list/testimonials-list-item"
+        {...item}
+      />
+    ))}
+  </div>
+  <Image
+    source="/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-a.png"
+    alt=""
+    priority={false}
+    class="testimonials-list__texture"
+    sizes="1186px"
+    widths={[600, 1186]}
+  />
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .testimonials-list .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 8px;
+    }
+
+    .testimonials-list .testimonial {
+      border: 0 solid var(--brand-sky);
+      border-bottom-width: 2px;
+      margin: 0;
+      padding: 0 0 32px;
+    }
+
+    .testimonials-list__item + .testimonials-list__item > .testimonial {
+      margin-top: 32px;
+    }
+
+    .testimonials-list .testimonial > .testimonial-inner {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      gap: 0;
+      padding: 0;
+    }
+
+    .testimonials-list .testimonial .quote {
+      font-size: var(--font-size-md);
+    }
+
+    .testimonials-list .testimonial .quote p {
+      border: 0 solid rgb(229, 231, 235);
+      color: var(--color-text-strong);
+      line-height: 28px;
+      margin: 0 0 22.4px;
+    }
+
+    .testimonials-list .testimonial .quote * {
+      font-size: var(--font-size-md);
+    }
+
+    .testimonials-list .testimonial.testimonials-list__testimonial--small .quote * {
+      font-size: var(--font-size-sm);
+    }
+
+    .testimonials-list .testimonial.testimonials-list__testimonial--small .quote p {
+      line-height: 29px;
+    }
+
+    .testimonials-list .testimonial .quote *::before,
+    .testimonials-list .testimonial .quote *::after {
+      content: none;
+    }
+
+    .testimonials-list .testimonial .author {
+      border: 0 solid rgb(229, 231, 235);
+      display: block;
+      font-size: var(--font-size-md);
+      margin-top: 0;
+    }
+
+    .testimonials-list .testimonial .author-content {
+      font-style: normal;
+    }
+
+    .testimonials-list .testimonial .name {
+      color: var(--color-text-strong);
+      display: block;
+      font-family: var(--font-family-heading);
+      font-size: var(--font-size-heading-fluid-h4);
+      font-weight: var(--font-weight-semibold);
+      line-height: 28px;
+      margin-bottom: 12px;
+    }
+
+    .testimonials-list .testimonial .description {
+      color: var(--color-text-strong);
+      display: block;
+    }
+
+    .testimonials-list .testimonial .author-content > br {
+      display: none;
+    }
+
+    .testimonials-list .testimonials-list__texture,
+    .testimonials-list .testimonials-list__texture img {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .testimonials-list .testimonials-list__texture .image-inner {
+      font-size: 9.328px;
+    }
+
+    .testimonials-list > .outer-content {
+      isolation: isolate;
+    }
+
+    .testimonials-list > .outer-content > .content {
+      position: static;
+    }
+
+    @media (width < 640px) {
+      .testimonials-list > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+  }
+
+  @layer page-sections {
+    .testimonials-list {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .testimonials-list__quotes {
+      display: flex;
+      flex-direction: column;
+      margin-top: 22.4px;
+    }
+
+    .testimonials-list__texture {
+      left: -400px;
+      margin-top: 0;
+      max-width: 100%;
+      pointer-events: none;
+      position: absolute;
+      top: -100px;
+      width: 1186px;
+      z-index: -1;
+    }
+
+    @media (min-width: 768px) {
+      .testimonials-list__texture {
+        top: -300px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .testimonials-list__texture {
+        left: -600px;
+        top: -400px;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+</style>

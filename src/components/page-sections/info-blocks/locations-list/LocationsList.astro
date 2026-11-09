@@ -1,0 +1,172 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import LocationsListItem from "./LocationsListItem.astro";
+
+const {
+  sectionLabel,
+  heading,
+  locations = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "3xl",
+  colorScheme = "light",
+  backgroundColor = "none",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["locations-list", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+>
+  <div class="locations-list__grid">
+    <Heading
+      text={heading}
+      level="h3"
+      size="fluid-h3"
+      alignmentHorizontal="start"
+      class="locations-list__heading"
+      data-prop="heading"
+    />
+    <div
+      class="locations-list__items"
+      data-editable="array"
+      data-prop="locations"
+      data-component="page-sections/info-blocks/locations-list/locations-list-item"
+    >
+      {locations.map((item) => (
+        <LocationsListItem
+          data-editable="array-item"
+          data-id="page-sections/info-blocks/locations-list/locations-list-item"
+          {...item}
+        />
+      ))}
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .locations-list {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .locations-list__grid {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .locations-list__items {
+      display: contents;
+    }
+
+    .locations-list__heading {
+      grid-column: 1 / -1;
+    }
+
+    .locations-list__item {
+      align-items: flex-start;
+      column-gap: 4px;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .locations-list__item-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      .locations-list__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @layer overrides {
+    .locations-list h3.heading {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .locations-list .locations-list__item span.icon {
+      border-color: rgb(229, 231, 235);
+      border-radius: 0;
+      border-style: solid;
+      border-width: 0;
+      flex: 0 1 27px;
+      min-width: 0;
+      transform: matrix(0.75, 0, 0, 0.75, 0, 0);
+    }
+
+    .locations-list .locations-list__item .icon-inner svg {
+      display: block;
+      height: 38px;
+      max-height: none;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .locations-list .locations-list__item .icon-inner {
+      font-size: var(--font-size-heading-xs);
+      line-height: 22.4px;
+    }
+
+    .locations-list .locations-list__item div.simple-text {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+      margin-top: 0;
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .locations-list .locations-list__item .simple-text-content {
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .locations-list .locations-list__name .simple-text-content {
+      color: var(--color-text-strong);
+    }
+
+    .locations-list .locations-list__address .simple-text-content {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      text-transform: none;
+    }
+
+    @media (width < 640px) {
+      .locations-list > .outer-content > .content.pad-y-3xl {
+        padding-block: var(--spacing-3xl);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .locations-list .heading-inner {
+        line-height: 29.0004px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .locations-list .heading-inner {
+        line-height: 28px;
+      }
+    }
+  }
+</style>

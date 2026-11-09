@@ -1,0 +1,26 @@
+label: Split Image Text
+icon: vertical_split
+description: Image beside an eyebrow, heading, rich body and optional buttons; image side, frame and surface are selectable.
+value:
+  _component: page-sections/info-blocks/split-image-text
+  sectionLabel: ""
+  frame: full-bleed
+  eyebrow: ""
+  heading: ""
+  body: Body copy goes here.
+  buttonSections: []
+  imageOnLeft: false
+  image: /src/assets/images/hs-fs/hubfs/bar-insert-edited.jpg
+  imageAlt: bar insert edited
+  backgroundColor: base
+preview:
+  text:
+    - Split Image Text
+  subtext:
+    - key: heading
+  icon: vertical_split
+picker_preview:
+  text: Split Image Text
+  subtext: Image beside an eyebrow, heading, rich body and optional buttons; image side, frame and surface are selectable.
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/split-image-text/split-image-text.cloudcannon.inputs.yml

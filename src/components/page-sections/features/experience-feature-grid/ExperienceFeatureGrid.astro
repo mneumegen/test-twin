@@ -1,0 +1,297 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import ExperienceFeatureGridItem from "./ExperienceFeatureGridItem.astro";
+
+type FeatureProps = Record<string, unknown>;
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  subtext = "",
+  features = [],
+  calloutHeading = "",
+  buttonSections = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "mint-grid",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["experience-feature-grid", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="experience-feature-grid__intro">
+    <div class="experience-feature-grid__eyebrow-row">
+      <SimpleText
+        text={eyebrow}
+        variant="label"
+        size="body"
+        alignmentHorizontal="center"
+        class="experience-feature-grid__eyebrow"
+        data-prop="eyebrow"
+      />
+    </div>
+    <Heading
+      text={heading}
+      level="h2"
+      size="fluid-h2"
+      alignmentHorizontal="center"
+      class="experience-feature-grid__heading"
+      data-prop="heading"
+    />
+    <SimpleText
+      text={subtext}
+      size="body"
+      alignmentHorizontal="center"
+      class="experience-feature-grid__subtext"
+      data-prop="subtext"
+    />
+  </div>
+  <div
+    class="experience-feature-grid__card"
+    data-editable="array"
+    data-prop="features"
+    data-component="page-sections/features/experience-feature-grid/experience-feature-grid-item"
+  >
+    {features.map((feature: FeatureProps) => (
+      <ExperienceFeatureGridItem
+        data-editable="array-item"
+        data-id="page-sections/features/experience-feature-grid/experience-feature-grid-item"
+        {...feature}
+      />
+    ))}
+  </div>
+  <div class="experience-feature-grid__callout">
+    <Heading
+      text={calloutHeading}
+      level="h3"
+      size="fluid-h4"
+      alignmentHorizontal="start"
+      class="experience-feature-grid__callout-heading"
+      data-prop="calloutHeading"
+    />
+    <ButtonGroup
+      direction="row"
+      alignmentHorizontal="center"
+      class="experience-feature-grid__callout-buttons"
+      buttonSections={buttonSections}
+      data-children-prop="buttonSections"
+    />
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .experience-feature-grid__intro {
+      margin-inline: auto;
+      max-width: var(--content-width-896px);
+      text-align: center;
+    }
+
+    .experience-feature-grid__eyebrow-row {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .experience-feature-grid__eyebrow,
+    .experience-feature-grid__subtext,
+    .experience-feature-grid__item-description {
+      margin-top: 0;
+    }
+
+    .experience-feature-grid__heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .experience-feature-grid__subtext {
+      margin-bottom: 22.4px;
+    }
+
+    .experience-feature-grid__card {
+      background-color: var(--color-bg);
+      border-radius: var(--radius-lg);
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: grid;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      gap: var(--spacing-xl);
+      grid-template-columns: minmax(0, 1fr);
+      margin: 64px 0 0;
+      padding: 40px;
+      position: relative;
+      text-align: start;
+      text-transform: none;
+      z-index: 50;
+    }
+
+    .experience-feature-grid__item {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: row;
+      gap: var(--spacing-md);
+    }
+
+    .experience-feature-grid__item-image {
+      margin-top: 0;
+    }
+
+    .experience-feature-grid__item-title {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .experience-feature-grid__callout {
+      align-items: center;
+      background-color: var(--color-button-pill-bg);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      gap: var(--spacing-lg);
+      justify-content: center;
+      margin: -32px 0 0;
+      padding: 64px 32px 32px;
+      position: relative;
+      text-align: start;
+      text-transform: none;
+    }
+
+    .experience-feature-grid__callout-heading {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .experience-feature-grid__callout-buttons {
+      container-type: normal;
+      flex: 0 0 auto;
+      margin-top: 0;
+      width: auto;
+    }
+
+    @media (min-width: 768px) {
+      .experience-feature-grid__card {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .experience-feature-grid__item {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .experience-feature-grid__callout {
+        flex-direction: row;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .experience-feature-grid__item {
+        align-items: center;
+        flex-direction: row;
+      }
+    }
+  }
+
+  @layer overrides {
+    .experience-feature-grid__eyebrow > .simple-text-content,
+    .experience-feature-grid__subtext > .simple-text-content,
+    .experience-feature-grid__item-description > .simple-text-content {
+      color: var(--color-text-strong);
+    }
+
+    .experience-feature-grid__subtext > .simple-text-content,
+    .experience-feature-grid__item-description > .simple-text-content {
+      font-weight: var(--font-weight-normal);
+      text-transform: none;
+    }
+
+    .experience-feature-grid__eyebrow > .simple-text-content,
+    .experience-feature-grid__subtext > .simple-text-content {
+      line-height: var(--line-height-body-relaxed);
+    }
+
+    .experience-feature-grid__item-description > .simple-text-content {
+      line-height: 22.4px;
+    }
+
+    .experience-feature-grid__item-title > .heading-inner,
+    .experience-feature-grid__callout-heading > .heading-inner {
+      line-height: 28px;
+    }
+
+    .experience-feature-grid__item-image > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .experience-feature-grid .experience-feature-grid__item-image {
+      flex: 0 1 64px;
+      overflow: visible;
+      width: 64px;
+    }
+
+    .experience-feature-grid .experience-feature-grid__item-image > .image-inner {
+      overflow: visible;
+    }
+
+    .experience-feature-grid .experience-feature-grid__item-image > .image-inner img {
+      height: 64px;
+      max-width: 64px;
+      min-width: 100%;
+      object-fit: contain;
+      width: auto;
+    }
+
+    .experience-feature-grid__callout-buttons .button > .button-inner {
+      gap: normal;
+      justify-content: normal;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+    }
+
+    @media (width < 640px) {
+      .experience-feature-grid > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .experience-feature-grid__callout-heading > .heading-inner {
+        text-align: center;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,122 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+eyebrow:
+  type: markdown
+  label: Eyebrow
+  comment: Small label above the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+heading:
+  type: markdown
+  label: Heading
+  comment: Section heading above the cards.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+subtext:
+  type: markdown
+  label: Intro text
+  comment: Intro copy beside or below the heading. Leave empty to omit it.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+headerLayout:
+  type: select
+  label: Header layout
+  comment: Centered stacks the header in a narrow column; split and split-inset place the intro beside the heading.
+  options:
+    values:
+      - id: centered
+        name: Centered
+      - id: split
+        name: Split
+      - id: split-inset
+        name: Split inset
+cards:
+  type: array
+  label: Cards
+  comment: Cards shown in a grid on large screens and a swipe carousel on smaller screens.
+  options:
+    structures: _structures.cardGridCards
+cardVariant:
+  type: select
+  label: Card style
+  comment: Card shape — alignment, image shape and body padding.
+  options:
+    values:
+      - id: photo-card
+        name: Photo card (left-aligned, padded body)
+      - id: plain
+        name: Plain (rounded illustration, centered title)
+      - id: contained-card
+        name: Contained card (inset illustration, centered padded body)
+      - id: plain-contained
+        name: Plain with inset illustration
+      - id: plain-wide
+        name: Plain with wide illustration
+cardColor:
+  type: select
+  label: Card color
+  comment: Background surface of each card.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: base
+        name: Base
+      - id: sky
+        name: Sky
+cardLinkStyle:
+  type: select
+  label: Card link style
+  comment: Pinned aligns the card links along the card bottoms; inline places them directly below the body.
+  options:
+    values:
+      - id: pinned
+        name: Pinned
+      - id: inline
+        name: Inline
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Centered buttons below the cards. Leave empty to omit the button row.
+  options:
+    structures: _structures.buttonSections
+backgroundColor:
+  type: select
+  label: Background color
+  comment: Background color token behind the section content.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: base
+        name: Base
+      - id: surface
+        name: Surface
+      - id: accent
+        name: Accent
+      - id: highlight
+        name: Highlight
+      - id: sky
+        name: Sky
+      - id: mint
+        name: Mint
+      - id: mint-strong
+        name: Mint Strong
+      - id: mint-grid
+        name: Mint Grid
+      - id: peach
+        name: Peach

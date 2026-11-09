@@ -1,0 +1,51 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Card from "@wrappers/card/Card.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+
+const {
+  title = "",
+  description = "",
+  imageSource = "",
+  imageAlt = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CarouselSlide {...htmlAttributes}>
+  <Card
+    class:list={["certifications-carousel__card", className]}
+    backgroundColor="accent"
+    paddingHorizontal="lg"
+    paddingVertical="lg"
+  >
+    <Image
+      source={imageSource}
+      alt={imageAlt}
+      priority={false}
+      background={false}
+      sizes="64px"
+      widths={[64, 128]}
+      data-prop-src="imageSource"
+      data-prop-alt="imageAlt"
+    />
+    <Heading
+      text={title}
+      level="h4"
+      size="fluid-h4"
+      alignmentHorizontal="center"
+      data-prop="title"
+    />
+    <SimpleText
+      text={description}
+      size="body"
+      alignmentHorizontal="center"
+      data-prop="description"
+    />
+  </Card>
+</CarouselSlide>

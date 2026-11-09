@@ -1,0 +1,116 @@
+---
+import markdownit from "markdown-it";
+
+const md = markdownit({ html: true });
+
+const {
+  text = "",
+  size,
+  alignmentHorizontal = "start",
+  class: className,
+  useDefaultEditableBinding = false,
+  "data-prop": customDataProp,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const markdownContent = text ? md.render(text) : "";
+
+const effectiveDataProp = customDataProp ?? (useDefaultEditableBinding ? "text" : null);
+const textDataAttributes = effectiveDataProp
+  ? { "data-editable": "text", "data-prop": effectiveDataProp }
+  : {};
+
+const hasText = text?.trim().length > 0;
+const hasSlotContent = Astro.slots.has("default");
+
+if (!_component && !hasText && !hasSlotContent) return;
+---
+
+<div
+  class:list={["text", className]}
+  {...htmlAttributes}
+>
+  <div
+    class:list={["text-inner", size && `size-${size}`, `align-${alignmentHorizontal}`]}
+    {...textDataAttributes}
+  >
+    <slot>{text && <Fragment set:html={markdownContent} />}</slot>
+  </div>
+</div>
+
+<style is:global>
+  @layer components {
+    .text {
+      margin-top: var(--spacing-lg);
+
+      > .text-inner {
+        &.size-xs {
+          --text-size: var(--font-size-xs);
+        }
+        &.size-sm {
+          --text-size: var(--font-size-sm);
+        }
+        &.size-md {
+          --text-size: var(--font-size-md);
+        }
+        &.size-lg {
+          --text-size: var(--font-size-lg);
+        }
+        &.size-xl {
+          --text-size: var(--font-size-xl);
+        }
+        &.size-2xl {
+          --text-size: var(--font-size-2xl);
+        }
+        &.size-3xl {
+          --text-size: var(--font-size-3xl);
+        }
+        &.size-4xl {
+          --text-size: var(--font-size-4xl);
+        }
+        /* Adapted (Phase 2.5): fixed 1rem body with the source's relaxed 1.75 leading */
+        &.size-body {
+          --text-size: var(--font-size-body-fixed);
+          --text-line-height: var(--line-height-body-relaxed);
+
+          > :is(p, ul, ol) {
+            line-height: var(--text-line-height);
+          }
+        }
+
+        > p {
+          font-size: var(--text-size, inherit);
+        }
+
+        > ul {
+          font-size: var(--text-size, inherit);
+        }
+
+        > ol {
+          font-size: var(--text-size, inherit);
+        }
+
+        > *:first-child {
+          margin-top: 0;
+        }
+
+        > *:last-child {
+          margin-bottom: 0;
+        }
+
+        &.align-start {
+          text-align: start;
+        }
+
+        &.align-center {
+          text-align: center;
+        }
+
+        &.align-end {
+          text-align: end;
+        }
+      }
+    }
+  }
+</style>

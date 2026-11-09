@@ -1,0 +1,24 @@
+label: Centered Text Hero
+icon: title
+description: Sky-blue hero band with a centred heading, a one-line subtitle and decorative corner textures.
+value:
+  _component: page-sections/heroes/centered-text-hero
+  sectionLabel: ""
+  heading: Heading text
+  subtext: Subtitle text that will be replaced with actual content.
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: sky
+preview:
+  text:
+    - Centered Text Hero
+  subtext:
+    - key: heading
+  icon: title
+picker_preview:
+  text: Centered Text Hero
+  subtext: Sky-blue hero band with a centred heading, a one-line subtitle and decorative corner textures.
+_inputs_from_glob:
+  - /src/components/page-sections/heroes/centered-text-hero/centered-text-hero.cloudcannon.inputs.yml

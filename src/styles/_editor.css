@@ -1,0 +1,7 @@
+html[data-cc-editor] [data-reveal] {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  transition: none;
+  visibility: visible;
+}

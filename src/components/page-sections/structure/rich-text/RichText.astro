@@ -1,0 +1,129 @@
+---
+import Text from "@core-elements/text/Text.astro";
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+
+const {
+  body,
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showBody = Boolean(body);
+---
+
+<CustomSection
+  class:list={["rich-text", className]}
+  maxContentWidth="672px"
+  paddingHorizontal="lg"
+  backgroundColor="base"
+  colorScheme="light"
+  {...htmlAttributes}
+>
+  {showBody && (
+    <Text
+      text={body}
+      data-prop="body"
+      size="body"
+      alignmentHorizontal="start"
+      class="rich-text__body"
+    />
+  )}
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .rich-text {
+      border: 0 solid rgb(229, 231, 235);
+    }
+  }
+
+  @layer overrides {
+    .rich-text > .outer-content {
+      color: rgb(11, 17, 29);
+      text-decoration-color: rgb(11, 17, 29);
+    }
+
+    .rich-text > .outer-content > .background {
+      padding-top: 0;
+      padding-bottom: 0;
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .rich-text > .outer-content > .content {
+      padding-block: 134.4px;
+    }
+
+    .rich-text .text-inner > :is(h2, h3) {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-semibold);
+      text-decoration-color: rgb(33, 63, 101);
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .rich-text .text-inner > h2 {
+      font-size: var(--font-size-heading-fluid-h2);
+      line-height: 57.8768px;
+    }
+
+    .rich-text .text-inner > h2:nth-of-type(-n + 2) {
+      color: rgb(33, 63, 101);
+    }
+
+    .rich-text .text-inner > h3 {
+      font-size: var(--font-size-heading-fluid-h3);
+      line-height: 1.1875;
+    }
+
+    .rich-text .text-inner > p {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      color: var(--color-text-strong);
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .rich-text .text-inner > ul {
+      margin-top: 0;
+      margin-bottom: 22.4px;
+      padding-left: 12px;
+      color: var(--color-text-strong);
+    }
+
+    .rich-text .text-inner > ul > li {
+      display: list-item;
+      margin-top: 0;
+      margin-bottom: 12px;
+      line-height: 22.4px;
+      color: var(--color-text-strong);
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .rich-text .text-inner a,
+    .rich-text .text-inner a:hover {
+      color: rgb(68, 68, 68);
+      text-decoration-line: none;
+      text-decoration-color: rgb(68, 68, 68);
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .rich-text .text-inner > :last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .rich-text .text-inner > h2 {
+        line-height: 40.9148px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .rich-text .text-inner > h2 {
+        line-height: 37.692px;
+      }
+    }
+  }
+</style>

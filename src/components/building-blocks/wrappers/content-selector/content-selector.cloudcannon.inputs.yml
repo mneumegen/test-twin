@@ -1,0 +1,24 @@
+label:
+  comment: Optional label for the content selector to help identify it in the editor.
+  type: text
+items:
+  type: array
+  options:
+    structures: _structures.contentSelectorItems
+navigationPosition:
+  type: select
+  options:
+    values:
+      - id: start
+        name: Start
+      - id: top
+        name: Top
+tabElement:
+  type: select
+  comment: The element each tab renders as. "Button" emits real <button> tabs.
+  options:
+    values:
+      - id: label
+        name: Label
+      - id: button
+        name: Button

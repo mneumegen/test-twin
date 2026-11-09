@@ -1,0 +1,90 @@
+label: Experience Feature Grid
+icon: grid_view
+description: Centred intro above a white card of illustrated features with an attached call-to-action bar.
+value:
+  _component: page-sections/features/experience-feature-grid
+  sectionLabel: ""
+  eyebrow: Eyebrow text
+  heading: Heading text
+  subtext: Intro placeholder text that will be replaced with actual content.
+  features: []
+  calloutHeading: Callout heading text
+  buttonSections:
+    - _component: building-blocks/core-elements/button
+      text: Learn More
+      hideText: false
+      link: ""
+      iconName: ""
+      iconColor: default
+      iconPosition: before
+      variant: pill
+      size: md
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: mint-grid
+preview:
+  text:
+    - Experience Feature Grid
+  subtext:
+    - key: heading
+  icon: grid_view
+picker_preview:
+  text: Experience Feature Grid
+  subtext: Centred intro above a white card of illustrated features with an attached call-to-action bar.
+_inputs_from_glob:
+  - /src/components/page-sections/features/experience-feature-grid/experience-feature-grid.cloudcannon.inputs.yml
+_structures:
+  experienceFeatureItems:
+    values:
+      - label: Feature
+        icon: image
+        value:
+          imageSource: ""
+          imageAlt: ""
+          title: Feature title
+          description: Feature description placeholder text.
+        preview:
+          text:
+            - key: title
+            - Feature
+          subtext:
+            - key: description
+          image:
+            - key: imageSource
+        picker_preview:
+          text: Feature
+          subtext: Illustration with a title and a one-line description.
+        _inputs:
+          imageSource:
+            type: image
+            label: Illustration
+            comment: Illustration shown beside the feature text.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Illustration alt text
+            comment: Alternative text describing the illustration.
+          title:
+            type: markdown
+            label: Title
+            comment: Feature title.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          description:
+            type: markdown
+            label: Description
+            comment: One-line description following the title.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

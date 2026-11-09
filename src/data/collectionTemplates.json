@@ -1,0 +1,26 @@
+{
+  "product": {
+    "relatedHeading": "You might also like",
+    "cta": {
+      "heading": "Let's work together",
+      "buttonText": "Let's Connect",
+      "buttonLink": "/contact-us",
+      "imageSource": "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/contact.jpg",
+      "imageAlt": "",
+      "textureImageSource": "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-c.png"
+    }
+  },
+  "article": {
+    "contactButtonText": "Contact our sales team",
+    "contactButtonLink": "/contact-us",
+    "closer": {
+      "heading": "You need more than a manufacturer",
+      "text": "Through a transparent and collaborative partnership, we can help you serve your customers' needs from head to toe.\n\nCheck out all the ways we can achieve your goals.",
+      "linkText": "Explore our products",
+      "link": "/products",
+      "imageSource": "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/blog-closer.jpg",
+      "imageAlt": ""
+    },
+    "relatedHeading": "Related Posts"
+  }
+}

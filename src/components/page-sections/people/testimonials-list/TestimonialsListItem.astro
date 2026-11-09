@@ -1,0 +1,29 @@
+---
+import Testimonial from "@core-elements/testimonial/Testimonial.astro";
+
+const {
+  text = "",
+  authorName = "",
+  authorDescription = "",
+  quoteSize = "default",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<div
+  class:list={["testimonials-list__item", className]}
+  {...htmlAttributes}
+>
+  <Testimonial
+    text={text}
+    authorName={authorName}
+    authorDescription={authorDescription}
+    alignmentHorizontal="start"
+    class:list={["testimonials-list__testimonial", `testimonials-list__testimonial--${quoteSize}`]}
+    data-prop="text"
+    data-prop-author-name="authorName"
+    data-prop-author-description="authorDescription"
+  />
+</div>

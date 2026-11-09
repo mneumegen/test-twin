@@ -1,0 +1,29 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+videoSource:
+  type: file
+  label: Background video
+  comment: Background video file (MP4/WebM). Leave empty to omit the video.
+  options:
+    accepts_mime_types:
+      - video/mp4
+      - video/webm
+    paths:
+      uploads: public/videos
+      static: public
+headingLead:
+  type: text
+  label: Heading lead
+  comment: Leading text of the headline, shown before the rotating word.
+rotatingWords:
+  type: array
+  label: Rotating words
+  comment: Words that cycle in the headline every five seconds. Leave empty to omit the rotator.
+  options:
+    structures: _structures.rotatingWord
+tagline:
+  type: text
+  label: Tagline
+  comment: Italic line beneath the headline. Leave empty to omit it.

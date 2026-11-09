@@ -1,0 +1,100 @@
+label: Process Steps Carousel
+icon: view_carousel
+description: Centred intro with CTA above a carousel of numbered process-step panels (copy beside photo).
+value:
+  _component: page-sections/features/process-steps-carousel
+  sectionLabel: ""
+  eyebrow: Section eyebrow
+  heading: Section heading
+  subtext: Short introduction to the process. Supports **bold** inline markdown.
+  buttonSections:
+    - _component: building-blocks/core-elements/button
+      text: Learn More
+      hideText: false
+      link: ""
+      iconName: ""
+      iconColor: default
+      iconPosition: before
+      variant: pill
+      size: md
+  slides: []
+  textureImageSource: /src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-5.png
+  textureImageAlt: ""
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: sky
+preview:
+  text:
+    - Process Steps Carousel
+  subtext:
+    - key: heading
+  icon: view_carousel
+picker_preview:
+  text: Process Steps Carousel
+  subtext: Centred intro with CTA above a carousel of numbered process-step panels (copy beside photo).
+_inputs_from_glob:
+  - /src/components/page-sections/features/process-steps-carousel/process-steps-carousel.cloudcannon.inputs.yml
+_structures:
+  processStep:
+    values:
+      - label: Process step
+        icon: view_carousel
+        value:
+          _component: page-sections/features/process-steps-carousel/process-steps-carousel-slide
+          stepLabel: Step 1
+          stepTitle: Step title
+          stepDescription: ""
+          stepImageSource: ""
+          stepImageAlt: ""
+        preview:
+          text:
+            - key: stepTitle
+            - Process step
+          subtext:
+            - key: stepLabel
+          image:
+            - key: stepImageSource
+        _inputs:
+          stepLabel:
+            type: markdown
+            label: Step label
+            comment: Small uppercase label above the step title, e.g. "Step 1".
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          stepTitle:
+            type: markdown
+            label: Step title
+            comment: Heading of the step panel.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          stepDescription:
+            type: markdown
+            label: Step description
+            comment: Short description of the step.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          stepImageSource:
+            type: image
+            label: Step photo
+            comment: Photo filling the right half of the panel.
+            options:
+              paths:
+                uploads: src/assets/images
+          stepImageAlt:
+            type: text
+            label: Step photo alt text
+            comment: Describes the photo for screen readers.

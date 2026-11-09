@@ -1,0 +1,78 @@
+label: Certifications Carousel
+icon: verified
+description: Eyebrow, heading and intro copy above a sub-heading beside a sliding carousel of certification cards.
+value:
+  _component: page-sections/features/certifications-carousel
+  sectionLabel: ""
+  eyebrow: Eyebrow
+  heading: Section heading
+  intro: Intro copy displayed beside the heading.
+  subheading: Sub-heading
+  subtext: Supporting copy beneath the sub-heading.
+  certifications: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+preview:
+  text:
+    - Certifications Carousel
+  subtext:
+    - key: heading
+  icon: verified
+picker_preview:
+  text: Certifications Carousel
+  subtext: Eyebrow, heading and intro copy above a sub-heading beside a sliding carousel of certification cards.
+_inputs_from_glob:
+  - /src/components/page-sections/features/certifications-carousel/certifications-carousel.cloudcannon.inputs.yml
+_structures:
+  certification:
+    values:
+      - label: Certification
+        icon: verified
+        value:
+          _component: page-sections/features/certifications-carousel/certifications-carousel-item
+          imageSource: ""
+          imageAlt: ""
+          title: Certification
+          description: ""
+        preview:
+          text:
+            - key: title
+            - Certification
+          subtext:
+            - key: description
+          image:
+            - key: imageSource
+        _inputs:
+          imageSource:
+            type: image
+            label: Logo
+            comment: Certification logo shown in the white circle.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Logo alt text
+            comment: Describes the logo for screen readers.
+          title:
+            type: markdown
+            label: Title
+            comment: Certification name.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          description:
+            type: markdown
+            label: Description
+            comment: Short description of the certification.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

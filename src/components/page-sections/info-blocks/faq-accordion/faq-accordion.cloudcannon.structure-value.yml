@@ -1,0 +1,77 @@
+label: FAQ Accordion
+icon: quiz
+description: FAQ questions grouped under category headings, each group an expandable accordion.
+value:
+  _component: page-sections/info-blocks/faq-accordion
+  sectionLabel: ""
+  categories: []
+  maxContentWidth: 896px
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+preview:
+  text:
+    - FAQ Accordion
+  subtext:
+    - key: categories
+  icon: quiz
+picker_preview:
+  text: FAQ Accordion
+  subtext: FAQ questions grouped under category headings, each group an expandable accordion.
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/faq-accordion/faq-accordion.cloudcannon.inputs.yml
+_structures:
+  faqCategories:
+    values:
+      - label: FAQ Category
+        icon: quiz
+        value:
+          heading: Category heading
+          items: []
+        preview:
+          text:
+            - key: heading
+            - FAQ Category
+          icon: quiz
+        _inputs:
+          heading:
+            type: text
+            label: Category heading
+            comment: Heading shown above this group of questions.
+          items:
+            type: array
+            label: Questions
+            comment: Questions and answers in this category's accordion.
+            options:
+              structures: _structures.faqItems
+        _structures:
+          faqItems:
+            values:
+              - label: FAQ Item
+                icon: help
+                value:
+                  title: Question text
+                  contentSections:
+                    - _component: building-blocks/core-elements/text
+                      text: Answer text goes here.
+                preview:
+                  text:
+                    - key: title
+                    - FAQ Item
+                  subtext:
+                    - key: contentSections.0.text
+                    - Add answer text
+                  icon: help
+                _inputs:
+                  title:
+                    type: text
+                    label: Question
+                    comment: The question text.
+                  contentSections:
+                    type: array
+                    label: Answer content
+                    comment: Content sections for the answer (typically text).
+                    options:
+                      structures: _structures.accordionSections
+                _structures_from_glob:
+                  - /.cloudcannon/structures/accordionSections.cloudcannon.structures.yml

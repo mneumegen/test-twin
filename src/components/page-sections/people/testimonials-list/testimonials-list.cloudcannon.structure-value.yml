@@ -1,0 +1,77 @@
+label: Testimonials List
+icon: format_quote
+description: Page heading followed by a stacked column of customer testimonials with author name and role.
+value:
+  _component: page-sections/people/testimonials-list
+  sectionLabel: ""
+  heading: Our Customer Testimonials
+  testimonials: []
+  maxContentWidth: lg
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+preview:
+  text:
+    - Testimonials List
+  subtext:
+    - key: heading
+  icon: format_quote
+picker_preview:
+  text: Testimonials List
+  subtext: Page heading followed by a stacked column of customer testimonials with author name and role.
+_inputs_from_glob:
+  - /src/components/page-sections/people/testimonials-list/testimonials-list.cloudcannon.inputs.yml
+_structures:
+  testimonialItem:
+    values:
+      - label: Testimonial
+        icon: format_quote
+        value:
+          text: ""
+          authorName: ""
+          authorDescription: ""
+          quoteSize: default
+        preview:
+          text:
+            - key: authorName
+          subtext:
+            - key: authorDescription
+          icon: format_quote
+        picker_preview:
+          text: Testimonial
+          icon: format_quote
+        _inputs:
+          text:
+            label: Quote
+            comment: Testimonial quote text. Bold runs use **bold**.
+            type: markdown
+            options:
+              blockquote: false
+              bold: true
+              format: p h1 h2 h3 h4 h5 h6 pre
+              italic: true
+              link: true
+              strike: false
+              subscript: true
+              superscript: true
+              underline: false
+              bulletedlist: true
+              numberedlist: true
+              indent: true
+              outdent: true
+          authorName:
+            label: Author name
+            comment: Name of the person quoted.
+            type: text
+          authorDescription:
+            label: Author role
+            comment: Role and company of the person quoted.
+            type: text
+          quoteSize:
+            label: Quote size
+            comment: Text size of the quote copy.
+            type: select
+            options:
+              values:
+                - { id: default, name: Default }
+                - { id: small, name: Small }

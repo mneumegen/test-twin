@@ -1,0 +1,29 @@
+label: Learning Lab Articles
+icon: article
+description: Grid of Learning Lab articles, newest first, with optional topic links.
+value:
+  _component: page-sections/collections/post-list
+  sectionLabel: ""
+  heading: Twincraft Articles
+  subheading: ""
+  mode: all
+  showFilters: true
+  ctaText: ""
+  ctaLink: ""
+  limit: 0
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: mint-grid
+preview:
+  text:
+    - Learning Lab Articles
+  subtext:
+    - key: heading
+  icon: article
+picker_preview:
+  text: Learning Lab Articles
+  subtext: Grid of Learning Lab articles, newest first, with optional topic links.
+_inputs_from_glob:
+  - /src/components/page-sections/collections/post-list/post-list.cloudcannon.inputs.yml

@@ -1,0 +1,221 @@
+{
+  "logoSource": "/src/assets/images/hub/242534912/hubfs/TWC-Horizontal_Blue-1.png",
+  "logoAlt": "TWC Horizontal_Blue 1",
+  "logoText": "Twincraft Skincare",
+  "skipLinkText": "Skip to content",
+  "navData": [
+    {
+      "name": "Who we are",
+      "featuredImage": {
+        "source": "/src/assets/images/hs-fs/hubfs/CZ0A0194.jpg",
+        "alt": "CZ0A0194"
+      },
+      "caption": "Curious about working with or for Twincraft? Learn about who we are and what it's like to work with us.",
+      "columns": [
+        {
+          "name": "About Us",
+          "path": "/about-us",
+          "links": [
+            {
+              "name": "Who We Are",
+              "path": "/about-us"
+            },
+            {
+              "name": "Meet the Team",
+              "path": "/about-us#get-to-know-our-people"
+            },
+            {
+              "name": "Our Partners",
+              "path": "/about-us#who-we-work-with"
+            }
+          ],
+          "subtext": ""
+        },
+        {
+          "name": "The Twincraft Experience",
+          "path": "/twincraft-experience",
+          "links": [
+            {
+              "name": "We Believe",
+              "path": "/twincraft-experience"
+            },
+            {
+              "name": "Our Approach",
+              "path": "/twincraft-experience#designated-customer-account-team"
+            },
+            {
+              "name": "What It’s Like Working With Us",
+              "path": "/twincraft-experience#testimonials"
+            }
+          ],
+          "subtext": ""
+        }
+      ],
+      "cta": {
+        "text": "Explore Careers",
+        "link": "/careers"
+      }
+    },
+    {
+      "name": "What we do",
+      "featuredImage": {
+        "source": "/src/assets/images/hs-fs/hubfs/2026/photography/formulation-packaging.jpg",
+        "alt": "formulation-packaging"
+      },
+      "caption": "From skincare to hair care, and deodorant to bar soap, we manufacture a wide range of beauty & personal care products for our brand partners.",
+      "columns": [
+        {
+          "name": "Liquid Formulations",
+          "path": "/liquid-skincare-manufacturing",
+          "links": [
+            {
+              "name": "Product Categories",
+              "path": "/liquid-skincare-manufacturing#liquid-product-categories"
+            },
+            {
+              "name": "Packaging",
+              "path": "/liquid-skincare-manufacturing#filling-capabilities"
+            },
+            {
+              "name": "Get Inspired",
+              "path": "/liquid-skincare-manufacturing#get-inspired"
+            }
+          ],
+          "subtext": ""
+        },
+        {
+          "name": "Hot Pour & Deodorant",
+          "path": "/deodorant-stick-manufacturing",
+          "links": [
+            {
+              "name": "Product Categories",
+              "path": "/deodorant-stick-manufacturing#hot-pour--deodorant-product-categories"
+            },
+            {
+              "name": "Packaging",
+              "path": "/deodorant-stick-manufacturing#filling-capabilities"
+            },
+            {
+              "name": "Get Inspired",
+              "path": "/deodorant-stick-manufacturing#get-inspired"
+            }
+          ],
+          "subtext": ""
+        },
+        {
+          "name": "Bar Soap",
+          "path": "/bar-soap-manufacturing",
+          "links": [
+            {
+              "name": "Product Categories",
+              "path": "/bar-soap-manufacturing#bar-soap-aesthetics"
+            },
+            {
+              "name": "Packaging",
+              "path": "/bar-soap-manufacturing#filling-capabilities"
+            },
+            {
+              "name": "Get Inspired",
+              "path": "/bar-soap-manufacturing#get-inspired"
+            }
+          ],
+          "subtext": ""
+        }
+      ],
+      "cta": {
+        "text": "Product Library",
+        "link": "/products"
+      }
+    },
+    {
+      "name": "How we do it",
+      "featuredImage": {
+        "source": "/src/assets/images/hs-fs/hubfs/Lisa-Production.jpg",
+        "alt": "Lisa Production"
+      },
+      "caption": "Whether you're looking for a new contract manufacturer to produce an existing formula, or you're just getting started and not sure where to begin, we are here for you.",
+      "columns": [
+        {
+          "name": "Our process",
+          "path": "/our-process",
+          "links": [
+            {
+              "name": "Base Library",
+              "path": "/our-process#base-library"
+            },
+            {
+              "name": "Tech Transfer",
+              "path": "/our-process#tech-transfer"
+            },
+            {
+              "name": "Custom Development",
+              "path": "/our-process#custom-development"
+            }
+          ],
+          "subtext": ""
+        },
+        {
+          "name": "Sustainability",
+          "path": "/sustainability",
+          "links": [
+            {
+              "name": "Our Certifications",
+              "path": "/sustainability#certifications"
+            },
+            {
+              "name": "Energy Use",
+              "path": "/sustainability#sustainable-manufacturing"
+            },
+            {
+              "name": "Bar Soap Recycling",
+              "path": "/sustainability#soap-scrap-recycling"
+            }
+          ],
+          "subtext": ""
+        }
+      ],
+      "cta": {
+        "text": "",
+        "link": ""
+      }
+    },
+    {
+      "name": "Resources",
+      "featuredImage": {
+        "source": "/src/assets/images/hs-fs/hubfs/2026/photography/product-textures.jpg",
+        "alt": "product-textures"
+      },
+      "caption": "From product inspiration to complicated chemistry questions, we're here to arm you with the knowledge you need to bring successful products to life.",
+      "columns": [
+        {
+          "name": "Learning Lab",
+          "path": "/learning-lab",
+          "links": [],
+          "subtext": "Articles & resources designed to support you at every stage of the product development process."
+        },
+        {
+          "name": "FAQ",
+          "path": "/faqs",
+          "links": [],
+          "subtext": "Get quick answers to some of the most commonly asked questions."
+        }
+      ],
+      "cta": {
+        "text": "Product Library",
+        "link": "/products"
+      }
+    }
+  ],
+  "buttonSections": [
+    {
+      "_component": "building-blocks/core-elements/button",
+      "text": "Let's Connect",
+      "hideText": false,
+      "link": "/contact-us",
+      "iconName": "",
+      "iconPosition": "before",
+      "variant": "primary",
+      "size": "md"
+    }
+  ]
+}

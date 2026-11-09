@@ -1,0 +1,263 @@
+---
+import Component from "@components/utils/renderBlock.astro";
+import { slugifyLabel } from "@components/utils/slugify";
+import Button from "@core-elements/button/Button.astro";
+
+const {
+  label,
+  heading,
+  triggerText,
+  triggerVariant = "primary",
+  triggerSize = "md",
+  triggerIconName,
+  size = "md",
+  contentSections,
+  useDefaultEditableBinding = false,
+  class: className,
+  "data-children-prop": childrenDataProp,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const generatedLabel = label || heading || `Modal-${crypto.randomUUID()}`;
+const popoverId = `modal-${slugifyLabel(generatedLabel)}`;
+
+const effectiveChildrenProp =
+  childrenDataProp ?? (useDefaultEditableBinding ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
+  : {};
+const headingDataAttributes = useDefaultEditableBinding
+  ? { "data-editable": "text", "data-prop": "heading" }
+  : {};
+
+const hasHeading = heading?.trim().length > 0;
+const hasContentSections = contentSections?.length > 0;
+const hasSlotContent = Astro.slots.has("default");
+const hasTrigger = triggerText?.trim().length > 0 || triggerIconName?.trim().length > 0;
+
+if (!_component && !hasContentSections && !hasSlotContent) return;
+---
+
+<div
+  class:list={["modal", className]}
+  {...htmlAttributes}
+>
+  {hasTrigger && (
+    <Button
+      text={triggerText}
+      variant={triggerVariant}
+      size={triggerSize}
+      iconName={triggerIconName}
+      link={`^${popoverId}`}
+      class="modal-trigger"
+    />
+  )}
+
+  <div
+    id={popoverId}
+    popover="auto"
+    class:list={["modal-popover", `size-${size}`]}
+    role="dialog"
+    aria-label={hasHeading ? undefined : label}
+    aria-labelledby={hasHeading ? `${popoverId}-header` : undefined}
+  >
+    <div class:list={["modal-header", hasHeading ? "has-header" : "no-header"]}>
+      {hasHeading && (
+        <h2
+          id={`${popoverId}-header`}
+          class="modal-title"
+          {...headingDataAttributes}
+        >
+          {heading}
+        </h2>
+      )}
+      <Button
+        iconName="x-mark"
+        hideText
+        text="Close"
+        variant="ghost"
+        size="lg"
+        class="modal-close"
+        popovertarget={popoverId}
+        popovertargetaction="hide"
+      />
+    </div>
+    <div
+      class="modal-body"
+      {...arrayDataAttributes}
+    >
+      <slot>
+        {contentSections && (
+          <Component
+            contentSections={contentSections}
+            useDefaultEditableBinding={!!effectiveChildrenProp}
+          />
+        )}
+      </slot>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { onPageLoad } from "@component-utils/onPageLoad";
+
+  function updateModalScrollLock() {
+    const openPopovers = Array.from(
+      document.querySelectorAll<HTMLElement>(".modal-popover")
+    ).filter((popover) => popover.matches(":popover-open"));
+    const hasOpenModal = openPopovers.length > 0;
+
+    document.body.toggleAttribute("data-modal-scroll-lock", hasOpenModal);
+  }
+
+  function setupModals() {
+    document.querySelectorAll<HTMLElement>(".modal").forEach((modal) => {
+      if (modal.hasAttribute("data-modal-initialized")) return;
+      modal.setAttribute("data-modal-initialized", "");
+
+      const trigger = modal.querySelector<HTMLButtonElement>(".modal-trigger .button-inner");
+      const popover = modal.querySelector<HTMLElement>(".modal-popover");
+      if (!popover) return;
+
+      popover.addEventListener("toggle", (e) => {
+        const { newState } = e as ToggleEvent;
+        trigger?.setAttribute("aria-expanded", String(newState === "open"));
+        updateModalScrollLock();
+
+        if (newState === "closed" && trigger) {
+          trigger.focus();
+        }
+      });
+    });
+
+    updateModalScrollLock();
+  }
+
+  onPageLoad(setupModals);
+</script>
+
+<style is:global>
+  @layer components {
+    .modal {
+      display: inline-flex;
+      margin-top: var(--spacing-lg);
+    }
+
+    .modal-popover {
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+      color: var(--color-text);
+      inset: 0;
+      margin: auto;
+      max-height: 85vh;
+      overflow: hidden;
+      padding: 0;
+      width: 90vw;
+
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity var(--animation-normal) ease-out,
+        transform var(--animation-normal) ease-out,
+        overlay var(--animation-normal) ease-out allow-discrete,
+        display var(--animation-normal) ease-out allow-discrete;
+
+      &:popover-open {
+        display: flex;
+        flex-direction: column;
+        opacity: 1;
+        transform: translateY(0);
+
+        @starting-style {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+      }
+
+      &::backdrop {
+        background-color: var(--color-overlay);
+        opacity: 0;
+        transition:
+          opacity var(--animation-normal) ease-out,
+          overlay var(--animation-normal) ease-out allow-discrete,
+          display var(--animation-normal) ease-out allow-discrete;
+      }
+
+      &:popover-open::backdrop {
+        opacity: 1;
+
+        @starting-style {
+          opacity: 0;
+        }
+      }
+
+      &.size-sm {
+        max-width: var(--content-width-sm);
+      }
+
+      &.size-md {
+        max-width: var(--content-width-md);
+      }
+
+      &.size-lg {
+        max-width: var(--content-width-lg);
+      }
+
+      &.size-xl {
+        max-width: var(--content-width-xl);
+      }
+    }
+
+    .modal-header {
+      align-items: center;
+      display: flex;
+      gap: var(--spacing-md);
+      z-index: var(--layer-2);
+    }
+
+    .modal-header.has-header {
+      background-color: var(--color-bg-surface);
+      flex-shrink: 0;
+      justify-content: space-between;
+      padding: var(--spacing-sm);
+    }
+
+    .modal-header.no-header {
+      flex-shrink: 0;
+      height: 0;
+      padding: 0;
+      position: relative;
+      z-index: var(--layer-2);
+    }
+
+    .modal-header.no-header .modal-close {
+      position: absolute;
+      right: var(--spacing-sm);
+      top: var(--spacing-sm);
+      z-index: var(--layer-2);
+    }
+
+    .modal-title {
+      flex: 1;
+      font-size: var(--font-size-heading-sm);
+      margin: 0;
+      padding: 0 var(--spacing-md);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+
+      > *:first-child {
+        margin-top: 0;
+      }
+
+      > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+</style>

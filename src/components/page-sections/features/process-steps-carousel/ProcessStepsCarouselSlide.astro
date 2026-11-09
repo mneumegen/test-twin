@@ -1,0 +1,57 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+
+const {
+  stepLabel = "",
+  stepTitle = "",
+  stepDescription = "",
+  stepImageSource = "",
+  stepImageAlt = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CarouselSlide {...htmlAttributes}>
+  <div class:list={["process-steps-carousel__panel", className]}>
+    <div class="process-steps-carousel__copy">
+      <SimpleText
+        class="process-steps-carousel__step-label"
+        text={stepLabel}
+        variant="label"
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="stepLabel"
+      />
+      <Heading
+        text={stepTitle}
+        level="h3"
+        size="fluid-h3"
+        alignmentHorizontal="start"
+        data-prop="stepTitle"
+      />
+      <SimpleText
+        class="process-steps-carousel__step-description"
+        text={stepDescription}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="stepDescription"
+      />
+    </div>
+    <Image
+      class="process-steps-carousel__step-image"
+      source={stepImageSource}
+      alt={stepImageAlt}
+      priority={false}
+      sizes="(min-width: 768px) 616px, 100vw"
+      widths={[400, 616, 1232]}
+      data-prop-src="stepImageSource"
+      data-prop-alt="stepImageAlt"
+    />
+  </div>
+</CarouselSlide>

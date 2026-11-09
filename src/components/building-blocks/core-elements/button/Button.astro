@@ -1,0 +1,320 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+
+const {
+  text,
+  iconName,
+  iconColor = "default",
+  iconPosition = "before",
+  hideText = false,
+  variant = "primary",
+  size = "md",
+  link,
+  element,
+  class: className,
+  useDefaultEditableBinding = false,
+  "data-prop": customDataProp,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const effectiveDataProp = customDataProp ?? (useDefaultEditableBinding ? "text" : null);
+const textDataAttributes = effectiveDataProp
+  ? { "data-editable": "text", "data-prop": effectiveDataProp }
+  : {};
+
+const isPopoverLink = link?.startsWith("^");
+const Tag = (element ?? (isPopoverLink || !link ? "button" : "a")) as any;
+
+const tagProps: Record<string, any> = isPopoverLink
+  ? { type: "button", popovertarget: link.slice(1), popovertargetaction: "show" }
+  : Tag === "a" && link
+    ? { href: link }
+    : Tag === "button"
+      ? { type: "button" }
+      : {};
+
+if (hideText) {
+  tagProps["aria-label"] = htmlAttributes["aria-label"] || text;
+  delete htmlAttributes["aria-label"];
+}
+
+const tagKeys = new Set<string>([
+  "id",
+  "tabindex",
+  "tabIndex",
+  "popovertarget",
+  "popovertargetaction",
+]);
+
+if (Tag === "a" && link) {
+  for (const k of ["target", "rel", "download", "hreflang", "referrerpolicy", "ping"]) {
+    tagKeys.add(k);
+  }
+}
+if (Tag === "button") {
+  for (const k of [
+    "type",
+    "disabled",
+    "name",
+    "value",
+    "form",
+    "formaction",
+    "formenctype",
+    "formmethod",
+    "formnovalidate",
+    "formtarget",
+    "autofocus",
+  ]) {
+    tagKeys.add(k);
+  }
+}
+
+const restAttrs = htmlAttributes as Record<string, any>;
+
+for (const key of tagKeys) {
+  if (key in restAttrs) {
+    tagProps[key] = restAttrs[key];
+    delete restAttrs[key];
+  }
+}
+
+const hasText = text?.trim().length > 0;
+const hasSlotContent = Astro.slots.has("default");
+const hasIcon = iconName?.trim().length > 0;
+
+if (!_component && !hasText && !hasSlotContent && !hasIcon) return;
+---
+
+<span
+  class:list={["button", className]}
+  {...htmlAttributes}
+>
+  <Tag
+    class:list={[
+      "button-inner",
+      `variant-${variant}`,
+      `size-${size}`,
+      iconPosition === "after" && "icon-after",
+      hideText && "icon-only",
+    ]}
+    {...tagProps}
+  >
+    <Icon
+      name={iconName}
+      color={iconColor}
+      size="none"
+    />
+    {!hideText && (
+      <span
+        class="label-text"
+        {...textDataAttributes}
+      >
+        <slot>{text}</slot>
+      </span>
+    )}
+  </Tag>
+</span>
+
+<style is:global>
+  @layer components {
+    .button {
+      display: inline-flex;
+      max-width: 100%;
+      vertical-align: middle;
+
+      > .button-inner {
+        align-items: center;
+        background-color: var(--color-bg-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-xs);
+        color: var(--color-text-strong);
+        display: inline-flex;
+        flex-shrink: 0;
+        font-weight: var(--font-weight-semibold);
+        gap: 0.15em;
+        justify-content: center;
+        min-height: 10px;
+        min-width: 10px;
+        padding-block: var(--spacing-em-sm);
+        padding-inline: var(--spacing-em-sm);
+        text-align: center;
+        text-decoration: none;
+        transition-duration: var(--animation-normal);
+        transition-property: background-color, color, border-color;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+          background-color: var(--color-bg-muted);
+          border-color: var(--color-border-strong);
+          color: var(--color-text-strong);
+          cursor: pointer;
+        }
+
+        &:focus {
+          box-shadow: 0 0 2px 2px var(--color-focus-ring) inset;
+          outline: none;
+        }
+
+        &.icon-only {
+          padding: var(--spacing-em-xs);
+        }
+
+        &.icon-after {
+          flex-direction: row-reverse;
+        }
+
+        &.variant-primary {
+          background-color: var(--color-bg-brand);
+          border-color: transparent;
+          color: var(--color-text-on-brand);
+
+          &:hover,
+          &:focus {
+            background-color: var(--color-bg-brand-muted);
+            border-color: transparent;
+            color: var(--color-text-on-brand);
+          }
+        }
+
+        &.variant-secondary {
+          background-color: var(--color-bg-muted);
+          border-color: transparent;
+          color: var(--color-text-strong);
+
+          &:hover,
+          &:focus {
+            background-color: var(--color-state-hover);
+            border-color: transparent;
+            color: var(--color-text-strong);
+          }
+        }
+
+        &.variant-tertiary {
+          background-color: transparent;
+          border-color: var(--color-border-strong);
+          color: var(--color-text-strong);
+
+          &:hover,
+          &:focus {
+            background-color: var(--color-bg-surface);
+            border-color: var(--color-border-strong);
+            color: var(--color-text-strong);
+          }
+        }
+
+        &.variant-ghost {
+          background-color: transparent;
+          border-color: transparent;
+          color: var(--color-text-strong);
+
+          &:hover,
+          &:focus {
+            background-color: var(--color-state-hover);
+            border-color: transparent;
+            color: var(--color-text-strong);
+          }
+        }
+
+        &.variant-text {
+          background-color: transparent;
+          border-color: transparent;
+          color: var(--color-brand);
+          font-size: var(--font-size-lg);
+          font-weight: 600;
+          padding: 0;
+
+          &:hover,
+          &:focus {
+            color: var(--color-brand-muted);
+          }
+        }
+
+        &.size-sm {
+          font-size: var(--font-size-xs);
+        }
+
+        &.size-md {
+          font-size: var(--font-size-md);
+        }
+
+        &.size-lg {
+          font-size: var(--font-size-xl);
+        }
+      }
+    }
+  }
+
+  /*
+   * Adapted (Phase 2.5): source pill buttons. In @layer overrides so a brand-level `.button-inner`
+   * restyle cannot flatten them. Longhands only (no padding/border shorthands after longhands).
+   *   pill      — `.btn.btn-primary`: peach fill, 2px navy border, 9999px radius, uppercase, 400, 0.75em/2em padding
+   *   pill-flat — password-gate submit: peach fill, no border, 50px radius, sentence case, 0.5em/2em padding
+   */
+  @layer overrides {
+    .button > .button-inner {
+      &.variant-pill,
+      &.variant-pill-flat {
+        background-color: var(--color-button-pill-bg);
+        color: var(--color-button-pill-text);
+        font-weight: var(--font-weight-normal);
+        padding-inline: var(--spacing-em-xl);
+
+        &:hover,
+        &:focus {
+          background-color: var(--color-button-pill-bg-hover);
+          color: var(--color-button-pill-text);
+        }
+      }
+
+      &.variant-pill {
+        border-color: var(--color-button-pill-border);
+        border-radius: var(--radius-full);
+        border-style: solid;
+        border-width: 2px;
+        padding-block: 0.75em;
+        text-transform: uppercase;
+
+        &:hover,
+        &:focus {
+          border-color: var(--color-button-pill-border);
+        }
+      }
+
+      &.variant-pill-flat {
+        border-color: transparent;
+        border-radius: 50px;
+        border-width: 0;
+        padding-block: var(--spacing-em-sm);
+
+        &:hover,
+        &:focus {
+          border-color: transparent;
+        }
+      }
+
+      &.variant-pill-outline {
+        background-color: transparent;
+        border-color: var(--color-button-pill-border);
+        border-radius: var(--radius-full);
+        border-style: solid;
+        border-width: 2px;
+        color: var(--color-button-pill-text);
+        font-weight: var(--font-weight-normal);
+        padding-block: 0.75em;
+        padding-inline: var(--spacing-em-xl);
+        text-transform: uppercase;
+        transition-duration: 0.5s;
+        transition-property: color, background-color, border-color;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover,
+        &:focus {
+          background-color: var(--color-bg-sky);
+          border-color: var(--color-button-pill-border);
+          color: var(--color-button-pill-text);
+        }
+      }
+    }
+  }
+</style>

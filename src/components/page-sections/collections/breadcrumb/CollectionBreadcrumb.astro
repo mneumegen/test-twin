@@ -1,0 +1,58 @@
+---
+/** Breadcrumb bar used by product and Learning Lab templates. Last item is the current page. */
+const { items = [] } = Astro.props as { items: { label: string; href?: string }[] };
+---
+
+<nav
+  class="collection-breadcrumb"
+  aria-label="Breadcrumb"
+>
+  <ol>
+    {items.map((item, i) => (
+      <li aria-current={i === items.length - 1 ? "page" : undefined}>
+        {item.href && i < items.length - 1 ? <a href={item.href}>{item.label}</a> : item.label}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style is:global>
+  @layer components {
+    .collection-breadcrumb {
+      background: var(--brand-sky);
+      font-size: 14px;
+      padding: 24px var(--spacing-lg) 16px;
+      text-transform: uppercase;
+
+      ol {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0 auto;
+        max-width: var(--content-width-2xl, 1280px);
+        padding: 0;
+      }
+
+      li {
+        color: var(--brand-navy);
+      }
+
+      li + li::before {
+        content: "›";
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 14px;
+      }
+
+      a {
+        color: var(--brand-navy);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+</style>

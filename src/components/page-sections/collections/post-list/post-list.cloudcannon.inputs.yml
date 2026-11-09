@@ -1,0 +1,146 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+heading:
+  type: text
+  label: Heading
+  comment: Heading above the articles (left-aligned for Featured, centered otherwise).
+subheading:
+  type: text
+  label: Subheading
+  comment: Optional line under the heading.
+mode:
+  type: select
+  label: Articles to show
+  comment: All Learning Lab articles (newest first), or only articles marked Featured.
+  options:
+    values:
+      - id: all
+        name: All articles
+      - id: featured
+        name: Featured only
+showFilters:
+  type: switch
+  label: Show search and topic filters
+  comment: Search box and topic icons above the grid (All articles only).
+ctaText:
+  type: text
+  label: Button text
+  comment: Optional button under the heading (Featured only), e.g. See all articles.
+ctaLink:
+  type: text
+  label: Button link
+limit:
+  type: number
+  label: Maximum articles
+  comment: 0 shows every matching article.
+maxContentWidth:
+  type: select
+  comment: Maximum width constraint for the content.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+      - id: 512px
+        name: 512px (source max-w-lg)
+      - id: 576px
+        name: 576px (source max-w-xl)
+      - id: 672px
+        name: 672px (source max-w-2xl)
+      - id: 896px
+        name: 896px (source max-w-4xl)
+paddingHorizontal:
+  type: select
+  comment: Horizontal padding applied to the section content.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+paddingVertical:
+  type: select
+  comment: Vertical padding applied to the section content.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+      - id: 6xl
+        name: 6xl
+colorScheme:
+  type: select
+  comment: Color scheme theme for the section wrapper.
+  options:
+    values:
+      - id: inherit
+        name: Inherit
+      - id: light
+        name: Light
+      - id: dark
+        name: Dark
+backgroundColor:
+  type: select
+  comment: Background color token behind the section content.
+  options:
+    values:
+      - id: none
+        name: None
+      - id: base
+        name: Base
+      - id: surface
+        name: Surface
+      - id: accent
+        name: Accent
+      - id: highlight
+        name: Highlight
+      - id: sky
+        name: Sky
+      - id: mint
+        name: Mint
+      - id: mint-strong
+        name: Mint Strong
+      - id: mint-grid
+        name: Mint Grid
+      - id: peach
+        name: Peach

@@ -1,0 +1,325 @@
+---
+import CustomSection from "@page-sections/builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import LogoGridItem from "./LogoGridItem.astro";
+
+const {
+  sectionLabel = "",
+  decorationImage = "",
+  decorationImageAlt = "",
+  decorationPlacement = "wave",
+  heading = "",
+  headingLevel = "h2",
+  logoLayout = null,
+  buttonSections = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "3xl",
+  colorScheme = "light",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showDecoration = Boolean(decorationImage);
+const showButtons = buttonSections?.length > 0;
+const logoLayoutType = logoLayout?.type ?? null;
+const showGrid = logoLayoutType === "grid";
+const showCardGrid = logoLayoutType === "card-grid";
+const showCarousel = logoLayoutType === "carousel";
+const logos = logoLayout?.logos ?? [];
+---
+
+<CustomSection
+  class:list={["logo-grid", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  {...htmlAttributes}
+>
+  {showDecoration && (
+    <Image
+      source={decorationImage}
+      alt={decorationImageAlt}
+      priority={false}
+      role={decorationImageAlt ? undefined : "presentation"}
+      class:list={["logo-grid__decoration", `logo-grid__decoration--${decorationPlacement}`]}
+      sizes="1186px"
+      widths={[888, 1186, 1776, 2372]}
+      data-prop-src="decorationImage"
+      data-prop-alt="decorationImageAlt"
+    />
+  )}
+  <Heading
+    text={heading}
+    level={headingLevel}
+    size="fluid-h2"
+    alignmentHorizontal="center"
+    data-prop="heading"
+  />
+  <div class="logo-grid__logos">
+    {showGrid && (
+      <div
+        class="logo-grid__grid"
+        data-editable="array"
+        data-prop="logoLayout.logos"
+        data-component="page-sections/features/logo-grid/logo-grid-item"
+      >
+        {logos.map((item) => (
+          <LogoGridItem
+            data-editable="array-item"
+            data-id="page-sections/features/logo-grid/logo-grid-item"
+            {...item}
+          />
+        ))}
+      </div>
+    )}
+    {showCardGrid && (
+      <div
+        class="logo-grid__card-grid"
+        data-editable="array"
+        data-prop="logoLayout.logos"
+        data-component="page-sections/features/logo-grid/logo-grid-item"
+      >
+        {logos.map((item) => (
+          <LogoGridItem
+            data-editable="array-item"
+            data-id="page-sections/features/logo-grid/logo-grid-item"
+            {...item}
+          />
+        ))}
+      </div>
+    )}
+    {showCarousel && (
+      <Carousel
+        label="Brand partner logos"
+        autoPlay={false}
+        autoScroll={true}
+        loop={true}
+        showIndicators={false}
+        showArrows={false}
+        alignmentHorizontal="start"
+        slidesToScroll="auto"
+        slideWidthPercent={25}
+        minSlideWidth={0}
+        gap="md"
+        data-children-prop="logoLayout.logos"
+      >
+        {logos.map((item) => (
+          <CarouselSlide
+            data-editable="array-item"
+            data-id="page-sections/features/logo-grid/logo-grid-item"
+          >
+            <LogoGridItem {...item} />
+          </CarouselSlide>
+        ))}
+      </Carousel>
+    )}
+  </div>
+  {showButtons && (
+    <ButtonGroup
+      buttonSections={buttonSections}
+      direction="row"
+      alignmentHorizontal="center"
+      data-children-prop="buttonSections"
+    />
+  )}
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .logo-grid {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .logo-grid__decoration {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .logo-grid__decoration--wave {
+      top: -100px;
+      left: -300px;
+      transform: scale(0.9);
+    }
+
+    .logo-grid__decoration--texture {
+      top: -100px;
+      left: -400px;
+    }
+
+    .logo-grid__logos {
+      position: relative;
+      z-index: 1;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .logo-grid__logos:last-child {
+      margin-bottom: 0;
+    }
+
+    .logo-grid__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-xl);
+    }
+
+    .logo-grid__card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      justify-items: center;
+      gap: var(--spacing-xl);
+    }
+
+    .logo-grid__card-grid .logo-grid__card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-lg);
+      background-color: rgb(255, 255, 255);
+      border-radius: var(--radius-sm);
+    }
+
+    .logo-grid__item {
+      display: block;
+      text-align: center;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .logo-grid__item:has(> [data-logo-visibility="hidden"]) {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .logo-grid__decoration--wave {
+        top: -150px;
+        left: -400px;
+      }
+
+      .logo-grid__decoration--texture {
+        top: -300px;
+      }
+
+      .logo-grid__card-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .logo-grid__decoration--texture {
+        top: -400px;
+        left: -600px;
+        transform: rotate(-45deg);
+      }
+
+      .logo-grid__card-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo-grid__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+      }
+
+      .logo-grid__item:has(> [data-logo-visibility="desktop"]) {
+        display: none;
+      }
+    }
+  }
+
+  @layer overrides {
+    .logo-grid .outer-content {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-grid .heading,
+    .logo-grid .button-group {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-grid .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+    }
+
+    .logo-grid .logo-grid__item .image {
+      margin-top: 0;
+    }
+
+    .logo-grid .logo-grid__item .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+      text-align: center;
+    }
+
+    .logo-grid .logo-grid__item .image-inner img {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .logo-grid .logo-grid__card-grid .logo-grid__card .image-inner img {
+      width: auto;
+      max-width: 100%;
+      max-height: 96px;
+      margin-inline: auto;
+      margin-bottom: 0;
+      object-fit: contain;
+    }
+
+    .logo-grid .carousel .slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-grid .carousel .slide .image-inner img {
+      margin-bottom: 0;
+      object-fit: contain;
+    }
+
+    .logo-grid .button-group {
+      margin-top: 0;
+      display: inline-flex;
+      justify-content: normal;
+      gap: normal;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+    }
+
+    .logo-grid > .outer-content > .content.pad-y-3xl {
+      padding-top: calc(var(--spacing-3xl) + var(--spacing-md));
+    }
+
+    @media (width < 640px) {
+      .logo-grid > .outer-content > .content.pad-y-3xl {
+        padding-top: calc(var(--spacing-3xl) + var(--spacing-md));
+        padding-bottom: var(--spacing-3xl);
+      }
+    }
+  }
+</style>

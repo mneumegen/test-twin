@@ -1,0 +1,102 @@
+label:
+  comment: Optional label for the carousel to help identify it in the editor.
+  type: text
+slides:
+  comment: Array of slides to display in the carousel.
+  type: array
+  options:
+    structures: _structures.slides
+autoPlay:
+  comment: Enable auto-play functionality.
+  type: switch
+autoScroll:
+  comment: Enable auto-scroll functionality.
+  type: switch
+loop:
+  comment: Loop the carousel back to the beginning when reaching the end.
+  type: switch
+showIndicators:
+  comment: Show dot indicators below the carousel.
+  type: switch
+indicatorStyle:
+  comment: Dot indicators, a slide counter (e.g. 1/3), or a scroll-progress bar.
+  type: select
+  options:
+    values:
+      - dots
+      - fraction
+      - progress
+showArrows:
+  comment: Show previous and next arrow buttons.
+  type: switch
+alignmentHorizontal:
+  comment: Alignment of slides within the carousel viewport.
+  type: select
+  options:
+    values:
+      - start
+      - center
+      - end
+slidesToScroll:
+  comment: Number of slides to scroll at a time, or "auto" to scroll by the number of visible slides.
+  type: select
+  options:
+    values:
+      - auto
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+slideWidthPercent:
+  comment: Width of each slide as a percentage of the carousel (e.g., 33, 50, 100).
+  type: range
+  options:
+    min: 0
+    max: 100
+    step: 1
+minSlideWidth:
+  comment: Minimum width of slides in pixels. Prevents slides from getting too small.
+  type: number
+gap:
+  comment: The gap between slides. Only visible when slides are narrower than the viewport.
+  type: select
+  options:
+    values:
+      - id: none
+        name: None
+      - id: xs
+        name: Extra Small
+      - id: sm
+        name: Small
+      - id: md
+        name: Medium
+      - id: lg
+        name: Large
+      - id: xl
+        name: Extra Large
+      - id: 2xl
+        name: 2xl
+      - id: 3xl
+        name: 3xl
+prevIconName:
+  type: select
+  comment: Icon name override for the previous-arrow button (defaults to chevron-left).
+  hidden: "!showArrows"
+  options:
+    values: _select_data.icons
+    preview:
+      text:
+        - key: name
+      image:
+        - template: src/icons/{id}.svg
+nextIconName:
+  type: select
+  comment: Icon name override for the next-arrow button (defaults to chevron-right).
+  hidden: "!showArrows"
+  options:
+    values: _select_data.icons
+    preview:
+      text:
+        - key: name
+      image:
+        - template: src/icons/{id}.svg

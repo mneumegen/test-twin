@@ -1,0 +1,448 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import Button from "@core-elements/button/Button.astro";
+import TeamGridItem from "./TeamGridItem.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  members = [],
+  showMoreText = "See all employees",
+  showLessText = "Show Fewer",
+  decorativeImage = "",
+  decorativeImageAlt = "",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "sky",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const memberList = Array.isArray(members) ? members : [];
+const showToggle = memberList.length > 4;
+const showTexture = Boolean(decorativeImage);
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["team-grid", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+>
+  <div class="team-grid__header">
+    <SimpleText
+      text={eyebrow}
+      variant="label"
+      size="body"
+      alignmentHorizontal="center"
+      class="team-grid__eyebrow"
+      data-prop="eyebrow"
+    />
+    <Heading
+      text={heading}
+      level="h2"
+      size="fluid-h2"
+      alignmentHorizontal="center"
+      class="team-grid__heading"
+      data-prop="heading"
+    />
+  </div>
+  <div
+    class="team-grid__grid"
+    data-expanded="false"
+    data-editable="array"
+    data-prop="members"
+    data-component="page-sections/people/team-grid/team-grid-item"
+  >
+    {memberList.map((member) => (
+      <TeamGridItem
+        data-editable="array-item"
+        data-id="page-sections/people/team-grid/team-grid-item"
+        {...member}
+      />
+    ))}
+  </div>
+  {showToggle && (
+    <div class="team-grid__actions">
+      <Button
+        text={showMoreText}
+        element="button"
+        variant="pill"
+        size="md"
+        class="team-grid__toggle"
+        data-prop="showMoreText"
+        data-show-text={showMoreText}
+        data-hide-text={showLessText}
+      />
+    </div>
+  )}
+  {showTexture && (
+    <Image
+      source={decorativeImage}
+      alt={decorativeImageAlt}
+      priority={false}
+      class="team-grid__texture"
+      data-prop-src="decorativeImage"
+      data-prop-alt="decorativeImageAlt"
+      sizes="(max-width: 1090px) 100vw, 1090px"
+      widths={[400, 800, 1090, 2180]}
+    />
+  )}
+</CustomSection>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target as Element | null;
+    const toggle = target?.closest?.(".team-grid__toggle");
+    if (!toggle) return;
+    const section = toggle.closest(".team-grid");
+    const grid = section?.querySelector(".team-grid__grid");
+    if (!grid) return;
+    const expanded = grid.getAttribute("data-expanded") === "true";
+    const next = !expanded;
+    grid.setAttribute("data-expanded", String(next));
+    const button = toggle.matches("button") ? toggle : toggle.querySelector("button");
+    button?.setAttribute("aria-expanded", String(next));
+    const label = toggle.getAttribute("data-show-text") !== null ? toggle : button;
+    const showText = label?.getAttribute("data-show-text") ?? "";
+    const hideText = label?.getAttribute("data-hide-text") ?? "";
+    const textEl = toggle.querySelector(".label-text") ?? button;
+    if (textEl) textEl.textContent = next ? hideText : showText;
+  });
+</script>
+
+<style is:global>
+  @layer overrides {
+    .team-grid .outer-content {
+      overflow: hidden;
+    }
+
+    .team-grid .outer-content > .content {
+      position: static;
+    }
+
+    @media (max-width: 390px) {
+      .team-grid > .outer-content > .content {
+        padding-block: 112px;
+      }
+    }
+
+    .team-grid .team-grid__eyebrow > .simple-text-content {
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    @media (max-width: 768px) {
+      .team-grid .team-grid__heading > .heading-inner {
+        line-height: 38.0004px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .team-grid .team-grid__heading > .heading-inner {
+        line-height: 35px;
+      }
+    }
+
+    .team-grid .team-grid__photo > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .team-grid .team-grid__photo img,
+    .team-grid .team-grid__texture img {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .team-grid .team-grid__name > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-size: 20px;
+      font-weight: var(--font-weight-normal);
+      line-height: 24px;
+      text-decoration-color: rgb(24, 62, 102);
+      text-transform: uppercase;
+    }
+
+    .team-grid .team-grid__position > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      line-height: 28px;
+      text-decoration-color: rgb(24, 62, 102);
+      text-transform: none;
+    }
+
+    @media (max-width: 390px) {
+      .team-grid .team-grid__position > .simple-text-content {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+
+    .team-grid .team-grid__linkedin-icon > .icon-inner {
+      border-radius: 0;
+      color: #0a66c2;
+      line-height: 28px;
+      text-decoration-color: rgb(0, 0, 0);
+    }
+
+    .team-grid .team-grid__linkedin-icon > .icon-inner svg {
+      display: block;
+      height: 12px;
+      width: 12px;
+    }
+
+    .team-grid .team-grid__toggle > .button-inner {
+      gap: normal;
+      justify-content: normal;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+    }
+
+    html[data-cc-editor] .team-grid__grid > .team-grid__card {
+      display: block;
+    }
+
+    .team-grid .team-grid__texture > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+  }
+
+  @layer page-sections {
+    .team-grid {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .team-grid__header,
+    .team-grid__grid,
+    .team-grid__actions {
+      position: relative;
+      z-index: 1;
+    }
+
+    .team-grid__header {
+      display: flex;
+      flex-direction: column;
+      margin-inline: auto;
+      row-gap: 16px;
+      max-width: 768px;
+      text-align: center;
+    }
+
+    .team-grid__eyebrow {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      margin-top: 0;
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .team-grid__heading {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .team-grid__grid {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 9.6px;
+    }
+
+    @media (min-width: 768px) {
+      .team-grid__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .team-grid__grid {
+        gap: 8px;
+      }
+    }
+
+    .team-grid__grid:not([data-expanded="true"]) > .team-grid__card:nth-child(n + 9) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .team-grid__grid:not([data-expanded="true"]) > .team-grid__card:nth-child(n + 5) {
+        display: none;
+      }
+    }
+
+    .team-grid__card {
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      background-color: rgba(0, 0, 0, 0);
+      background-position: 0% 0%;
+      background-repeat: repeat;
+      background-size: auto;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      border-radius: 16px;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: block;
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      margin: 0;
+      opacity: 1;
+      outline-color: rgb(0, 0, 0);
+      outline-style: none;
+      outline-width: 3px;
+      overflow: hidden;
+      padding: 0;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+      text-transform: none;
+      transition-duration: 0.3s;
+      transition-property: opacity;
+      transition-timing-function: ease-in-out;
+      word-spacing: 0;
+    }
+
+    .team-grid__card-body {
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      background-color: var(--color-bg);
+      background-position: 0% 0%;
+      background-repeat: repeat;
+      background-size: auto;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      border-radius: 0;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: flex;
+      flex-flow: row nowrap;
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      height: 100%;
+      justify-content: space-between;
+      line-height: 22.4px;
+      margin: 0;
+      opacity: 1;
+      outline-color: rgb(0, 0, 0);
+      outline-style: none;
+      outline-width: 3px;
+      padding: 24px;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+      text-transform: none;
+      transition-property: all;
+      transition-timing-function: ease;
+      word-spacing: 0;
+    }
+
+    @media (max-width: 768px) {
+      .team-grid__card-body {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .team-grid__card-body {
+        padding: 8px;
+      }
+    }
+
+    .team-grid__photo {
+      margin-top: 0;
+    }
+
+    .team-grid__name,
+    .team-grid__position {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      margin-top: 0;
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .team-grid__linkedin-link {
+      align-items: center;
+      align-self: flex-start;
+      flex-shrink: 0;
+      height: 12px;
+      width: 12px;
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      color: var(--color-text);
+      display: flex;
+      font-size: var(--font-size-sm);
+      gap: var(--spacing-xs);
+      line-height: 28px;
+      margin-top: var(--spacing-sm);
+      outline-color: rgb(0, 0, 0);
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+    }
+
+    .team-grid__linkedin-icon {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+      border-radius: 0;
+      display: block;
+      outline-color: rgb(0, 0, 0);
+    }
+
+    .team-grid__actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .team-grid__texture {
+      bottom: -300px;
+      left: -500px;
+      margin: 0;
+      max-width: 100%;
+      pointer-events: none;
+      position: absolute;
+      width: 1090px;
+      z-index: 0;
+    }
+  }
+</style>

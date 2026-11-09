@@ -1,0 +1,24 @@
+label: Footer
+icon: footer
+description: "Footer with logo, call-to-action buttons, link columns, social links, contact details and a legal bar."
+value:
+  _component: navigation/footer
+  logoSource: ""
+  logoAlt: ""
+  buttonSections: []
+  columns: []
+  followLabel: ""
+  socials: []
+  contactItems: []
+  copyrightText: ""
+  legalLinks: []
+preview:
+  text:
+    - Footer
+  icon: footer
+picker_preview:
+  text: Footer
+  subtext: "Footer with logo, call-to-action buttons, link columns, social links, contact details and a legal bar."
+  icon: footer
+_inputs_from_glob:
+  - /src/components/navigation/footer/footer.cloudcannon.inputs.yml

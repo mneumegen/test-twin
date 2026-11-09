@@ -1,0 +1,103 @@
+label: Blog Cards
+icon: article
+description: Centered heading above a grid of blog post cards and a call-to-action button.
+value:
+  _component: page-sections/features/blog-cards
+  sectionLabel: ""
+  heading: Heading text
+  posts: []
+  ctaText: Button text
+  ctaLink: ""
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 6xl
+  colorScheme: light
+  backgroundColor: mint-grid
+preview:
+  text:
+    - Blog Cards
+  subtext:
+    - key: heading
+  icon: article
+picker_preview:
+  text: Blog Cards
+  subtext: Centered heading above a grid of blog post cards and a call-to-action button.
+_inputs_from_glob:
+  - /src/components/page-sections/features/blog-cards/blog-cards.cloudcannon.inputs.yml
+_structures:
+  blogCardsPosts:
+    values:
+      - label: Post
+        icon: article
+        value:
+          _component: page-sections/features/blog-cards/blog-cards-item
+          image: ""
+          imageAlt: ""
+          tag: ""
+          tagLink: ""
+          title: Post title
+          excerpt: ""
+          link: ""
+          linkText: Explore
+        preview:
+          text:
+            - key: title
+            - Post
+          subtext:
+            - key: tag
+          image:
+            - key: image
+        _inputs:
+          image:
+            type: image
+            label: Image
+            comment: Square image shown at the top of the card.
+            options:
+              paths:
+                uploads: src/assets/images
+          imageAlt:
+            type: text
+            label: Image alt text
+            comment: Describes the image for screen readers.
+          tag:
+            type: text
+            label: Category tag
+            comment: Category pill shown above the title.
+          tagLink:
+            type: text
+            label: Category link
+            comment: URL the category pill points to.
+          title:
+            type: markdown
+            label: Title
+            comment: Post title.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          excerpt:
+            type: markdown
+            label: Excerpt
+            comment: Short summary below the title.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          link:
+            type: text
+            label: Post link
+            comment: URL the Explore link points to.
+          linkText:
+            type: markdown
+            label: Link text
+            comment: Label of the arrow link at the bottom of the card.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

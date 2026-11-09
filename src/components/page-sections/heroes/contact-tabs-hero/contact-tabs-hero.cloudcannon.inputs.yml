@@ -1,0 +1,44 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor.
+heading:
+  type: markdown
+  label: Heading
+  comment: Main hero heading.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+subtext:
+  type: markdown
+  label: Subtext
+  comment: Supporting copy beneath the heading.
+  options:
+    blockquote: false
+    bold: true
+    format: p h1 h2 h3 h4 h5 h6 pre
+    italic: true
+    link: true
+    strike: false
+    subscript: true
+    superscript: true
+    underline: false
+    bulletedlist: true
+    numberedlist: true
+    indent: true
+    outdent: true
+buttonSections:
+  type: array
+  label: Buttons
+  comment: Call-to-action buttons beneath the copy.
+  options:
+    structures: _structures.buttonSections
+tabs:
+  type: array
+  label: Tabs
+  comment: Tabs in the card; each has a title and a panel of content (e.g. a form embed). The first tab opens by default.
+  options:
+    structures: _structures.contactTab

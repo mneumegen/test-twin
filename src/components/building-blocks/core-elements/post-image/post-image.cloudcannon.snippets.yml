@@ -1,0 +1,63 @@
+PostImage:
+  template: mdx_component
+  inline: false
+  preview:
+    view: gallery
+    text:
+      - Article image
+    subtext:
+      - key: alt
+    icon: image
+    gallery:
+      image:
+        - key: source
+  definitions:
+    component_name: PostImage
+    named_args:
+      - editor_key: source
+        type: string
+      - editor_key: alt
+        type: string
+        optional: true
+        remove_empty: true
+      - editor_key: width
+        type: number
+        optional: true
+        remove_empty: true
+      - editor_key: align
+        type: string
+        optional: true
+        remove_empty: true
+      - editor_key: link
+        type: string
+        optional: true
+        remove_empty: true
+  _inputs:
+    source:
+      type: image
+      label: Image
+      options:
+        paths:
+          uploads: src/assets/images
+    alt:
+      type: text
+      label: Alt text
+      comment: Describes the image for screen readers.
+    width:
+      type: number
+      label: Display width (px)
+      comment: Optional. Leave empty to fill the article width.
+    align:
+      type: select
+      label: Alignment
+      comment: Left/right wraps the following text around the image.
+      options:
+        values:
+          - none
+          - left
+          - right
+          - center
+    link:
+      type: text
+      label: Link
+      comment: Optional URL the image links to.

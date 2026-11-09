@@ -1,0 +1,64 @@
+label: Locations List
+icon: location_on
+description: Heading with a row of facility locations, each a map pin, facility name and address.
+value:
+  _component: page-sections/info-blocks/locations-list
+  sectionLabel: ""
+  heading: Our Locations
+  locations: []
+  maxContentWidth: 2xl
+  paddingHorizontal: lg
+  paddingVertical: 3xl
+  colorScheme: light
+  backgroundColor: none
+preview:
+  text:
+    - Locations List
+  subtext:
+    - key: heading
+  icon: location_on
+picker_preview:
+  text: Locations List
+  subtext: Heading with a row of facility locations, each a map pin, facility name and address.
+_inputs_from_glob:
+  - /src/components/page-sections/info-blocks/locations-list/locations-list.cloudcannon.inputs.yml
+_structures:
+  locationEntries:
+    values:
+      - label: Location
+        icon: location_on
+        value:
+          name: ""
+          address: ""
+        preview:
+          text:
+            - key: name
+            - Location
+          subtext:
+            - key: address
+          icon: location_on
+        picker_preview:
+          text:
+            - Location
+          icon: location_on
+        _inputs:
+          name:
+            type: markdown
+            label: Facility name
+            comment: Facility name shown in uppercase beside the pin.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true
+          address:
+            type: markdown
+            label: Address
+            comment: One-line street address of the facility.
+            options:
+              bold: true
+              italic: true
+              link: true
+              subscript: true
+              superscript: true

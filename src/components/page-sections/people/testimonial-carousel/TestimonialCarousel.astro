@@ -1,0 +1,458 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import TestimonialCarouselCard from "./TestimonialCarouselCard.astro";
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  intro = "",
+  buttonSections = [],
+  testimonials = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "sky",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showTestimonials = testimonials?.length > 0;
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["testimonial-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+>
+  <div class="testimonial-carousel__layout">
+    <div class="testimonial-carousel__intro">
+      <SimpleText
+        text={eyebrow}
+        variant="label"
+        size="body"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__eyebrow"
+        data-prop="eyebrow"
+      />
+      <Heading
+        text={heading}
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__heading"
+        data-prop="heading"
+      />
+      <SimpleText
+        text={intro}
+        size="body"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__intro-text"
+        data-prop="intro"
+      />
+      <ButtonGroup
+        buttonSections={buttonSections}
+        direction="row"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__buttons"
+        data-children-prop="buttonSections"
+      />
+    </div>
+    <div class="testimonial-carousel__slider">
+      {showTestimonials && (
+        <Carousel
+          autoPlay={false}
+          autoScroll={false}
+          showIndicators={false}
+          showArrows={true}
+          loop={false}
+          alignmentHorizontal="start"
+          slidesToScroll={1}
+          gap="lg"
+          prevIconName="carousel-chevron"
+          nextIconName="carousel-chevron"
+          label="Testimonials"
+          data-children-prop="testimonials"
+          data-component="page-sections/people/testimonial-carousel/testimonial-carousel-card"
+        >
+          {testimonials.map((item) => (
+            <TestimonialCarouselCard
+              {...item}
+              data-editable="array-item"
+              data-id="page-sections/people/testimonial-carousel/testimonial-carousel-card"
+              aria-roledescription="slide"
+            />
+          ))}
+        </Carousel>
+      )}
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .testimonial-carousel > .outer-content > .content {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .testimonial-carousel .testimonial-carousel__eyebrow {
+      border: 0 solid rgb(229, 231, 235);
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__eyebrow > .simple-text-content,
+    .testimonial-carousel .testimonial-carousel__eyebrow > .simple-text-content.variant-label {
+      color: var(--color-text-strong);
+      outline-color: rgb(24, 62, 102);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .testimonial-carousel .testimonial-carousel__heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__intro-text {
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__intro-text > .simple-text-content {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      outline-color: rgb(0, 0, 0);
+      text-decoration-color: rgb(0, 0, 0);
+      text-transform: none;
+    }
+
+    .testimonial-carousel .testimonial-carousel__buttons .button-inner {
+      background-color: var(--color-button-pill-bg);
+      border-color: rgb(24, 62, 102);
+      border-style: solid;
+      border-width: 2px;
+      display: inline-flex;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      justify-content: normal;
+      line-height: 22.4px;
+      max-width: 100%;
+      padding: 12px 32px;
+      transition-duration: 0.5s;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .testimonial-carousel .testimonial-carousel__slider > .carousel {
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .carousel .track > .slide {
+      display: flex;
+      flex-basis: 41.818%;
+    }
+
+    .testimonial-carousel .carousel .track > .slide > .slide__content {
+      display: flex;
+      width: 100%;
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper {
+      gap: 16px;
+      justify-content: flex-start;
+      margin-bottom: 0;
+      margin-top: 64px;
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper > .prev > .button-inner,
+    .testimonial-carousel .carousel .controls-wrapper > .next > .button-inner {
+      background-color: var(--color-bg);
+      border-width: 0;
+      box-shadow:
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      height: 40px;
+      line-height: 22.4px;
+      margin-top: -50px;
+      padding: 0;
+      text-transform: none;
+      transition-duration: 0.3s;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      width: 40px;
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper > .prev > .button-inner:hover:not(:disabled),
+    .testimonial-carousel .carousel .controls-wrapper > .next > .button-inner:hover:not(:disabled) {
+      background-color: var(--color-bg-mint);
+      box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper > .prev > .button-inner {
+      transform: matrix(-1, 0, 0, -1, 0, 0);
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper > .prev > .button-inner:disabled,
+    .testimonial-carousel .carousel .controls-wrapper > .next > .button-inner:disabled {
+      box-shadow:
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper .icon-inner {
+      border-radius: 0;
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      text-transform: none;
+    }
+
+    .testimonial-carousel .carousel .controls-wrapper svg {
+      display: block;
+      height: 24px;
+      width: 24px;
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote {
+      margin-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote > .simple-text-content {
+      margin-bottom: 22.4px;
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote .simple-text-content {
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      outline-color: rgb(24, 62, 102);
+      text-decoration-color: rgb(24, 62, 102);
+      text-transform: none;
+    }
+
+    .testimonial-carousel .testimonial-carousel__name {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__name > .heading-inner {
+      color: var(--color-text);
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-md);
+      line-height: 28px;
+      outline-color: rgb(0, 0, 0);
+      text-decoration-color: rgb(0, 0, 0);
+    }
+
+    .testimonial-carousel .testimonial-carousel__role {
+      margin-top: 0;
+    }
+
+    .testimonial-carousel .testimonial-carousel__role > .simple-text-content {
+      color: rgb(75, 85, 99);
+      font-weight: var(--font-weight-normal);
+      line-height: 28px;
+      outline-color: rgb(75, 85, 99);
+      text-decoration-color: rgb(75, 85, 99);
+      text-transform: none;
+    }
+
+    @media (max-width: 768px) {
+      .testimonial-carousel .carousel .track > .slide {
+        flex-basis: 52.024%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .testimonial-carousel .carousel .track {
+        margin-inline-start: -20px;
+      }
+
+      .testimonial-carousel .carousel .track > .slide {
+        flex-basis: 76.934%;
+        padding-inline-start: 20px;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .testimonial-carousel > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+  }
+
+  @layer page-sections {
+    .testimonial-carousel {
+      border: 0 solid rgb(229, 231, 235);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .testimonial-carousel .testimonial-carousel__layout {
+      display: block;
+    }
+
+    .testimonial-carousel .testimonial-carousel__intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .testimonial-carousel .testimonial-carousel__slider {
+      margin-top: 64px;
+      position: relative;
+      width: 100%;
+    }
+
+    .testimonial-carousel .testimonial-carousel__card {
+      background-color: var(--color-bg);
+      border: 0 solid;
+      border-radius: 16px;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      height: 448px;
+      justify-content: space-between;
+      line-height: 22.4px;
+      margin: 0;
+      outline: 3px none rgb(0, 0, 0);
+      overflow: hidden;
+      padding: 0;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote-area {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      padding: 24px 24px 8px;
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote {
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 10;
+      display: -webkit-box;
+      overflow: hidden;
+    }
+
+    .testimonial-carousel .testimonial-carousel__quote.is-expanded {
+      -webkit-line-clamp: initial;
+      max-height: 100%;
+      overflow: auto;
+    }
+
+    .testimonial-carousel .testimonial-carousel__expand {
+      align-self: flex-start;
+    }
+
+    /* Visual Editor: show the full quote so it can be edited (the Expand toggle's script
+       doesn't run on sections the editor re-renders). */
+    html[data-cc-editor] .testimonial-carousel .testimonial-carousel__quote {
+      -webkit-line-clamp: initial;
+    }
+
+    html[data-cc-editor] .testimonial-carousel .testimonial-carousel__expand {
+      display: none;
+    }
+
+    .testimonial-carousel .testimonial-carousel__expand[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .testimonial-carousel .testimonial-carousel__expand {
+        display: none;
+      }
+    }
+
+    .testimonial-carousel .testimonial-carousel__author {
+      background-color: rgba(0, 0, 0, 0);
+      border-color: rgb(24, 62, 102);
+      border-style: solid;
+      border-width: 2px 0 0;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: block;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-normal);
+      line-height: 22.4px;
+      margin: 0;
+      outline: 3px none rgb(0, 0, 0);
+      padding: 24px;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+    }
+
+    @media (min-width: 768px) {
+      .testimonial-carousel .testimonial-carousel__layout {
+        align-items: flex-start;
+        display: flex;
+      }
+
+      .testimonial-carousel .testimonial-carousel__intro {
+        width: 50%;
+      }
+
+      .testimonial-carousel .testimonial-carousel__slider {
+        flex-shrink: 0;
+        margin-top: 0;
+        transform: translateX(calc(50vw - 75%));
+        width: 66.6667%;
+      }
+    }
+  }
+</style>

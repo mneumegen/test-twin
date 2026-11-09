@@ -1,0 +1,217 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Text from "@core-elements/text/Text.astro";
+import Image from "@core-elements/image/Image.astro";
+import Split from "@wrappers/split/Split.astro";
+
+const TEXTURE_SOURCES = {
+  "waves-top-left":
+    "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-a.png",
+  "waves-bottom-left":
+    "/src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/texture-c.png",
+} as const;
+
+const {
+  sectionLabel,
+  heading,
+  body,
+  imageSource,
+  imageAlt,
+  texture = "waves-top-left",
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const textureKey = texture in TEXTURE_SOURCES ? texture : "waves-top-left";
+const textureSource = TEXTURE_SOURCES[textureKey as keyof typeof TEXTURE_SOURCES];
+---
+
+<CustomSection
+  class:list={["page-hero-split", className]}
+  label={sectionLabel}
+  backgroundColor="sky"
+  paddingVertical="none"
+  paddingHorizontal="none"
+  colorScheme="light"
+  {...htmlAttributes}
+>
+  <Split
+    distributionMode="half"
+    alignmentVertical="stretch"
+    gap="none"
+    minSplitWidth={767}
+    class="page-hero-split__split"
+  >
+    <div
+      class="page-hero-split__copy"
+      slot="first"
+    >
+      <Heading
+        text={heading}
+        level="h1"
+        size="fluid-h1"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+      <Text
+        text={body}
+        size="body"
+        alignmentHorizontal="start"
+        data-prop="body"
+      />
+    </div>
+    <Image
+      slot="second"
+      source={imageSource}
+      alt={imageAlt}
+      priority={true}
+      class="page-hero-split__photo"
+      sizes="(min-width: 768px) 50vw, 100vw"
+      widths={[400, 720, 1440]}
+      data-prop-src="imageSource"
+      data-prop-alt="imageAlt"
+    />
+  </Split>
+  <Image
+    source={textureSource}
+    alt=""
+    priority={false}
+    class:list={["page-hero-split__texture", `page-hero-split__texture--${textureKey}`]}
+    sizes="(max-width: 1440px) 100vw, 1440px"
+    widths={[640, 1280, 1920]}
+  />
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .page-hero-split {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page-hero-split .page-hero-split__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: var(--content-width-576px);
+      padding: 96px 24px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (min-width: 768px) {
+      .page-hero-split .page-hero-split__copy {
+        padding-inline: 48px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .page-hero-split .page-hero-split__copy {
+        padding-left: 80px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .page-hero-split .page-hero-split__copy > .heading {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .page-hero-split .page-hero-split__copy > .text {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+      margin-bottom: 22.4px;
+      margin-top: 0;
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .page-hero-split .page-hero-split__copy > .text > .text-inner {
+      color: var(--color-text-strong);
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .page-hero-split .page-hero-split__copy > .text > .text-inner > :is(p, ul, ol) {
+      color: var(--color-text-strong);
+    }
+
+    .page-hero-split .image.page-hero-split__photo,
+    .page-hero-split .image.page-hero-split__texture {
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .page-hero-split .image.page-hero-split__photo > .image-inner,
+    .page-hero-split .image.page-hero-split__texture > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .page-hero-split .image.page-hero-split__photo > .image-inner {
+      height: 100%;
+
+      picture {
+        height: 100%;
+      }
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .page-hero-split .page-hero-split__texture {
+      margin: 0;
+      max-width: 100%;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .page-hero-split .page-hero-split__texture--waves-top-left {
+      left: -150px;
+      top: -250px;
+      transform: scale(0.9);
+      width: 1186px;
+    }
+
+    .page-hero-split .page-hero-split__texture--waves-bottom-left {
+      bottom: -100px;
+      left: -200px;
+      transform: rotate(-15deg) scale(0.95);
+      width: 1593px;
+    }
+
+    @media (min-width: 768px) {
+      .page-hero-split .page-hero-split__texture--waves-top-left {
+        left: -200px;
+        top: -300px;
+      }
+
+      .page-hero-split .page-hero-split__texture--waves-bottom-left {
+        bottom: -175px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .page-hero-split .page-hero-split__texture--waves-top-left {
+        left: -250px;
+        top: -450px;
+      }
+
+      .page-hero-split .page-hero-split__texture--waves-bottom-left {
+        bottom: -400px;
+        left: -150px;
+      }
+    }
+  }
+</style>

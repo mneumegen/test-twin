@@ -1,0 +1,141 @@
+{
+  "routes": [
+    {
+      "from": "^/contact/?$",
+      "to": "/contact-us",
+      "status": 301
+    },
+    {
+      "from": "^/current-twincraft-skincare-customers/?$",
+      "to": "/brand-partners",
+      "status": 301
+    },
+    {
+      "from": "^/en-us/privacy-policy/?$",
+      "to": "/privacy-policy",
+      "status": 301
+    },
+    {
+      "from": "^/meet-our-team/?$",
+      "to": "/about-us",
+      "status": 301
+    },
+    {
+      "from": "^/our-approach/?$",
+      "to": "/our-process",
+      "status": 301
+    },
+    {
+      "from": "^/our-services/?$",
+      "to": "/twincraft-experience",
+      "status": 301
+    },
+    {
+      "from": "^/product/balancing-scalp-serum/?$",
+      "to": "/products/balancing-scalp-serum",
+      "status": 301
+    },
+    {
+      "from": "^/product/citrus-pop-bar/?$",
+      "to": "/products/citrus-pop-bar",
+      "status": 301
+    },
+    {
+      "from": "^/product/forest-floor-bar/?$",
+      "to": "/products/forest-floor-bar",
+      "status": 301
+    },
+    {
+      "from": "^/product/gentle-cleanser/?$",
+      "to": "/products/gentle-cleanser",
+      "status": 301
+    },
+    {
+      "from": "^/product/pink-clay-mask/?$",
+      "to": "/products/pink-clay-mask",
+      "status": 301
+    },
+    {
+      "from": "^/product/undereye-serum/?$",
+      "to": "/products/undereye-serum",
+      "status": 301
+    },
+    {
+      "from": "^/products/page/2/?$",
+      "to": "/products",
+      "status": 301
+    },
+    {
+      "from": "^/sustainable-palm-oil-rspo/?$",
+      "to": "/learning-lab/rspo-claims-for-bar-soap-skincare-deodorant",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-careers/?$",
+      "to": "/careers",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-rspo/?$",
+      "to": "/learning-lab/rspo-claims-for-bar-soap-skincare-deodorant",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/ahas-bhas-phas-chemical-exfoliation-skincare/?$",
+      "to": "/learning-lab/ahas-bhas-phas-trending-chemical-exfoliation-in-skincare",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/consider-shampoo-bars-for-convenient-cleansing-03-19-18/?$",
+      "to": "/learning-lab/consider-shampoo-bars-for-convenient-cleansing",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/expanding-capabilities-coconut-soap-base/?$",
+      "to": "/learning-lab/expanding-our-capabilities-with-coconut-soap-base",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/get-to-know-our-product-innovation-team-base-strategy-concept-library/?$",
+      "to": "/learning-lab/get-to-know-our-product-innovation-team-base-strategy-concept-library",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/prism-approach-to-stopping-body-odor/?$",
+      "to": "/learning-lab/prism-how-to-stop-body-odor-at-the-source",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/the-true-purpose-of-a-pilot-run/?$",
+      "to": "/learning-lab/the-true-purpose-of-a-pilot-run",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/twincrafts-partnership-with-clean-the-world/?$",
+      "to": "/learning-lab/twincrafts-partnership-with-clean-the-world",
+      "status": 301
+    },
+    {
+      "from": "^/twincraft-skincare-blog/what-are-twincraft-skincares-moqs/?$",
+      "to": "/learning-lab/what-are-twincraft-skincares-moqs",
+      "status": 301
+    },
+    {
+      "from": "/.*",
+      "to": "/404.html",
+      "status": 404,
+      "forced": false
+    }
+  ],
+  "headers": [
+    {
+      "match": "/404.html",
+      "headers": [
+        {
+          "name": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ]
+}

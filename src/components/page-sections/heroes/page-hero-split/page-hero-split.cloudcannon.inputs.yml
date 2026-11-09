@@ -1,0 +1,51 @@
+sectionLabel:
+  type: text
+  label: Section label
+  comment: Optional label to identify the section in the editor. When set and no HTML id is provided, an id is derived from this value.
+heading:
+  type: markdown
+  label: Heading
+  comment: Main page heading (h1) in the left column.
+  options:
+    bold: true
+    italic: true
+    link: true
+    subscript: true
+    superscript: true
+body:
+  type: markdown
+  label: Intro
+  comment: Intro copy beneath the heading; one or more paragraphs.
+  options:
+    blockquote: false
+    bold: true
+    format: p h1 h2 h3 h4 h5 h6 pre
+    italic: true
+    link: true
+    strike: false
+    subscript: true
+    superscript: true
+    underline: false
+    bulletedlist: true
+    numberedlist: true
+    indent: true
+    outdent: true
+imageSource:
+  type: image
+  label: Photo
+  comment: Full-height photo in the right column.
+  options:
+    paths:
+      uploads: src/assets/images
+imageAlt:
+  type: text
+  label: Photo alt text
+  comment: Describes the photo for screen readers.
+texture:
+  type: select
+  label: Background texture
+  comment: Decorative wave texture behind the copy and where it sits.
+  options:
+    values:
+      - { id: waves-top-left, name: Waves top left }
+      - { id: waves-bottom-left, name: Waves bottom left }

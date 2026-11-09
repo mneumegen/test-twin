@@ -1,0 +1,400 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import ProductCard from "@page-sections/collections/cards/ProductCard.astro";
+import {
+  formatGroups,
+  getFeaturedProducts,
+  getProducts,
+  useCases,
+} from "@component-utils/collections";
+
+/**
+ * Lists products from the `products` collection.
+ * - mode "all": the full library with search + Product Format / Use Case filters.
+ * - mode "featured": products marked `featured`, as a carousel ("Current Innovation Collection").
+ */
+const {
+  sectionLabel,
+  heading = "",
+  mode = "all",
+  showFilters = true,
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  backgroundColor = "mint-grid",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const featured = mode === "featured";
+const products = featured ? await getFeaturedProducts() : await getProducts();
+const filters = !featured && showFilters;
+const usedFormats = new Set(products.flatMap((p) => p.data.formats));
+const usedUseCases = new Set(products.flatMap((p) => p.data.useCases));
+const groups = formatGroups
+  .map((g) => ({ ...g, items: g.items.filter((i) => usedFormats.has(i.value)) }))
+  .filter((g) => g.items.length);
+const useCaseOptions = useCases.filter((u) => usedUseCases.has(u.value));
+const chevron = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<CustomSection
+  class:list={["product-library", `product-library--${featured ? "featured" : "all"}`, className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Heading
+    level="h2"
+    size="fluid-h2"
+    alignmentHorizontal="center"
+    text={heading}
+    data-prop="heading"
+  />
+
+  {featured ? (
+    <Carousel
+      class="product-library__carousel"
+      label={heading || "Featured products"}
+      loop={false}
+      alignmentHorizontal="start"
+      slideWidthPercent={24}
+      minSlideWidth={260}
+      gap="lg"
+      showIndicators={false}
+      showArrows={true}
+    >
+      {products.map((p) => (
+        <CarouselSlide>
+          <ProductCard
+            product={p}
+            size="sm"
+          />
+        </CarouselSlide>
+      ))}
+    </Carousel>
+  ) : (
+    <>
+      {filters && (
+        <form
+          class="product-library__filters"
+          role="search"
+          aria-label="Filter products"
+          data-product-filters
+        >
+          <button
+            type="reset"
+            class="collection-clear"
+          >
+            Clear filters
+          </button>
+          <div class="collection-bar">
+            <details class="product-library__facet">
+              <summary>
+                <span data-facet-summary="formats">Product Format</span>
+                <Fragment set:html={chevron} />
+              </summary>
+              <div class="product-library__options">
+                {groups.map((g) => (
+                  <fieldset>
+                    <legend>{g.label}</legend>
+                    {g.items.map((i) => (
+                      <label>
+                        <input
+                          type="checkbox"
+                          name="formats"
+                          value={i.value}
+                        />
+                        <span>{i.label}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+                ))}
+              </div>
+            </details>
+            <details class="product-library__facet">
+              <summary>
+                <span data-facet-summary="useCases">Use Cases</span>
+                <Fragment set:html={chevron} />
+              </summary>
+              <div class="product-library__options">
+                <fieldset>
+                  <legend class="visually-hidden">Use Cases</legend>
+                  {useCaseOptions.map((u) => (
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="useCases"
+                        value={u.value}
+                      />
+                      <span>{u.label}</span>
+                    </label>
+                  ))}
+                </fieldset>
+              </div>
+            </details>
+            <label class="collection-search">
+              <span class="visually-hidden">Search products by name</span>
+              <input
+                type="search"
+                name="q"
+                placeholder="Search products by name"
+                autocomplete="off"
+              />
+            </label>
+            <button
+              type="submit"
+              class="collection-search-button"
+            >
+              Search
+            </button>
+          </div>
+          <p
+            class="collection-count"
+            aria-live="polite"
+            data-product-count
+          >
+            Showing {products.length} / {products.length}
+          </p>
+        </form>
+      )}
+
+      <ul
+        class="product-library__grid"
+        role="list"
+      >
+        {products.map((p) => (
+          <li
+            data-product
+            data-name={p.data.title.toLowerCase()}
+            data-formats={p.data.formats.join("|")}
+            data-use-cases={p.data.useCases.join("|")}
+          >
+            <ProductCard product={p} />
+          </li>
+        ))}
+      </ul>
+      {filters && (
+        <p
+          class="product-library__empty"
+          hidden
+          data-product-empty
+        >
+          No products match those filters.
+        </p>
+      )}
+    </>
+  )}
+</CustomSection>
+
+<script>
+  // OR within a facet, AND across facets; name search is a substring match.
+  function initProductFilters(form: HTMLFormElement) {
+    const section = form.closest(".product-library");
+
+    if (!section || form.dataset.ready) return;
+    form.dataset.ready = "true";
+    const items = [...section.querySelectorAll<HTMLElement>("[data-product]")];
+    const total = items.length;
+    const count = form.querySelector<HTMLElement>("[data-product-count]");
+    const empty = section.querySelector<HTMLElement>("[data-product-empty]");
+    const summaries = {
+      formats: form.querySelector<HTMLElement>('[data-facet-summary="formats"]'),
+      useCases: form.querySelector<HTMLElement>('[data-facet-summary="useCases"]'),
+    };
+
+    const apply = () => {
+      const data = new FormData(form);
+      const q = String(data.get("q") || "")
+        .trim()
+        .toLowerCase();
+      const formats = data.getAll("formats").map(String);
+      const uses = data.getAll("useCases").map(String);
+      let shown = 0;
+
+      for (const el of items) {
+        const f = (el.dataset.formats || "").split("|");
+        const u = (el.dataset.useCases || "").split("|");
+        const match =
+          (!q || (el.dataset.name || "").includes(q)) &&
+          (!formats.length || formats.some((v) => f.includes(v))) &&
+          (!uses.length || uses.some((v) => u.includes(v)));
+
+        el.hidden = !match;
+        if (match) shown++;
+      }
+      if (count) count.textContent = `Showing ${shown} / ${total}`;
+      if (empty) empty.hidden = shown > 0;
+      if (summaries.formats)
+        summaries.formats.textContent = formats.length
+          ? `Product Format (${formats.length})`
+          : "Product Format";
+      if (summaries.useCases)
+        summaries.useCases.textContent = uses.length ? `Use Cases (${uses.length})` : "Use Cases";
+    };
+
+    form.addEventListener("input", apply);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      apply();
+    });
+    form.addEventListener("reset", () => requestAnimationFrame(apply));
+    // Close an open dropdown when clicking elsewhere.
+    document.addEventListener("click", (e) => {
+      form.querySelectorAll("details[open]").forEach((d) => {
+        if (!d.contains(e.target as Node)) d.removeAttribute("open");
+      });
+    });
+  }
+
+  const init = () =>
+    document
+      .querySelectorAll<HTMLFormElement>("[data-product-filters]")
+      .forEach(initProductFilters);
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style is:global>
+  @layer overrides {
+    .product-library .content > .heading {
+      margin-bottom: 40px;
+      margin-top: 0;
+    }
+
+    .product-library__carousel .slide__content {
+      height: 100%;
+    }
+
+    /* Whole cards only: slides per view steps up with width so none is cut off. */
+    .product-library__carousel .viewport > .track {
+      --min-slide-width: 0px;
+      --slide-width: 100%;
+
+      @media (min-width: 600px) {
+        --slide-width: 50%;
+      }
+
+      @media (min-width: 900px) {
+        --slide-width: 33.3333%;
+      }
+
+      @media (min-width: 1200px) {
+        --slide-width: 25%;
+      }
+    }
+
+    .product-library__filters {
+      /* Above the card grid: Card/Image wrappers use z-index up to 20. */
+      position: relative;
+      z-index: 30;
+      margin-bottom: 24px;
+    }
+
+    .product-library__facet {
+      position: relative;
+
+      @media (width <= 767px) {
+        flex: 1 1 40%;
+
+        summary {
+          justify-content: space-between;
+          padding: 12px 16px;
+        }
+      }
+
+      summary {
+        align-items: center;
+        background: var(--brand-mint);
+        border-radius: 9999px;
+        color: var(--brand-navy);
+        cursor: pointer;
+        display: flex;
+        font-family: var(--font-label);
+        gap: 8px;
+        list-style: none;
+        padding: 16px 24px;
+        text-transform: uppercase;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+    }
+
+    .product-library__options {
+      background: #fff;
+      border-radius: 4px;
+      box-shadow:
+        0 1px 3px rgb(0 0 0 / 10%),
+        0 1px 2px -1px rgb(0 0 0 / 10%);
+      color: var(--brand-navy);
+      margin-top: 4px;
+      max-height: 22rem;
+      overflow-y: auto;
+      padding: 12px;
+      position: absolute;
+      width: 256px;
+      z-index: 5;
+
+      fieldset {
+        border: 0;
+        margin: 0 0 var(--spacing-xs);
+        padding: 0;
+      }
+
+      legend {
+        color: rgb(156 163 175);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        padding: 4px 4px 2px;
+        text-transform: uppercase;
+      }
+
+      label {
+        align-items: flex-start;
+        cursor: pointer;
+        display: flex;
+        font-size: 14px;
+        gap: 8px;
+        line-height: 1.3;
+        padding: 2px 0 2px 12px;
+      }
+    }
+
+    .product-library__grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        display: flex;
+      }
+
+      > li[hidden] {
+        display: none;
+      }
+    }
+
+    .product-library__empty {
+      color: var(--brand-navy);
+      text-align: center;
+    }
+  }
+</style>

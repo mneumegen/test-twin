@@ -1,0 +1,382 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Text from "@core-elements/text/Text.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import Split from "@wrappers/split/Split.astro";
+import HistoryTimelineItem from "./HistoryTimelineItem.astro";
+
+type MilestoneProps = Record<string, unknown>;
+
+const {
+  sectionLabel,
+  eyebrow = "",
+  heading = "",
+  intro = "",
+  milestones = [],
+  colorScheme = "light",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showIntro = Boolean(intro);
+---
+
+<CustomSection
+  class:list={["history-timeline", className]}
+  label={sectionLabel}
+  maxContentWidth="none"
+  paddingHorizontal="none"
+  paddingVertical="6xl"
+  colorScheme={colorScheme}
+  {...htmlAttributes}
+>
+  <Split
+    class="history-timeline__intro"
+    distributionMode="third-two-thirds"
+    alignmentVertical="top"
+    gap="none"
+    minSplitWidth={767}
+  >
+    <Fragment slot="first">
+      <SimpleText
+        text={eyebrow}
+        size="md"
+        data-prop="eyebrow"
+      />
+      <Heading
+        text={heading}
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+    </Fragment>
+    <Fragment slot="second">
+      {showIntro && (
+        <Text
+          text={intro}
+          size="md"
+          data-prop="intro"
+        />
+      )}
+    </Fragment>
+  </Split>
+  <div class="history-timeline__timeline">
+    <div class="history-timeline__line"></div>
+    <Carousel
+      class="history-timeline__carousel"
+      label="Company history timeline"
+      autoPlay={false}
+      autoScroll={false}
+      loop={false}
+      showArrows={true}
+      showIndicators={true}
+      indicatorStyle="progress"
+      alignmentHorizontal="start"
+      slidesToScroll={1}
+      prevIconName="carousel-chevron"
+      nextIconName="carousel-chevron"
+      style="--slide-width: var(--history-timeline-slide-width); --slide-gap: var(--history-timeline-slide-gap);"
+      data-component="page-sections/features/history-timeline/history-timeline-item"
+      data-children-prop="milestones"
+    >
+      {milestones.map((milestone: MilestoneProps) => (
+        <HistoryTimelineItem
+          data-editable="array-item"
+          data-id="page-sections/features/history-timeline/history-timeline-item"
+          {...milestone}
+        />
+      ))}
+    </Carousel>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .history-timeline__intro {
+      box-sizing: border-box;
+      margin-inline: auto;
+      margin-top: 0;
+      max-width: 1280px;
+      padding-inline: 24px;
+    }
+
+    .history-timeline__timeline {
+      margin-top: 64px;
+      padding-top: 10px;
+      position: relative;
+    }
+
+    .history-timeline__line {
+      background-color: rgb(15, 41, 67);
+      border: 0 solid rgb(229, 231, 235);
+      bottom: 110px;
+      box-sizing: border-box;
+      height: 2px;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      z-index: 1;
+    }
+
+    .history-timeline__carousel {
+      --history-timeline-slide-width: 360px;
+      --history-timeline-slide-gap: 60px;
+      --history-timeline-track-inset: 20px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .history-timeline__item {
+      border: 0 solid rgb(229, 231, 235);
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0 0 40px;
+      position: relative;
+    }
+
+    .history-timeline__item::after {
+      background-color: rgb(15, 41, 67);
+      bottom: 30px;
+      content: "";
+      height: 90%;
+      left: 8px;
+      position: absolute;
+      width: 2px;
+      z-index: 2;
+    }
+
+    .history-timeline__content {
+      text-align: left;
+    }
+
+    .history-timeline__year {
+      margin-bottom: 10px;
+      padding-left: 32px;
+    }
+
+    .history-timeline__description {
+      margin-bottom: 15px;
+      padding-left: 32px;
+    }
+
+    .history-timeline__dot {
+      background-color: var(--color-brand-muted);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 50%;
+      bottom: 22px;
+      height: 16px;
+      position: absolute;
+      width: 16px;
+      z-index: 3;
+    }
+
+    @media (max-width: 768px) {
+      .history-timeline__carousel {
+        --history-timeline-slide-width: 290px;
+        --history-timeline-slide-gap: 40px;
+        --history-timeline-track-inset: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .history-timeline__carousel {
+        --history-timeline-slide-width: 230px;
+        --history-timeline-slide-gap: 30px;
+        --history-timeline-track-inset: 10px;
+      }
+
+      .history-timeline__content {
+        padding: 15px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .history-timeline__intro .simple-text,
+    .history-timeline__intro .text,
+    .history-timeline .heading,
+    .history-timeline__item .simple-text,
+    .history-timeline__item .image,
+    .history-timeline__item .image img,
+    .history-timeline .controls-wrapper svg {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .history-timeline__intro .simple-text-content {
+      color: var(--color-text-strong);
+      line-height: 22.4px;
+      text-transform: uppercase;
+    }
+
+    .history-timeline__intro h2.heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .history-timeline__intro .text-inner,
+    .history-timeline__intro .text-inner > p {
+      line-height: 22.4px;
+    }
+
+    .history-timeline__carousel {
+      margin-top: 0;
+    }
+
+    .history-timeline__carousel > .carousel-inner > .viewport > .track {
+      margin-inline-start: calc(var(--history-timeline-track-inset) - var(--slide-gap));
+    }
+
+    .history-timeline__item .image {
+      border-radius: 8px;
+      margin-bottom: 15px;
+      margin-top: 0;
+      padding-left: 8px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .history-timeline__item .image-inner.rounded,
+    .history-timeline__item .image-inner img {
+      border-radius: 12px;
+    }
+
+    .history-timeline__item .image-inner img {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .history-timeline__year h3.heading {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .history-timeline__year .heading-inner {
+      font-size: clamp(18px, 15.7714px + 0.5714vw, 24px);
+      font-weight: var(--font-weight-bold);
+      line-height: clamp(25.2px, 22.08px + 0.8vw, 33.6px);
+    }
+
+    .history-timeline__description .simple-text {
+      margin-top: 0;
+    }
+
+    .history-timeline__description .simple-text-content {
+      color: var(--color-text-strong);
+      font-size: clamp(13px, 11.8857px + 0.2857vw, 16px);
+      line-height: clamp(19.5px, 17.8286px + 0.4286vw, 24px);
+    }
+
+    .history-timeline .carousel-inner > .controls-wrapper {
+      justify-content: flex-start;
+      margin-bottom: 0;
+      margin-top: 40px;
+      padding-inline-start: 80px;
+    }
+
+    .history-timeline .carousel-inner > .controls-wrapper svg {
+      height: 24px;
+      width: 24px;
+    }
+
+    .history-timeline .carousel-inner > .controls-wrapper > .prev > .button-inner,
+    .history-timeline .carousel-inner > .controls-wrapper > .next > .button-inner {
+      background-color: var(--gray-0);
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 9999px;
+      box-shadow:
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+      color: var(--color-text-strong);
+      font-weight: var(--font-weight-normal);
+      height: 40px;
+      padding: 0;
+      text-transform: none;
+      transition-duration: 0.3s;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      width: 40px;
+
+      &:hover {
+        background-color: var(--brand-mint);
+        box-shadow:
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+          rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
+      }
+
+      &:disabled {
+        background-color: var(--gray-0);
+        box-shadow:
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+        cursor: not-allowed;
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+
+    .history-timeline .carousel-inner > .controls-wrapper > .prev > .button-inner {
+      transform: scale(-1);
+    }
+
+    .history-timeline .carousel-inner > .controls-wrapper > .carousel-progress {
+      --carousel-progress-height: 10px;
+      --carousel-progress-radius: 50px;
+      --carousel-progress-thumb-color: var(--brand-peach);
+      --carousel-progress-track-color: var(--brand-sky);
+
+      bottom: 60px;
+      left: 20px;
+      margin-inline: auto;
+      max-width: 1152px;
+      position: absolute;
+      right: 20px;
+      z-index: 4;
+    }
+
+    .history-timeline
+      .carousel-inner
+      > .controls-wrapper
+      > .carousel-progress
+      > .carousel-progress-thumb {
+      --carousel-progress-thumb-width: 24.15%;
+
+      z-index: 5;
+    }
+
+    @media (width < 640px) {
+      .history-timeline > .outer-content > .content.pad-y-6xl {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .history-timeline .carousel-inner > .controls-wrapper {
+        padding-inline-start: 0;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Button from "@core-elements/button/Button.astro";
+
+const { quote = "", name = "", role = "", _component, ...htmlAttributes } = Astro.props;
+---
+
+<CarouselSlide {...htmlAttributes}>
+  <div class="testimonial-carousel__card">
+    <div
+      class="testimonial-carousel__quote-area"
+      data-testimonial-quote-area
+    >
+      <SimpleText
+        text={quote}
+        size="body"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__quote"
+        data-prop="quote"
+      />
+      <Button
+        text="Expand"
+        variant="text"
+        size="sm"
+        element="button"
+        class="testimonial-carousel__expand"
+        hidden
+      />
+    </div>
+    <div class="testimonial-carousel__author">
+      <Heading
+        text={name}
+        level="h3"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__name"
+        data-prop="name"
+      />
+      <SimpleText
+        text={role}
+        size="sm"
+        alignmentHorizontal="start"
+        class="testimonial-carousel__role"
+        data-prop="role"
+      />
+    </div>
+  </div>
+</CarouselSlide>
+
+<script>
+  import { onPageLoad } from "@component-utils/onPageLoad";
+
+  function setupExpandToggles() {
+    document.querySelectorAll<HTMLElement>(".testimonial-carousel__quote-area").forEach((area) => {
+      const quote = area.querySelector<HTMLElement>(".testimonial-carousel__quote");
+      const toggleWrap = area.querySelector<HTMLElement>(".testimonial-carousel__expand");
+      const toggle = toggleWrap?.querySelector<HTMLButtonElement>("button") ?? null;
+      if (!quote || !toggleWrap || !toggle || toggle.dataset.bound) return;
+      toggle.dataset.bound = "true";
+      requestAnimationFrame(() => {
+        if (quote.scrollHeight > quote.clientHeight + 1) toggleWrap.hidden = false;
+      });
+      toggle.addEventListener("click", () => {
+        const expanded = quote.classList.toggle("is-expanded");
+        const label = toggle.querySelector(".label-text") ?? toggle;
+        label.textContent = expanded ? "Collapse" : "Expand";
+      });
+    });
+  }
+
+  onPageLoad(() => setupExpandToggles());
+</script>

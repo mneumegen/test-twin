@@ -1,0 +1,216 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Image from "@core-elements/image/Image.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+
+const {
+  sectionLabel,
+  imageSource = "",
+  imageAlt = "",
+  heading = "",
+  buttonSections = [],
+  textureImageSource = "",
+  textureImageAlt = "",
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const showPhoto = Boolean(imageSource);
+const showTexture = Boolean(textureImageSource);
+---
+
+<CustomSection
+  class:list={["cta-banner-image", className]}
+  label={sectionLabel}
+  paddingVertical="none"
+  paddingHorizontal="none"
+  maxContentWidth="none"
+  colorScheme="light"
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="cta-banner-image__grid">
+    <div class="cta-banner-image__media">
+      {showPhoto && (
+        <Image
+          class="cta-banner-image__photo"
+          source={imageSource}
+          alt={imageAlt}
+          aspectRatio="widescreen"
+          priority={false}
+          rounded={false}
+          sizes="(min-width: 768px) 58vw, 100vw"
+          widths={[390, 640, 840, 1280, 1680]}
+          data-prop-src="imageSource"
+          data-prop-alt="imageAlt"
+        />
+      )}
+    </div>
+    <div class="cta-banner-image__panel">
+      <Heading
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        text={heading}
+        data-prop="heading"
+      />
+      <ButtonGroup
+        buttonSections={buttonSections}
+        direction="row"
+        alignmentHorizontal="start"
+        data-children-prop="buttonSections"
+      />
+    </div>
+    {showTexture && (
+      <Image
+        class="cta-banner-image__texture"
+        source={textureImageSource}
+        alt={textureImageAlt}
+        priority={false}
+        rounded={false}
+        sizes="(max-width: 457px) 100vw, 457px"
+        widths={[390, 457, 914]}
+        data-prop-src="textureImageSource"
+        data-prop-alt="textureImageAlt"
+      />
+    )}
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .cta-banner-image {
+      border: 0 solid rgb(229, 231, 235);
+    }
+
+    .cta-banner-image__grid {
+      display: block;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cta-banner-image__panel {
+      align-items: flex-start;
+      background-color: var(--color-bg-mint);
+      background-image:
+        linear-gradient(90deg, var(--color-bg-mint-line) 1px, rgba(0, 0, 0, 0) 0px),
+        linear-gradient(var(--color-bg-mint-line) 1px, rgba(0, 0, 0, 0) 0px);
+      background-position:
+        0% 0%,
+        0% 0%;
+      background-repeat: repeat, repeat;
+      background-size:
+        40px 40px,
+        40px 40px;
+      border: 0 solid rgb(229, 231, 235);
+      border-radius: 0;
+      box-sizing: border-box;
+      color: var(--color-text);
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      font-size: var(--font-size-heading-xs);
+      font-weight: var(--font-weight-normal);
+      gap: normal;
+      justify-content: center;
+      line-height: 22.4px;
+      margin: 0;
+      opacity: 1;
+      outline: 3px none rgb(0, 0, 0);
+      padding: 48px;
+      text-align: start;
+      text-decoration-color: rgb(0, 0, 0);
+      text-decoration-line: none;
+      text-transform: none;
+      transition-property: all;
+      transition-timing-function: ease;
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      word-spacing: 0px;
+    }
+
+    @media (min-width: 768px) {
+      .cta-banner-image__grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+
+      .cta-banner-image__media {
+        grid-column: span 7 / span 7;
+      }
+
+      .cta-banner-image__panel {
+        grid-column: span 5 / span 5;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .cta-banner-image__panel {
+        padding: 64px 24px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .cta-banner-image .cta-banner-image__photo.image,
+    .cta-banner-image .cta-banner-image__texture.image {
+      border: 0 solid rgb(229, 231, 235);
+      margin-top: 0;
+    }
+
+    .cta-banner-image .cta-banner-image__photo > .image-inner,
+    .cta-banner-image .cta-banner-image__texture > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .cta-banner-image .cta-banner-image__texture.image {
+      bottom: -300px;
+      max-width: 100%;
+      pointer-events: none;
+      position: absolute;
+      right: -200px;
+      width: 457px;
+    }
+
+    .cta-banner-image .cta-banner-image__panel > .heading {
+      border: 0 solid rgb(229, 231, 235);
+      margin-top: 0;
+    }
+
+    .cta-banner-image .cta-banner-image__panel > .button-group {
+      display: inline-flex;
+      gap: normal;
+      justify-content: normal;
+      margin-top: 0;
+      transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
+    }
+
+    @media (max-width: 390px) {
+      .cta-banner-image .cta-banner-image__panel > .heading {
+        margin-bottom: 22.4px;
+      }
+    }
+
+    .cta-banner-image .button-group .button-inner {
+      transition-duration: 0.5s;
+      transition-property: background-color;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+</style>

@@ -1,0 +1,225 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import PackagingOptionsItem from "./PackagingOptionsItem.astro";
+
+const {
+  sectionLabel,
+  eyebrow,
+  heading,
+  intro,
+  items = [],
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "6xl",
+  colorScheme = "light",
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["packaging-options", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  background={background}
+>
+  <div class="packaging-options__grid">
+    <div class="packaging-options__intro">
+      <SimpleText
+        text={eyebrow}
+        variant="label"
+        size="body"
+        data-prop="eyebrow"
+      />
+      <Heading
+        text={heading}
+        level="h2"
+        size="fluid-h2"
+        alignmentHorizontal="start"
+        data-prop="heading"
+      />
+      <SimpleText
+        text={intro}
+        size="body"
+        data-prop="intro"
+      />
+    </div>
+    <div
+      class="packaging-options__items"
+      data-editable="array"
+      data-prop="items"
+      data-component="page-sections/info-blocks/packaging-options/packaging-options-item"
+    >
+      {items.map((item) => (
+        <PackagingOptionsItem
+          data-editable="array-item"
+          data-id="page-sections/info-blocks/packaging-options/packaging-options-item"
+          {...item}
+        />
+      ))}
+    </div>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .packaging-options {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .packaging-options__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .packaging-options__item {
+      align-items: flex-start;
+      display: flex;
+      gap: 20px;
+    }
+
+    .packaging-options__item + .packaging-options__item {
+      margin-top: var(--spacing-xl);
+    }
+
+    .packaging-options__item-text {
+      flex: 1 1 0%;
+      min-width: 0;
+    }
+
+    @media (min-width: 768px) {
+      .packaging-options__grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+
+      .packaging-options__intro {
+        grid-column: span 4 / span 4;
+      }
+
+      .packaging-options__items {
+        grid-column: 7 / span 5;
+      }
+    }
+  }
+
+  @layer overrides {
+    .packaging-options .simple-text,
+    .packaging-options .heading,
+    .packaging-options .icon,
+    .packaging-options .image {
+      border-width: 0;
+      border-style: solid;
+      border-color: rgb(229, 231, 235);
+    }
+
+    .packaging-options .simple-text,
+    .packaging-options .icon {
+      outline-color: rgb(24, 62, 102);
+    }
+
+    .packaging-options .simple-text > .simple-text-content {
+      text-decoration-color: rgb(24, 62, 102);
+    }
+
+    .packaging-options .simple-text > .simple-text-content.variant-label {
+      color: rgb(24, 62, 102);
+    }
+
+    .packaging-options .simple-text {
+      margin-top: 0;
+    }
+
+    .packaging-options__intro > .simple-text:first-child {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .packaging-options__intro > .heading {
+      margin-bottom: 22.4px;
+      margin-top: 0;
+    }
+
+    .packaging-options__intro > .heading ~ .simple-text,
+    .packaging-options__item-text > .simple-text {
+      margin-bottom: 22.4px;
+    }
+
+    .packaging-options__intro > .heading ~ .simple-text > .simple-text-content,
+    .packaging-options__item-text > .simple-text > .simple-text-content {
+      color: var(--color-text-strong);
+      font-family: var(--font-family-body);
+      font-weight: var(--font-weight-normal);
+      text-transform: none;
+    }
+
+    .packaging-options__item-text > .heading {
+      margin-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .packaging-options__item > .icon {
+      flex-shrink: 0;
+      height: 14px;
+      margin: 3px 3px var(--spacing-xs);
+      padding: 0;
+      position: relative;
+      border-radius: 0;
+      background-color: rgba(0, 0, 0, 0);
+      transform: matrix(1, 0, 0, 1, -2, -2);
+      translate: 0 8px;
+      width: 14px;
+    }
+
+    .packaging-options__item > .icon > .icon-inner.background {
+      background-color: var(--color-bg-mint);
+      border-radius: 100%;
+      color: var(--color-text-strong);
+      height: 20px;
+      left: -1px;
+      line-height: 22.4px;
+      padding: 0;
+      position: absolute;
+      text-align: center;
+      text-decoration-color: rgb(24, 62, 102);
+      top: -1px;
+      width: 20px;
+    }
+
+    .packaging-options__item > .icon > .icon-inner > svg {
+      font-size: var(--font-size-md);
+      height: 14px;
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      width: 14px;
+    }
+
+    .packaging-options__item > .icon > .icon-inner > svg polyline {
+      stroke: var(--color-text-label);
+    }
+
+    .packaging-options > .outer-content > .content.pad-y-6xl {
+      padding-block: var(--spacing-6xl) calc(var(--spacing-6xl) + 18%);
+    }
+
+    .packaging-options .background-image > .image-inner {
+      font-size: 9.328px;
+      line-height: 13.0592px;
+    }
+
+    .packaging-options .background-image > .image-inner.background > picture > img {
+      object-fit: contain;
+      object-position: center bottom;
+    }
+  }
+</style>
