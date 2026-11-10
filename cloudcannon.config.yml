@@ -3,9 +3,10 @@ collections_config:
     path: src/content/pages
     glob:
       - "**/*.md"
-    # Pages build as /about-us.html (no trailing slash); the homepage (flagged _is_homepage) is /.
-    # eslint-disable-next-line yml/quotes -- Prettier prefers single quotes when the value contains double quotes
-    url: '/[full_slug]{".html"|unless=_is_homepage}'
+    # Matches the live URLs (/about-us, built as about-us.html). The local CloudCannon dev server
+    # can't map these to .html files, so its Visual Editor previews show the homepage; hosted
+    # CloudCannon is expected to resolve them.
+    url: /[full_slug]
     icon: web
     _enabled_editors:
       - visual
@@ -34,7 +35,7 @@ collections_config:
     path: src/content/products
     glob:
       - "**/*.md"
-    url: /products/[slug].html
+    url: /products/[slug]
     name: Products
     icon: inventory_2
     description: Product concepts shown in the Product Library (/products). Each product uses the same page template.
@@ -166,7 +167,7 @@ collections_config:
     glob:
       - "**/*.mdx"
       - "**/*.md"
-    url: /learning-lab/[slug].html
+    url: /learning-lab/[slug]
     name: Learning Lab
     icon: school
     description: Learning Lab articles. Newest first on /learning-lab.

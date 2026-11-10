@@ -314,5 +314,4 @@ pageSections:
         size: md
     textureImageSource: /src/assets/images/hubfs/raw_assets/public/twincraft/images/brand-assets/product-texture-c.png
     textureImageAlt: ''
-_is_homepage: true
 ---
