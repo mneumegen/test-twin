@@ -134,10 +134,49 @@ function playBackgroundVideos(root) {
   }
 }
 
+// Re-renders replace background <video> elements with fresh copies, which re-download the file and
+// restart from 0:00 (or stay blank where autoplay is blocked). When the replacement plays the same
+// file, put the original, already-playing element back.
+const removedVideos = new Map(); // source path -> removed <video>
+const discardedVideos = new WeakSet(); // fresh copies we swapped out; never reuse them
+const videoSourceKey = (video) =>
+  video.querySelector("source")?.getAttribute("src") || video.getAttribute("src") || "";
+const autoplayVideosIn = (root) =>
+  root.matches?.("video[autoplay]") ? [root] : [...root.querySelectorAll("video[autoplay]")];
+
+function rememberRemovedVideos(root) {
+  if (root.nodeType !== Node.ELEMENT_NODE) return;
+
+  for (const video of autoplayVideosIn(root)) {
+    const key = videoSourceKey(video);
+
+    if (!key || discardedVideos.has(video)) continue;
+    removedVideos.set(key, video);
+    // Only reuse within the same re-render; forget it shortly after.
+    setTimeout(() => {
+      if (removedVideos.get(key) === video) removedVideos.delete(key);
+    }, 2000);
+  }
+}
+
+function reuseRemovedVideos(root) {
+  for (const video of autoplayVideosIn(root)) {
+    const original = removedVideos.get(videoSourceKey(video));
+
+    if (!original || original === video || original.isConnected) continue;
+    removedVideos.delete(videoSourceKey(video));
+    original.className = video.className;
+    discardedVideos.add(video);
+    video.replaceWith(original);
+    log("kept playing background video", original);
+  }
+}
+
 function initNewComponents(root) {
   if (root.nodeType !== Node.ELEMENT_NODE) return;
 
   revealAll(root);
+  reuseRemovedVideos(root);
   playBackgroundVideos(root);
 
   const newCarousels = [];
@@ -172,6 +211,11 @@ function initNewComponents(root) {
 }
 
 const observer = new MutationObserver((mutations) => {
+  // Note removed videos first so a replacement added in the same batch can reuse them.
+  for (const mutation of mutations) {
+    for (const node of mutation.removedNodes) rememberRemovedVideos(node);
+  }
+
   for (const mutation of mutations) {
     const { type, target, attributeName } = mutation;
 
