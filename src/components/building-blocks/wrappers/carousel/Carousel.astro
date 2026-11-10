@@ -2,6 +2,7 @@
 import Button from "@core-elements/button/Button.astro";
 import CarouselSlide from "./CarouselSlide.astro";
 import { slugifyLabel } from "@components/utils/slugify";
+import { reserveSectionId } from "@components/utils/sectionAnchor";
 
 type SlideProps = Record<string, unknown>;
 
@@ -34,8 +35,9 @@ const {
   ...htmlAttributes
 } = Astro.props;
 
+// Reserved per page so a carousel never reuses its parent section's id (or another carousel's).
 if (!htmlAttributes.id && label) {
-  htmlAttributes.id = slugifyLabel(label);
+  htmlAttributes.id = reserveSectionId(Astro.request, slugifyLabel(label));
 }
 
 const dataAttributes: Record<string, string> = {};

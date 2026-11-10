@@ -1,5 +1,6 @@
 ---
 import { slugifyLabel } from "@components/utils/slugify";
+import { reserveSectionId } from "@components/utils/sectionAnchor";
 import AccordionItem from "./AccordionItem.astro";
 
 type ItemProps = Record<string, unknown>;
@@ -19,8 +20,9 @@ const {
 
 const generatedLabel = label || `Accordion-${crypto.randomUUID()}`;
 
+// Reserved per page so an accordion never reuses its parent section's id.
 if (!htmlAttributes.id) {
-  htmlAttributes.id = slugifyLabel(generatedLabel);
+  htmlAttributes.id = reserveSectionId(Astro.request, slugifyLabel(generatedLabel));
 }
 
 const accordionName = singleOpen ? `accordion-${crypto.randomUUID()}` : undefined;

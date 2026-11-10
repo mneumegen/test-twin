@@ -146,7 +146,6 @@ const mobileLinkItems = (item: NavItem) =>
               <div
                 class="mega-panel"
                 id={`mega-panel-${itemIndex}`}
-                aria-hidden="true"
               >
                 <div class="mega-container">
                   <div class="mega-feature">
@@ -250,7 +249,6 @@ const mobileLinkItems = (item: NavItem) =>
                 <div
                   class="mobile-sub"
                   id={`mobile-sub-${itemIndex}`}
-                  aria-hidden="true"
                 >
                   <div class="mobile-sub-inner">
                     {showMobileLinks && (
@@ -306,21 +304,20 @@ const mobileLinkItems = (item: NavItem) =>
     const megaParts = megaItems.map((item) => {
       const trigger = item.querySelector<HTMLElement>(".mega-trigger");
       const inner = trigger?.querySelector<HTMLElement>(".button-inner") ?? null;
-      const panel = item.querySelector<HTMLElement>(".mega-panel");
       const panelId = trigger?.dataset.megaTarget;
       if (inner) {
         inner.setAttribute("aria-expanded", "false");
         if (panelId) inner.setAttribute("aria-controls", panelId);
       }
-      return { item, inner, panel };
+      return { item, inner };
     });
 
+    // Closed panels are display:none (see CSS), which already hides them from keyboard and assistive tech.
     const setMega = (target: HTMLElement | null) => {
       for (const part of megaParts) {
         const open = part.item === target;
         part.item.classList.toggle("is-open", open);
         part.inner?.setAttribute("aria-expanded", open ? "true" : "false");
-        part.panel?.setAttribute("aria-hidden", open ? "false" : "true");
       }
     };
 
@@ -347,7 +344,6 @@ const mobileLinkItems = (item: NavItem) =>
     for (const mobileItem of header.querySelectorAll<HTMLElement>(".mobile-item")) {
       const trigger = mobileItem.querySelector<HTMLElement>(".mobile-acc-trigger");
       const inner = trigger?.querySelector<HTMLElement>(".button-inner");
-      const sub = mobileItem.querySelector<HTMLElement>(".mobile-sub");
       const subId = trigger?.dataset.mobileTarget;
       if (!inner) continue;
       inner.setAttribute("aria-expanded", "false");
@@ -356,7 +352,6 @@ const mobileLinkItems = (item: NavItem) =>
         const open = !mobileItem.classList.contains("is-open");
         mobileItem.classList.toggle("is-open", open);
         inner.setAttribute("aria-expanded", open ? "true" : "false");
-        sub?.setAttribute("aria-hidden", open ? "false" : "true");
       });
     }
 

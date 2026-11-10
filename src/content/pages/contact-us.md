@@ -20,22 +20,22 @@ pageSections:
         contentSections:
           - _component: building-blocks/core-elements/embed
             aspectRatio: square
-            html: '<iframe src="https://forms.monday.com/forms/embed/7a7609d23dde65fab5c89913953bad39?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
+            html: '<iframe title="Sales contact form" src="https://forms.monday.com/forms/embed/7a7609d23dde65fab5c89913953bad39?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
       - title: Donations
         contentSections:
           - _component: building-blocks/core-elements/embed
             aspectRatio: square
-            html: '<iframe src="https://forms.monday.com/forms/embed/a93a6779241d4e1beefdcf2baae5f2c7?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
+            html: '<iframe title="Donations contact form" src="https://forms.monday.com/forms/embed/a93a6779241d4e1beefdcf2baae5f2c7?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
       - title: Suppliers
         contentSections:
           - _component: building-blocks/core-elements/embed
             aspectRatio: square
-            html: '<iframe src="https://forms.monday.com/forms/embed/902d92d35f901664a7e31efce641adaa?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
+            html: '<iframe title="Suppliers contact form" src="https://forms.monday.com/forms/embed/902d92d35f901664a7e31efce641adaa?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
       - title: General
         contentSections:
           - _component: building-blocks/core-elements/embed
             aspectRatio: square
-            html: '<iframe src="https://forms.monday.com/forms/embed/108233cb4c45f929fd3ec2c8fd412852?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
+            html: '<iframe title="General contact form" src="https://forms.monday.com/forms/embed/108233cb4c45f929fd3ec2c8fd412852?r=use1" width="100%" height="700" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);" loading="lazy"></iframe>'
   - _component: page-sections/info-blocks/locations-list
     sectionLabel: our-locations
     heading: Our Locations

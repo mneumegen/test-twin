@@ -49,6 +49,7 @@ const arrayDataAttributes = effectiveChildrenProp
     class="content-selector-input"
     checked={checked}
     autocomplete="off"
+    aria-labelledby={tabLabelId}
   />
   <TabTag
     class:list={["content-selector-tab", isButtonTab && "is-button"]}
@@ -90,7 +91,6 @@ const arrayDataAttributes = effectiveChildrenProp
     id={panelId}
     role="tabpanel"
     aria-labelledby={tabLabelId}
-    aria-hidden={checked ? "false" : "true"}
   >
     <div
       class="content-selector-panel-content"

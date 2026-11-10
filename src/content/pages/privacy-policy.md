@@ -3,6 +3,8 @@ title: Privacy Policy
 pageSections:
   - _component: page-sections/structure/rich-text
     body: |-
+      # Privacy Policy
+
       ## Understanding What Information We Collect & How We Use It
 
       Updated: May 4, 2021
