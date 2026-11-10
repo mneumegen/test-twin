@@ -1,93 +1,100 @@
 navData:
   style: modal
   values:
-    - label: Navigation Item
-      icon: link
-      description: A navigation item with name, path, and optional children.
+    - label: Menu
+      icon: menu
+      description: A top-level menu with a featured image, caption, link columns and a call to action.
       value:
         name: ""
-        path: ""
-        children: []
+        featuredImage:
+          source: ""
+          alt: ""
+        caption: ""
+        columns: []
+        cta:
+          text: ""
+          link: ""
       preview:
         text:
           - key: name
-          - Navigation Item
+          - Menu
         subtext:
-          - key: path
-          - Add path
+          - key: caption
+        image:
+          - key: featuredImage.source
       picker_preview:
-        text: Navigation Item
-        subtext: A navigation item with name, path, and optional children.
-        icon: link
+        text: Menu
+        subtext: A top-level menu with a featured image, caption, link columns and a call to action.
+        icon: menu
       _inputs:
         name:
           type: text
-          comment: Display text for the navigation item.
-        path:
-          type: url
-          comment: URL path for the navigation item.
+          label: Menu name
+          comment: Label shown in the header.
+        featuredImage:
+          type: object
+          label: Featured image
+          comment: Image on the left of the open menu.
+        source:
+          type: image
+          label: Image
           options:
-            hide_link_to_file: true
-            hide_link_to_email_address: true
-            hide_link_to_telephone: true
-        children:
+            paths:
+              uploads: src/assets/images
+        alt:
+          type: text
+          label: Alt text
+          comment: Describes the image for screen readers.
+        caption:
+          type: textarea
+          label: Caption
+          comment: Short paragraph under the featured image.
+        columns:
           type: array
-          label: Child Navigation Items
-          comment: Child navigation items for dropdown menus.
+          label: Columns
+          comment: Each column has a heading link and a list of links.
           options:
             structures:
               values:
-                - label: Navigation Item
-                  icon: link
+                - label: Column
+                  icon: view_column
                   value:
                     name: ""
                     path: ""
-                    children: []
+                    subtext: ""
+                    links: []
                   preview:
                     text:
                       - key: name
-                      - Navigation Item
+                      - Column
                     subtext:
                       - key: path
-                      - Add path
                   _inputs:
                     name:
                       type: text
-                      comment: Display text for the child navigation item.
+                      label: Heading
                     path:
                       type: url
-                      comment: URL path for the child navigation item.
+                      label: Heading link
                       options:
                         hide_link_to_file: true
                         hide_link_to_email_address: true
                         hide_link_to_telephone: true
-                    children:
-                      type: array
-                      label: Grandchild Navigation Items
-                      comment: Grandchild navigation items for nested dropdowns.
-                      options:
-                        structures:
-                          values:
-                            - label: Navigation Item
-                              icon: link
-                              value:
-                                name: ""
-                                path: ""
-                              preview:
-                                text:
-                                  - key: name
-                                  - Navigation Item
-                                subtext:
-                                  - key: path
-                                  - Add path
-                              _inputs:
-                                name:
-                                  type: text
-                                  comment: Display text for the grandchild navigation item.
-                                path:
-                                  type: url
-                                  comment: URL path for the grandchild navigation item.
-                                  options:
-                                    hide_link_to_file: true
-                                    hide_link_to_email_address: true
-                                    hide_link_to_telephone: true
+                    subtext:
+                      type: text
+                      label: Subtext
+                      comment: Optional line under the heading.
+        cta:
+          type: object
+          label: Call to action
+          comment: Link at the bottom of the open menu. Leave the text empty to hide it.
+        text:
+          type: text
+          label: Button text
+        link:
+          type: url
+          label: Button link
+          options:
+            hide_link_to_file: true
+            hide_link_to_email_address: true
+            hide_link_to_telephone: true

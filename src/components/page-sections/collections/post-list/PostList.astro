@@ -67,7 +67,15 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
     text={heading}
     data-prop="heading"
   />
-  {subheading && <p class="post-list__subheading">{subheading}</p>}
+  {subheading && (
+    <p
+      class="post-list__subheading"
+      data-editable="text"
+      data-prop="subheading"
+    >
+      {subheading}
+    </p>
+  )}
 
   {featured ? (
     <>
@@ -76,7 +84,12 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
           class="collection-search-button post-list__cta"
           href={ctaLink}
         >
-          {ctaText}
+          <span
+            data-editable="text"
+            data-prop="ctaText"
+          >
+            {ctaText}
+          </span>
         </a>
       )}
       <div class="post-list__featured">

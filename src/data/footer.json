@@ -28,14 +28,12 @@
       "heading": "Who we are",
       "links": [
         {
-          "text": "The Twincraft Experience",
-          "link": "/twincraft-experience",
-          "iconName": ""
+          "name": "The Twincraft Experience",
+          "path": "/twincraft-experience"
         },
         {
-          "text": "About",
-          "link": "/about-us",
-          "iconName": ""
+          "name": "About",
+          "path": "/about-us"
         }
       ]
     },
@@ -43,19 +41,16 @@
       "heading": "What we do",
       "links": [
         {
-          "text": "Liquid Formulations",
-          "link": "/liquid-skincare-manufacturing",
-          "iconName": ""
+          "name": "Liquid Formulations",
+          "path": "/liquid-skincare-manufacturing"
         },
         {
-          "text": "Hot Pour & Deodorant",
-          "link": "/deodorant-stick-manufacturing",
-          "iconName": ""
+          "name": "Hot Pour & Deodorant",
+          "path": "/deodorant-stick-manufacturing"
         },
         {
-          "text": "Bar Soap",
-          "link": "/bar-soap-manufacturing",
-          "iconName": ""
+          "name": "Bar Soap",
+          "path": "/bar-soap-manufacturing"
         }
       ]
     },
@@ -63,14 +58,12 @@
       "heading": "How we do it",
       "links": [
         {
-          "text": "Our Process",
-          "link": "/our-process",
-          "iconName": ""
+          "name": "Our Process",
+          "path": "/our-process"
         },
         {
-          "text": "Sustainability",
-          "link": "/sustainability",
-          "iconName": ""
+          "name": "Sustainability",
+          "path": "/sustainability"
         }
       ]
     },
@@ -78,19 +71,16 @@
       "heading": "Resources",
       "links": [
         {
-          "text": "Learning Lab",
-          "link": "/learning-lab",
-          "iconName": ""
+          "name": "Learning Lab",
+          "path": "/learning-lab"
         },
         {
-          "text": "FAQ",
-          "link": "/faqs",
-          "iconName": ""
+          "name": "FAQ",
+          "path": "/faqs"
         },
         {
-          "text": "Product Library",
-          "link": "/products",
-          "iconName": ""
+          "name": "Product Library",
+          "path": "/products"
         }
       ]
     }

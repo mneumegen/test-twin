@@ -6,7 +6,9 @@ import SimpleText from "@core-elements/simple-text/SimpleText.astro";
 import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
 
 type FooterLink = { text?: string; link?: string; iconName?: string };
-type FooterColumn = { heading?: string; links?: FooterLink[] };
+// Column links use { name, path }, the shape of the shared "links" structure in CloudCannon.
+type FooterColumnLink = { name?: string; path?: string };
+type FooterColumn = { heading?: string; links?: FooterColumnLink[] };
 type FooterSocial = { label?: string; link?: string; imageSource?: string; imageAlt?: string };
 type FooterContactItem = { label?: string; text?: string; link?: string; iconName?: string };
 
@@ -75,7 +77,7 @@ const showLegalLinks = legalLinks.length > 0;
               {(column.links?.length ?? 0) > 0 && (
                 <nav aria-label={column.heading}>
                   <List
-                    items={column.links}
+                    items={column.links?.map((l) => ({ text: l.name, link: l.path }))}
                     class="footer-col-links"
                     useDefaultEditableBinding={false}
                   />

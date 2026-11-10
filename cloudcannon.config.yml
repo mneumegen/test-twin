@@ -245,6 +245,76 @@ collections_config:
       featured:
         type: switch
         comment: Show under Featured Articles on /learning-lab.
+  data:
+    path: src/data
+    glob:
+      - "**/*.json"
+    name: Site Data
+    icon: database
+    description: Header navigation, footer, Learning Lab authors and topics, product filters, SEO defaults and collection page templates.
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    _enabled_editors:
+      - data
+    _inputs:
+      logoAlt:
+        type: text
+        label: Logo alt text
+      logoText:
+        type: text
+        comment: Accessible name for the logo link.
+      skipLinkText:
+        type: text
+        comment: Keyboard-only link that jumps past the header.
+      source:
+        type: image
+        options:
+          paths:
+            uploads: src/assets/images
+      icon:
+        type: image
+        comment: Topic icon shown in the Learning Lab filters.
+        options:
+          paths:
+            uploads: src/assets/images
+      imageAlt:
+        type: text
+        comment: Describes the image for screen readers. Leave empty if decorative.
+      textureImageAlt:
+        type: text
+      slug:
+        type: text
+        comment: Used in URLs and by articles to reference this entry. Changing it breaks existing links and articles that use it.
+      value:
+        type: text
+        comment: Used by products to reference this entry. Changing it unlinks products that use it.
+      link:
+        type: url
+      path:
+        type: url
+      buttonLink:
+        type: url
+      contactButtonLink:
+        type: url
+      iconName:
+        type: select
+        comment: Icon shown beside the text. Leave empty for none.
+        options:
+          allow_empty: true
+          values: _select_data.icons
+      caption:
+        type: textarea
+      copyrightText:
+        type: text
+      hideText:
+        type: switch
+      titleFormat:
+        type: text
+        comment: Page title pattern. {title} is replaced with each page's title.
+      _schema:
+        type: text
+        hidden: true
 # Editor uploads go where Astro can optimize them (paths are stored as /src/assets/images/...).
 paths:
   uploads: src/assets/images

@@ -1,30 +1,30 @@
 links:
   style: modal
   values:
-    - label: Footer Link
+    - label: Link
       icon: link
-      description: A footer link with name and path.
+      description: A link with display text and a URL.
       value:
         name: ""
         path: ""
       preview:
         text:
           - key: name
-          - Footer Link
+          - Link
         subtext:
           - key: path
           - Add path
       picker_preview:
-        text: Footer Link
-        subtext: A footer link with name and path.
+        text: Link
+        subtext: A link with display text and a URL.
         icon: link
       _inputs:
         name:
           type: text
-          comment: Display text for the footer link.
+          comment: Link text.
         path:
           type: url
-          comment: URL path for the footer link.
+          comment: Where the link goes.
           options:
             hide_link_to_file: true
             hide_link_to_email_address: true

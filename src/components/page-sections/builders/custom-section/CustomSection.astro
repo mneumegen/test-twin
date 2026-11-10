@@ -19,6 +19,8 @@ const {
   lockColorScheme = false,
   backgroundColor,
   background,
+  /** Data key holding `background` (e.g. "background") to make the background image editable in the Visual Editor. */
+  backgroundDataProp,
   rounded = false,
   useDefaultEditableBinding = false,
   class: className,
@@ -39,6 +41,15 @@ const {
 } = background || {};
 
 const hasContentSections = contentSections !== undefined;
+// Only bind alt when the key exists: an image region bound to a missing key fails to render.
+const backgroundImageBinding = backgroundDataProp
+  ? {
+      "data-prop-src": `${backgroundDataProp}.imageSource`,
+      ...(background && "imageAlt" in background
+        ? { "data-prop-alt": `${backgroundDataProp}.imageAlt` }
+        : {}),
+    }
+  : {};
 
 // INVARIANT: sections derive stable anchor ids (explicit id > label > first heading) so same-page #anchor links resolve; explicit ids are never mutated.
 let renderedSlot: string | null = null;
@@ -84,6 +95,7 @@ const arrayDataAttributes =
       <Image
         class:list={["background-image"]}
         source={imageSource}
+        {...backgroundImageBinding}
         alt={imageAlt}
         priority={priority}
         positionVertical={positionVertical}

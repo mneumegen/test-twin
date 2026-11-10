@@ -68,6 +68,7 @@ const arrayDataAttributes = effectiveChildrenProp
       iconColor={iconColor}
       alignmentHorizontal={navigationPosition === "top" ? "center" : "start"}
       class="content-selector-tab-heading"
+      data-prop="title"
     />
     {subtext && (
       <span
@@ -75,6 +76,8 @@ const arrayDataAttributes = effectiveChildrenProp
           "content-selector-tab-subtext",
           `align-${navigationPosition === "top" ? "center" : "start"}`,
         ]}
+        data-editable="text"
+        data-prop="subtext"
       >
         {subtext}
       </span>

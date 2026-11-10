@@ -49,7 +49,13 @@ const panelId = `${disclosureId}-panel`;
         aria-expanded={isOpen ? "true" : "false"}
         aria-controls={panelId}
       >
-        <span class="accordion-item-title-text">{title}</span>
+        <span
+          class="accordion-item-title-text"
+          data-editable="text"
+          data-prop="title"
+        >
+          {title}
+        </span>
         <Icon
           name="chevron-down"
           size="none"
@@ -83,7 +89,13 @@ const panelId = `${disclosureId}-panel`;
     {...htmlAttributes}
   >
     <summary class="accordion-item-title">
-      <span class="accordion-item-title-text">{title}</span>
+      <span
+        class="accordion-item-title-text"
+        data-editable="text"
+        data-prop="title"
+      >
+        {title}
+      </span>
       <Icon
         name="chevron-down"
         size="none"
