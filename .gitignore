@@ -35,3 +35,6 @@ yarn-error.log*
 # migration scraper
 scripts/migrate/node_modules/
 .migration-cache/
+
+# siteready run history
+.siteready-*.json
