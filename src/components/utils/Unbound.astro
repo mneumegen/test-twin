@@ -1,0 +1,16 @@
+---
+/**
+ * Renders its children with CloudCannon editable-region attributes removed.
+ *
+ * Use it around sections whose content doesn't come from the file being edited, e.g. the shared
+ * call-to-action on every product page (from src/data/collectionTemplates.json). Without it the
+ * Visual Editor tries to bind them to the current file and shows "Failed to render" error cards.
+ */
+const html = await Astro.slots.render("default");
+const stripped = html.replace(
+  /\sdata-(?:editable|prop(?:-[a-z-]+)?|component|id|children-prop)="[^"]*"/g,
+  ""
+);
+---
+
+<Fragment set:html={stripped} />

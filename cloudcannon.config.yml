@@ -40,6 +40,7 @@ collections_config:
     icon: inventory_2
     description: Product concepts shown in the Product Library (/products). Each product uses the same page template.
     _enabled_editors:
+      - visual
       - data
     add_options:
       - name: Add Product
@@ -172,6 +173,7 @@ collections_config:
     icon: school
     description: Learning Lab articles. Newest first on /learning-lab.
     _enabled_editors:
+      - visual
       - content
       - data
     add_options:

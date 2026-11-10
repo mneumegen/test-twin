@@ -4,6 +4,7 @@ import Image from "@core-elements/image/Image.astro";
 import CollectionBreadcrumb from "@page-sections/collections/breadcrumb/CollectionBreadcrumb.astro";
 import PostList from "@page-sections/collections/post-list/PostList.astro";
 import Page from "@layouts/Page.astro";
+import Unbound from "@component-utils/Unbound.astro";
 import templates from "@data/collectionTemplates.json";
 import {
   authorName,
@@ -60,6 +61,8 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
           class="article__hero"
           source={d.image}
           alt={d.imageAlt}
+          data-prop-src="image"
+          data-prop-alt="imageAlt"
           priority={true}
           sizes="(min-width: 1280px) 1216px, 100vw"
           widths={[640, 1216, 2432]}
@@ -83,7 +86,12 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
             ))}
           </ul>
         )}
-        <h1>{d.title}</h1>
+        <h1
+          data-editable="text"
+          data-prop="title"
+        >
+          {d.title}
+        </h1>
         <p class="article__meta">
           <a href={authorUrl(d.author)}>{authorName(d.author).split(",")[0]}</a>
           <span aria-hidden="true"> · </span>
@@ -96,7 +104,12 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
             })}
           </time>
         </p>
-        <div class="article__body">
+        {/* The article body is edited as rich text in the Visual Editor. */}
+        <div
+          class="article__body"
+          data-editable="text"
+          data-prop="@content"
+        >
           <Content components={{ PostImage }} />
         </div>
         <a
@@ -132,11 +145,14 @@ const arrow = `<svg width="32" height="16" viewBox="0 0 32 16" fill="none" aria-
     </aside>
   </div>
 
-  <PostList
-    heading={t.relatedHeading}
-    posts={related}
-    backgroundColor="sky"
-  />
+  {/* Related articles: heading comes from Site Data, not this article. */}
+  <Unbound>
+    <PostList
+      heading={t.relatedHeading}
+      posts={related}
+      backgroundColor="sky"
+    />
+  </Unbound>
 </Page>
 
 <style is:global>

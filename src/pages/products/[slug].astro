@@ -4,6 +4,7 @@ import CtaBannerImage from "@page-sections/ctas/cta-banner-image/CtaBannerImage.
 import ProductCard from "@page-sections/collections/cards/ProductCard.astro";
 import Image from "@core-elements/image/Image.astro";
 import Page from "@layouts/Page.astro";
+import Unbound from "@component-utils/Unbound.astro";
 import templates from "@data/collectionTemplates.json";
 import { formatLabel, getProducts, useCaseLabel, type Product } from "@component-utils/collections";
 import markdownit from "markdown-it";
@@ -60,6 +61,8 @@ const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true
       <Image
         source={p.image}
         alt={p.imageAlt || p.title}
+        data-prop-src="image"
+        data-prop-alt="imageAlt"
         aspectRatio="square"
         priority={true}
         sizes="(min-width: 768px) 50vw, 100vw"
@@ -67,18 +70,28 @@ const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true
       />
     </div>
     <div class="product-detail__info">
-      <h1>{p.title}</h1>
+      <h1
+        data-editable="text"
+        data-prop="title"
+      >
+        {p.title}
+      </h1>
       {p.featuredIngredients.length > 0 && (
         <section>
           <h2 class="product-detail__label">Featured Ingredients</h2>
           <ul class="product-detail__list product-detail__list--ingredients">
-            {p.featuredIngredients.map((i) => (
+            {/* Lines are edited in place; add, remove or reorder them in the sidebar. */}
+            {p.featuredIngredients.map((i, index) => (
               <li>
                 <span
                   class="product-detail__icon"
                   set:html={check}
                 />
-                <span set:html={md.renderInline(i)} />
+                <span
+                  data-editable="text"
+                  data-prop={`featuredIngredients.${index}`}
+                  set:html={md.renderInline(i)}
+                />
               </li>
             ))}
           </ul>
@@ -87,13 +100,25 @@ const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true
       {p.libraryBase && (
         <section>
           <h2 class="product-detail__label">Library Base</h2>
-          <p class="product-detail__value">{p.libraryBase}</p>
+          <p
+            class="product-detail__value"
+            data-editable="text"
+            data-prop="libraryBase"
+          >
+            {p.libraryBase}
+          </p>
         </section>
       )}
       {p.naturallyDerived && (
         <section>
           <h2 class="product-detail__label">Naturally Derived</h2>
-          <p class="product-detail__value">{p.naturallyDerived}</p>
+          <p
+            class="product-detail__value"
+            data-editable="text"
+            data-prop="naturallyDerived"
+          >
+            {p.naturallyDerived}
+          </p>
         </section>
       )}
       {p.freeFrom.length > 0 && (
@@ -101,13 +126,18 @@ const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true
           <h2 class="product-detail__label">Product Claims &amp; Certifications</h2>
           <h3 class="product-detail__value">Free from</h3>
           <ul class="product-detail__list product-detail__list--claims">
-            {p.freeFrom.map((c) => (
+            {p.freeFrom.map((c, index) => (
               <li>
                 <span
                   class="product-detail__icon"
                   set:html={cross}
                 />
-                <span>{c}</span>
+                <span
+                  data-editable="text"
+                  data-prop={`freeFrom.${index}`}
+                >
+                  {c}
+                </span>
               </li>
             ))}
           </ul>
@@ -137,21 +167,24 @@ const cross = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true
     </section>
   )}
 
-  <CtaBannerImage
-    imageSource={cta.imageSource}
-    imageAlt={cta.imageAlt}
-    heading={cta.heading}
-    textureImageSource={cta.textureImageSource}
-    buttonSections={[
-      {
-        _component: "building-blocks/core-elements/button",
-        text: cta.buttonText,
-        link: cta.buttonLink,
-        variant: "pill",
-        size: "md",
-      },
-    ]}
-  />
+  {/* Shared CTA from src/data/collectionTemplates.json, edited in Site Data, not on this page. */}
+  <Unbound>
+    <CtaBannerImage
+      imageSource={cta.imageSource}
+      imageAlt={cta.imageAlt}
+      heading={cta.heading}
+      textureImageSource={cta.textureImageSource}
+      buttonSections={[
+        {
+          _component: "building-blocks/core-elements/button",
+          text: cta.buttonText,
+          link: cta.buttonLink,
+          variant: "pill",
+          size: "md",
+        },
+      ]}
+    />
+  </Unbound>
 </Page>
 
 <style is:global>
